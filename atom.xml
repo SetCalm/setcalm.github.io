@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/SetCalm/setcalm.github.io/"/>
-  <updated>2018-11-06T14:56:03.326Z</updated>
+  <updated>2018-11-06T15:07:08.713Z</updated>
   <id>https://github.com/SetCalm/setcalm.github.io/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>test</title>
+    <link href="https://github.com/SetCalm/setcalm.github.io/test.html"/>
+    <id>https://github.com/SetCalm/setcalm.github.io/test.html</id>
+    <published>2018-11-06T15:05:43.000Z</published>
+    <updated>2018-11-06T15:07:08.713Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Testing" scheme="https://github.com/SetCalm/setcalm.github.io/categories/Testing/"/>
+    
+    
+      <category term="Testing" scheme="https://github.com/SetCalm/setcalm.github.io/tags/Testing/"/>
+    
+  </entry>
   
   <entry>
     <title>分类测试文章</title>
