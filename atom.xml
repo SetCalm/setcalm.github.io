@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/SetCalm/setcalm.github.io/"/>
-  <updated>2018-11-04T03:49:40.132Z</updated>
+  <updated>2018-11-06T14:12:11.662Z</updated>
   <id>https://github.com/SetCalm/setcalm.github.io/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>TestArticles</title>
+    <link href="https://github.com/SetCalm/setcalm.github.io/TestArticles-1.html"/>
+    <id>https://github.com/SetCalm/setcalm.github.io/TestArticles-1.html</id>
+    <published>2018-11-06T14:12:11.000Z</published>
+    <updated>2018-11-06T14:12:11.662Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>功能测试文章</title>
+    <link href="https://github.com/SetCalm/setcalm.github.io/TestArticles.html"/>
+    <id>https://github.com/SetCalm/setcalm.github.io/TestArticles.html</id>
+    <published>2018-11-06T14:09:14.000Z</published>
+    <updated>2018-11-06T14:12:00.957Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="Testing" scheme="https://github.com/SetCalm/setcalm.github.io/tags/Testing/"/>
+    
+      <category term="Anpther Tag" scheme="https://github.com/SetCalm/setcalm.github.io/tags/Anpther-Tag/"/>
+    
+  </entry>
   
   <entry>
     <title>GitHub+Hexo搭建博客心得</title>
