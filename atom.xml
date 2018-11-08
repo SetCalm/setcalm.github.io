@@ -81,16 +81,13 @@
     <link href="https://github.com/SetCalm/setcalm.github.io/GitHub-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%BF%83%E5%BE%97.html"/>
     <id>https://github.com/SetCalm/setcalm.github.io/GitHub-Hexo搭建博客心得.html</id>
     <published>2018-11-03T14:50:09.222Z</published>
-    <updated>2018-11-04T03:49:40.132Z</updated>
+    <updated>2018-11-08T13:00:22.496Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="为甚麽会想起搭建一个个人博客"><a href="#为甚麽会想起搭建一个个人博客" class="headerlink" title="为甚麽会想起搭建一个个人博客"></a>为甚麽会想起搭建一个个人博客</h3><p>欢迎来到我的博客，这是我的第一篇博客。说起来这是我很久就有的想法。要知道很多专业类知识博客才有解答，接触多了也想搭建一个博客。这里有一个博客要推荐：<a href="https://wdxtub.com/" target="_blank" rel="noopener">小土刀</a>.该博客的优雅，简洁，干净，无广告让我下定决心自己也弄一个博客。</p><p>以前使用过notepad++，有道，为知作笔记。但各有缺陷，不全面。用起来没手感。且一段时间后内容又凌乱，不好整理。且图片，视频，代码高亮显示等缺少。只适合日常笔记，不适合学习笔记，知识整理。</p><p>博客的搭建主要为了以后学习笔记，日常记录，记录下成长中的时间轴。</p><h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><p>视频网站：<a href="https://www.bilibili.com/video/av24897960/?p=1" target="_blank" rel="noopener">手把手教你搭建属于自己的hexo+github博客</a></p><p>nodejs官网：<a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p><p>GitHub官网:  <a href="https://github.com/">https://github.com/</a></p><p>Hexo官网：<a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">https://hexo.io/zh-cn/</a></p><p>视频网站内容很详细，按照主播的顺序操作就行。建议使用Google或Firefox浏览器。GitHub注册用Firefox浏览器，别的浏览器注册时会页面无法刷新。</p><p>其实博客搭建过程不难，主要祖册GitHub麻烦（使用Firefox浏览器），和博客部署有点困难。另外需要会使用cmd命令（window+R），有Linux经验的会说so easy 。</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="为甚麽会想起搭建一个个人博客"><a href="#为甚麽会想起搭建一个个人博客" class="headerlink" title="为甚麽会想起搭建一个个人博客"></a>为甚麽会想起搭建一个个人博客</h3><p>欢迎来到我的博客，这是我的第一篇博客。说起来这是我很久就有的想法。要知道很多专业类知识博客才有解答，接触多了也想搭建一个博客。这里有一个博客要推荐：<a href="https://wdxtub.com/" target="_blank" rel="noopener">小土刀</a>.该博客的优雅，简洁，干净，无广告让我下定决心自己也弄一个博客。<br><a id="more"></a><br>以前使用过notepad++，有道，为知作笔记。但各有缺陷，不全面。用起来没手感。且一段时间后内容又凌乱，不好整理。且图片，视频，代码高亮显示等缺少。只适合日常笔记，不适合学习笔记，知识整理。</p><p>博客的搭建主要为了以后学习笔记，日常记录，记录下成长中的时间轴。</p><h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><p>视频网站：<a href="https://www.bilibili.com/video/av24897960/?p=1" target="_blank" rel="noopener">手把手教你搭建属于自己的hexo+github博客</a></p><p>nodejs官网：<a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p><p>GitHub官网:  <a href="https://github.com/">https://github.com/</a></p><p>Hexo官网：<a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">https://hexo.io/zh-cn/</a></p><p>视频网站内容很详细，按照主播的顺序操作就行。建议使用Google或Firefox浏览器。GitHub注册用Firefox浏览器，别的浏览器注册时会页面无法刷新。</p><p>其实博客搭建过程不难，主要祖册GitHub麻烦（使用Firefox浏览器），和博客部署有点困难。另外需要会使用cmd命令（window+R），有Linux经验的会说so easy 。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;为甚麽会想起搭建一个个人博客&quot;&gt;&lt;a href=&quot;#为甚麽会想起搭建一个个人博客&quot; class=&quot;headerlink&quot; title=&quot;为甚麽会想起搭建一个个人博客&quot;&gt;&lt;/a&gt;为甚麽会想起搭建一个个人博客&lt;/h3&gt;&lt;p&gt;欢迎来到我的博客，这是我的第一篇博客。说起来
-      
+      &lt;h3 id=&quot;为甚麽会想起搭建一个个人博客&quot;&gt;&lt;a href=&quot;#为甚麽会想起搭建一个个人博客&quot; class=&quot;headerlink&quot; title=&quot;为甚麽会想起搭建一个个人博客&quot;&gt;&lt;/a&gt;为甚麽会想起搭建一个个人博客&lt;/h3&gt;&lt;p&gt;欢迎来到我的博客，这是我的第一篇博客。说起来这是我很久就有的想法。要知道很多专业类知识博客才有解答，接触多了也想搭建一个博客。这里有一个博客要推荐：&lt;a href=&quot;https://wdxtub.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;小土刀&lt;/a&gt;.该博客的优雅，简洁，干净，无广告让我下定决心自己也弄一个博客。&lt;br&gt;
     
     </summary>
     
