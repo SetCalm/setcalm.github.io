@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/SetCalm/setcalm.github.io/"/>
-  <updated>2018-11-08T14:21:41.158Z</updated>
+  <updated>2018-11-09T14:30:04.042Z</updated>
   <id>https://github.com/SetCalm/setcalm.github.io/</id>
   
   <author>
@@ -17,121 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>clean</title>
-    <link href="https://github.com/SetCalm/setcalm.github.io/clean-1.html"/>
-    <id>https://github.com/SetCalm/setcalm.github.io/clean-1.html</id>
-    <published>2018-11-08T14:21:41.000Z</published>
-    <updated>2018-11-08T14:21:41.158Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>clean</title>
-    <link href="https://github.com/SetCalm/setcalm.github.io/clean.html"/>
-    <id>https://github.com/SetCalm/setcalm.github.io/clean.html</id>
-    <published>2018-11-08T14:18:29.000Z</published>
-    <updated>2018-11-08T14:18:29.522Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>test</title>
-    <link href="https://github.com/SetCalm/setcalm.github.io/test.html"/>
-    <id>https://github.com/SetCalm/setcalm.github.io/test.html</id>
-    <published>2018-11-08T14:07:34.000Z</published>
-    <updated>2018-11-08T14:08:02.821Z</updated>
-    
-    <content type="html"><![CDATA[<p>测试</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;测试&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>test</title>
-    <link href="https://github.com/SetCalm/setcalm.github.io/test.html"/>
-    <id>https://github.com/SetCalm/setcalm.github.io/test.html</id>
-    <published>2018-11-06T15:05:43.000Z</published>
-    <updated>2018-11-06T15:07:08.713Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Testing" scheme="https://github.com/SetCalm/setcalm.github.io/categories/Testing/"/>
-    
-    
-      <category term="Testing" scheme="https://github.com/SetCalm/setcalm.github.io/tags/Testing/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>分类测试文章</title>
-    <link href="https://github.com/SetCalm/setcalm.github.io/%E5%88%86%E7%B1%BB%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0.html"/>
-    <id>https://github.com/SetCalm/setcalm.github.io/分类测试文章.html</id>
-    <published>2018-11-06T14:55:25.000Z</published>
-    <updated>2018-11-06T14:56:03.326Z</updated>
-    
-    <content type="html"><![CDATA[<hr>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;hr&gt;
-
-      
-    
-    </summary>
-    
-      <category term="Testing" scheme="https://github.com/SetCalm/setcalm.github.io/categories/Testing/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>标签测试文章</title>
-    <link href="https://github.com/SetCalm/setcalm.github.io/TestArticles.html"/>
-    <id>https://github.com/SetCalm/setcalm.github.io/TestArticles.html</id>
-    <published>2018-11-06T14:09:14.000Z</published>
-    <updated>2018-11-07T13:43:50.839Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-      <category term="Testing" scheme="https://github.com/SetCalm/setcalm.github.io/tags/Testing/"/>
-    
-      <category term="Anpther Tag" scheme="https://github.com/SetCalm/setcalm.github.io/tags/Anpther-Tag/"/>
-    
-  </entry>
-  
-  <entry>
     <title>GitHub+Hexo搭建博客心得</title>
     <link href="https://github.com/SetCalm/setcalm.github.io/GitHub-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%BF%83%E5%BE%97.html"/>
     <id>https://github.com/SetCalm/setcalm.github.io/GitHub-Hexo搭建博客心得.html</id>
     <published>2018-11-03T14:50:09.222Z</published>
-    <updated>2018-11-08T13:00:22.496Z</updated>
+    <updated>2018-11-09T14:30:04.042Z</updated>
     
     <content type="html"><![CDATA[<h3 id="为甚麽会想起搭建一个个人博客"><a href="#为甚麽会想起搭建一个个人博客" class="headerlink" title="为甚麽会想起搭建一个个人博客"></a>为甚麽会想起搭建一个个人博客</h3><p>欢迎来到我的博客，这是我的第一篇博客。说起来这是我很久就有的想法。要知道很多专业类知识博客才有解答，接触多了也想搭建一个博客。这里有一个博客要推荐：<a href="https://wdxtub.com/" target="_blank" rel="noopener">小土刀</a>.该博客的优雅，简洁，干净，无广告让我下定决心自己也弄一个博客。<br><a id="more"></a><br>以前使用过notepad++，有道，为知作笔记。但各有缺陷，不全面。用起来没手感。且一段时间后内容又凌乱，不好整理。且图片，视频，代码高亮显示等缺少。只适合日常笔记，不适合学习笔记，知识整理。</p><p>博客的搭建主要为了以后学习笔记，日常记录，记录下成长中的时间轴。</p><h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><p>视频网站：<a href="https://www.bilibili.com/video/av24897960/?p=1" target="_blank" rel="noopener">手把手教你搭建属于自己的hexo+github博客</a></p><p>nodejs官网：<a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p><p>GitHub官网:  <a href="https://github.com/">https://github.com/</a></p><p>Hexo官网：<a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">https://hexo.io/zh-cn/</a></p><p>视频网站内容很详细，按照主播的顺序操作就行。建议使用Google或Firefox浏览器。GitHub注册用Firefox浏览器，别的浏览器注册时会页面无法刷新。</p><p>其实博客搭建过程不难，主要祖册GitHub麻烦（使用Firefox浏览器），和博客部署有点困难。另外需要会使用cmd命令（window+R），有Linux经验的会说so easy 。</p>]]></content>
     
@@ -149,16 +39,13 @@
     <link href="https://github.com/SetCalm/setcalm.github.io/hello-world.html"/>
     <id>https://github.com/SetCalm/setcalm.github.io/hello-world.html</id>
     <published>2018-11-03T12:19:38.143Z</published>
-    <updated>2018-11-04T02:47:49.256Z</updated>
+    <updated>2018-11-09T14:30:18.875Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Hello-This-My-First-Blog"><a href="#Hello-This-My-First-Blog" class="headerlink" title="Hello This My First Blog"></a>Hello This My First Blog</h2><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><a id="more"></a><h2 id="Hello-This-My-First-Blog"><a href="#Hello-This-My-First-Blog" class="headerlink" title="Hello This My First Blog"></a>Hello This My First Blog</h2><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
     
     </summary>
     
