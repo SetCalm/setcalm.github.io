@@ -340,6 +340,214 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/MT7688-Duo学习.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/MT7688-Duo学习.html" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-08 00:00:00 / 修改时间：19:00:32" itemprop="dateCreated datePublished" datetime="2018-12-08T00:00:00+08:00">2018-12-08</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="MT7688环境配置"><a href="#MT7688环境配置" class="headerlink" title="MT7688环境配置"></a>MT7688环境配置</h3><h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p>开发板：LinkIt Smart 7688 Duo</p>
+<p>Putty：<a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html" target="_blank" rel="noopener">https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html</a></p>
+<h4 id="登录7688-Duo-Board的Web-UI"><a href="#登录7688-Duo-Board的Web-UI" class="headerlink" title="登录7688 Duo Board的Web UI"></a>登录7688 Duo Board的Web UI</h4><ul>
+<li>打开电路板（供电）。</li>
+<li>在您的计算机上，搜索<em>LinkIt_Smart_7688_XXXXXX</em> Wi-Fi接入点（XXXXXX是MAC地址）并连接到主板。</li>
+<li>打开  <code>http://mylinkit.local</code>，设置密码并登录LinkIt Smart 7688 Web UI。</li>
+</ul>
+<h5 id="使用micro-USB线为电路板加电"><a href="#使用micro-USB线为电路板加电" class="headerlink" title="使用micro-USB线为电路板加电"></a>使用micro-USB线为电路板加电</h5><ul>
+<li>如下图1-1所示，连接LinkIt Smart 7688开发板。（将电缆连接到电源（<strong>PWR</strong>）接口，而不是MPU复位按钮附近的USB主机（<strong>HOST</strong>）接口。）</li>
+<li>LED（绿色）将首先亮起，然后是Wi-Fi LED（橙色），它将闪烁一次。然后，大约4到5秒后，Wi-Fi LED将亮起以指示引导加载程序已初始化。</li>
+<li>然后开始启动过程，大约需要30秒。接下来，Wi-Fi LED熄灭; 这意味着系统已准备好接受Wi-Fi连接。下图1-2显示了Wi-Fi LED状态如何与系统状态匹配。</li>
+</ul>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_16-41-00.png" alt="Snipaste_2018-12-08_16-41-00"></p>
+<p>图1-1</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_16-49-55.png" alt="Snipaste_2018-12-08_16-49-55"></p>
+<p>图1-2</p>
+<h5 id="将您的PC连接到LinkIt-Smart-7688开发板的wifi"><a href="#将您的PC连接到LinkIt-Smart-7688开发板的wifi" class="headerlink" title="将您的PC连接到LinkIt_Smart_7688开发板的wifi"></a>将您的PC连接到LinkIt_Smart_7688开发板的wifi</h5><p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_16-53-25.png" alt="Snipaste_2018-12-08_16-53-25"></p>
+<p>连接到<strong>LinkIt_Smart_7688_Duo</strong> 后，橙色LED将每秒闪烁三次。这表示该板处于<strong>AP</strong>模式。</p>
+<p>此时你的电脑无法上网。因为它现在加入了LinkIt Smart 7688开发板形成的局域网（LAN），如下所示。</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_16-56-13.png" alt="Snipaste_2018-12-08_16-56-13"></p>
+<h5 id="访问LinkIt-Smart-7688-Web-UI配置工具，设置密码"><a href="#访问LinkIt-Smart-7688-Web-UI配置工具，设置密码" class="headerlink" title="访问LinkIt Smart 7688 Web UI配置工具，设置密码"></a>访问LinkIt Smart 7688 Web UI配置工具，设置密码</h5><p>LinkIt Smart 7688 Web UI，这是一种配置电路板设置的工具。</p>
+<ul>
+<li>在您的Web浏览器中打开  <code>http://mylinkit.local</code>，如下所示。</li>
+</ul>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-01-15.png" alt="Snipaste_2018-12-08_17-01-15"></p>
+<p>设置密码，确定后，如下图</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-04-20.png" alt="Snipaste_2018-12-08_17-04-20"></p>
+<h4 id="更新固件"><a href="#更新固件" class="headerlink" title="更新固件"></a>更新固件</h4><h5 id="下载固件"><a href="#下载固件" class="headerlink" title="下载固件"></a>下载固件</h5><p>固件：<a href="https://docs.labs.mediatek.com/resource/linkit-smart-7688/zh_cn/downloads" target="_blank" rel="noopener">https://docs.labs.mediatek.com/resource/linkit-smart-7688/zh_cn/downloads</a></p>
+<p>在Web UI主页单击<strong>UPGRADE FIRMWARE</strong></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-09-59.png" alt="Snipaste_2018-12-08_17-09-59"></p>
+<h5 id="运行LinkIt-Smart-7688固件更新程序应用程序"><a href="#运行LinkIt-Smart-7688固件更新程序应用程序" class="headerlink" title="运行LinkIt Smart 7688固件更新程序应用程序"></a>运行LinkIt Smart 7688固件更新程序应用程序</h5><ul>
+<li>单击  <strong>选择文件</strong>  并选择  <em>lks7688.img</em>  文件，然后单击  <strong>升级和重新启动</strong></li>
+</ul>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-10-59.png" alt="Snipaste_2018-12-08_17-10-59"></p>
+<p>如下图所示，等待结束</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-11-50.png" alt="Snipaste_2018-12-08_17-11-50"></p>
+<ul>
+<li><p>确保电源稳定。Wi-Fi LED闪烁约3分钟（固件正在更新），然后电路板将重新启动，LED指示灯将保持亮起约30秒（重新启动）。最后，电路板进入<strong>AP</strong>模式并准备连接。</p>
+</li>
+<li><p>找到<em>LinkIt_Smart_7688_XXXXXX</em> AP并通过Wi-Fi连接电路板。请注意，在将电路板连接到客户端设备后，Wi-Fi LED每秒闪烁3次。现在，重新加载  <em>mylinkit.local</em>  网页，设置新密码并登录。新的固件版本详细信息将显示在  <strong>软件信息下</strong>，如下所示。</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-16-32.png" alt="Snipaste_2018-12-08_17-16-32"></p>
+</li>
+</ul>
+<h4 id="安装终端模拟器putty并登录"><a href="#安装终端模拟器putty并登录" class="headerlink" title="安装终端模拟器putty并登录"></a>安装终端模拟器putty并登录</h4><p>打开putty和在配置窗口中键入  <code>mylinkit.local</code> 在  主机名中，单击SSH单选按钮，然后打开</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-28-22.png" alt="Snipaste_2018-12-08_17-28-22"></p>
+<p>初次登录会弹出安全警报窗口，单击Yes</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-30-00.png" alt="Snipaste_2018-12-08_17-30-00"></p>
+<p>显示PuTTY终端窗口。使用 您之前在Web UI中设置的用户名  <em>root</em>和密码登录。登录后如下图</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-31-19.png" alt="Snipaste_2018-12-08_17-31-19"></p>
+<p>终端模拟器安装并登录成功。</p>
+<h4 id="将7688-Duo-Board连接到Internet"><a href="#将7688-Duo-Board连接到Internet" class="headerlink" title="将7688 Duo Board连接到Internet"></a>将7688 Duo Board连接到Internet</h4><h5 id="将LinkIt-Smart-7688连接到具有Internet访问权限的Wi-Fi接入点"><a href="#将LinkIt-Smart-7688连接到具有Internet访问权限的Wi-Fi接入点" class="headerlink" title="将LinkIt Smart 7688连接到具有Internet访问权限的Wi-Fi接入点"></a>将LinkIt Smart 7688连接到具有Internet访问权限的Wi-Fi接入点</h5><ul>
+<li>在浏览器中打开  <code>mylinkit.local</code>，并使用您的密码登录Web UI。在Web UI中单击“  NetWork”</li>
+</ul>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-37-43.png" alt="Snipaste_2018-12-08_17-37-43"></p>
+<ul>
+<li>在  <strong>网络设置</strong> 屏幕中，选择 <strong>Repeater  mode</strong>。从“  <strong>检测到的Wi-Fi网络”</strong>  列表中选择要连接的AP，选择AP后输入密码。并设置中继器SSID名称和密码。单击  <strong>配置和重新启动</strong> 以完成，如下所示</li>
+</ul>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-41-49.png" alt="Snipaste_2018-12-08_17-41-49"></p>
+<h5 id="将主机连接到同一网络中的AP"><a href="#将主机连接到同一网络中的AP" class="headerlink" title="将主机连接到同一网络中的AP"></a>将主机连接到同一网络中的AP</h5><p>打开计算机上的Wi-Fi连接到步骤1中使用的同一访问点。您的计算机现在位于由您连接的Wi-Fi接入点形成的同一局域网下</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-08_17-50-13.png" alt="Snipaste_2018-12-08_17-50-13"></p>
+<h5 id="检查Internet连接"><a href="#检查Internet连接" class="headerlink" title="检查Internet连接"></a>检查Internet连接</h5><p>通过<strong>ping –c 5 <a href="http://www.mediatek.com" target="_blank" rel="noopener">www.mediatek.com</a></strong> 在终端窗口中输入来检查您是否建立了互联网连接。，结果如下图那么您已连接到Wi-Fi网络的AP。</p>
+<p><img src="C:\Users\Dell\AppData\Roaming\Typora\typora-user-images\1544262780476.png" alt="1544262780476"></p>
+<h4 id="使用板级支持包安装Arduino-IDE"><a href="#使用板级支持包安装Arduino-IDE" class="headerlink" title="使用板级支持包安装Arduino IDE"></a>使用板级支持包安装Arduino IDE</h4><p>由于MT7688 Duo板载ATmega32U4，因此可以使用  Arduino IDE开发环境</p>
+<ul>
+<li>安装Arduino IDE 1.6.4或更高版本。</li>
+<li>安装板支撑包。</li>
+<li>ARDUINO：<a href="https://www.arduino.cc/en/Main/Software" target="_blank" rel="noopener">https://www.arduino.cc/en/Main/Software</a></li>
+</ul>
+<p>今天到这吧</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/Ubuntu的简单使用.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -386,16 +594,46 @@
                 
               
 
-              <time title="创建时间：2018-12-07 17:56:10 / 修改时间：23:11:56" itemprop="dateCreated datePublished" datetime="2018-12-07T17:56:10+08:00">2018-12-07</time>
+              <time title="创建时间：2018-12-07 17:56:10" itemprop="dateCreated datePublished" datetime="2018-12-07T17:56:10+08:00">2018-12-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-08 16:29:09" itemprop="dateModified" datetime="2018-12-08T16:29:09+08:00">2018-12-08</time>
               
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Linux入门/" itemprop="url" rel="index"><span itemprop="name">Linux入门</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1479,7 +1717,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1498,7 +1736,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
