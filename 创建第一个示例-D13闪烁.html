@@ -122,9 +122,8 @@
 <meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-53-50.png">
 <meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-54-32.png">
 <meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-28-53.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-36-51.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-45-11.png">
-<meta property="og:updated_time" content="2018-12-09T17:52:00.608Z">
+<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_02-08-59.png">
+<meta property="og:updated_time" content="2018-12-09T18:15:01.766Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MT7688创建第一个示例_D13闪烁">
 <meta name="twitter:description" content="MT7699创建第一个示例_D13闪烁 今天来创建MT7688的第一个实例：使LinkIt Smart 7688 Duo板上的D13 LED每秒闪烁一次 Arduino 在Serial1 端口上侦听使用Python程序从Linux端发出的命令。每次从Serial1 端口上监听到MT7688上的Python程序放松的命令时  ，都会更改电路板上D13 LED的状态。 下图是LinkIt Smart">
@@ -411,7 +410,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-10 01:52:00" itemprop="dateModified" datetime="2018-12-10T01:52:00+08:00">2018-12-10</time>
+                <time title="修改时间：2018-12-10 02:15:01" itemprop="dateModified" datetime="2018-12-10T02:15:01+08:00">2018-12-10</time>
               
             
           </span>
@@ -480,21 +479,20 @@
 <p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-54-32.png" alt="Snipaste_2018-12-10_00-54-32"></p>
 <h4 id="创建一个Python程序，给Arduino发送命令"><a href="#创建一个Python程序，给Arduino发送命令" class="headerlink" title="创建一个Python程序，给Arduino发送命令"></a>创建一个Python程序，给Arduino发送命令</h4><p>打开putty在配置窗口中键入  <code>mylinkit.local</code> ，单击SSH单选按钮，然后点击open</p>
 <p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-28-53.png" alt="Snipaste_2018-12-10_00-28-53"></p>
-<p>输入用户名和密码，进入控制台</p>
-<p>输入<code>cd /dev/</code>进入 /dev目录</p>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-36-51.png" alt="Snipaste_2018-12-10_00-36-51"></p>
 <ul>
-<li><p>输入<code>vim blink_on_duo.py</code>在/dev目录创建 blink_on_duo.p文件</p>
-</li>
-<li><p>文本编辑器打开后，<code>i</code>按键进入编辑模式。将下面代码复制到编辑器中。</p>
-</li>
+<li>输入用户名和密码，进入控制台</li>
+</ul>
+<ul>
+<li>输入<code>vim blink_on_duo.py</code>创建 blink_on_duo.p文件</li>
+<li></li>
+<li>文本编辑器打开后，<code>i</code>按键进入编辑模式。将下面代码复制到编辑器中。</li>
 </ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> serial</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">s = None</span><br><span class="line"></span><br><span class="line">def setup():</span><br><span class="line">    # open serial COM port to /dev/ttyS0, which maps to UART0(D0/D1)</span><br><span class="line">    # the baudrate is <span class="built_in">set</span> to <span class="number">57600</span> <span class="keyword">and</span> should be the same as the one</span><br><span class="line">    # specified in the Arduino sketch uploaded to ATMega32U4.</span><br><span class="line">    global s</span><br><span class="line">    s = serial.Serial(<span class="string">"/dev/ttyS0"</span>, <span class="number">57600</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def loop():</span><br><span class="line">    # send <span class="string">"1"</span> to the Arduino sketch on ATMega32U4.</span><br><span class="line">    # the sketch will turn on the LED attached to D13 on the board</span><br><span class="line">    s.write(<span class="string">"1"</span>)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    # send <span class="string">"0"</span> to the sketch to turn off the LED</span><br><span class="line">    s.write(<span class="string">"0"</span>)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == '__main__':</span><br><span class="line">    setup()</span><br><span class="line">    <span class="keyword">while</span> True:</span><br><span class="line">        loop()</span><br></pre></td></tr></table></figure>
 <ul>
 <li>保存文件。按下<code>Esc</code>键进入普通模式，然后  按下<code>:</code>wq！退出编辑器。</li>
 <li>通过<code>python ./blink_on_duo.py</code> 在系统控制台中运行Python程序  。</li>
 </ul>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_00-45-11.png" alt="Snipaste_2018-12-10_00-45-11"></p>
+<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-12-10_02-08-59.png" alt="Snipaste_2018-12-10_02-08-59"></p>
 <h4 id="观察LinkIt-Smart-7688-Duo板上的D13-LED指示灯闪烁"><a href="#观察LinkIt-Smart-7688-Duo板上的D13-LED指示灯闪烁" class="headerlink" title="观察LinkIt Smart 7688 Duo板上的D13 LED指示灯闪烁"></a>观察LinkIt Smart 7688 Duo板上的D13 LED指示灯闪烁</h4><p>执行Python程序后，您会看到LinkIt Smart 7688 Duo板上的D13 LED每秒闪烁一次。</p>
 
       
