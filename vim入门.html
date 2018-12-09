@@ -108,29 +108,22 @@
 
 
 
-  <meta name="description" content="创建库函数工程模板参考：https://blog.csdn.net/m0_37101905/article/details/71056866 获取固件库STM32F10x_StdPeriph_Lib_V3.5.0 创建文件夹">
-<meta name="keywords" content="Stm32">
+  <meta name="description" content="简介今天学习中使用到vim文本编辑器，忽然发现不太会使用了。心里一百句mmb，一段时间未用就快忘记了。所以也看出笔记的重要性。因此重新预习下vim并记录下来，以备以后查看。 安装Vim1命令行输入：sudo apt-get install vim Vim的几种模式六种模式介绍 普通模式(Normal mode)   在普通模式中，用的编辑器命令，比如移动光标，删除文本等等。这也是Vim启动后的默认">
+<meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="P1_Stm32_创建库函数工程模板">
-<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/P1-Stm32-创建库函数工程模板.html">
+<meta property="og:title" content="vim入门">
+<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/vim入门.html">
 <meta property="og:site_name" content="Jeff">
-<meta property="og:description" content="创建库函数工程模板参考：https://blog.csdn.net/m0_37101905/article/details/71056866 获取固件库STM32F10x_StdPeriph_Lib_V3.5.0 创建文件夹">
+<meta property="og:description" content="简介今天学习中使用到vim文本编辑器，忽然发现不太会使用了。心里一百句mmb，一段时间未用就快忘记了。所以也看出笔记的重要性。因此重新预习下vim并记录下来，以备以后查看。 安装Vim1命令行输入：sudo apt-get install vim Vim的几种模式六种模式介绍 普通模式(Normal mode)   在普通模式中，用的编辑器命令，比如移动光标，删除文本等等。这也是Vim启动后的默认">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-17-31.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-24_09-19-39.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-24_09-19-54.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-19-12.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-21-30.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-22-04.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-27-44.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-32-33.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-35-01.png">
-<meta property="og:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-36-55.png">
-<meta property="og:updated_time" content="2018-12-07T07:57:28.880Z">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-09_17-16-20.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-09_17-19-45.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-09_17-30-22.png">
+<meta property="og:updated_time" content="2018-12-09T09:40:21.103Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="P1_Stm32_创建库函数工程模板">
-<meta name="twitter:description" content="创建库函数工程模板参考：https://blog.csdn.net/m0_37101905/article/details/71056866 获取固件库STM32F10x_StdPeriph_Lib_V3.5.0 创建文件夹">
-<meta name="twitter:image" content="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-17-31.png">
+<meta name="twitter:title" content="vim入门">
+<meta name="twitter:description" content="简介今天学习中使用到vim文本编辑器，忽然发现不太会使用了。心里一百句mmb，一段时间未用就快忘记了。所以也看出笔记的重要性。因此重新预习下vim并记录下来，以备以后查看。 安装Vim1命令行输入：sudo apt-get install vim Vim的几种模式六种模式介绍 普通模式(Normal mode)   在普通模式中，用的编辑器命令，比如移动光标，删除文本等等。这也是Vim启动后的默认">
+<meta name="twitter:image" content="d:/MyBlog/图片/Snipaste_2018-12-09_17-16-20.png">
 
 
 
@@ -139,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/P1-Stm32-创建库函数工程模板.html">
+  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/vim入门.html">
 
 
 
@@ -149,7 +142,7 @@
   };
 </script>
 
-  <title>P1_Stm32_创建库函数工程模板 | Jeff</title>
+  <title>vim入门 | Jeff</title>
   
 
 
@@ -354,7 +347,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/P1-Stm32-创建库函数工程模板.html">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/vim入门.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeff Wu">
@@ -371,7 +364,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">P1_Stm32_创建库函数工程模板
+          <h1 class="post-title" itemprop="name headline">vim入门
               
             
           </h1>
@@ -396,24 +389,12 @@
                 
               
 
-              <time title="创建时间：2018-11-22 22:36:57" itemprop="dateCreated datePublished" datetime="2018-11-22T22:36:57+08:00">2018-11-22</time>
+              <time title="创建时间：2018-12-09 16:39:22 / 修改时间：17:40:21" itemprop="dateCreated datePublished" datetime="2018-12-09T16:39:22+08:00">2018-12-09</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-07 15:57:28" itemprop="dateModified" datetime="2018-12-07T15:57:28+08:00">2018-12-07</time>
               
             
           </span>
@@ -430,7 +411,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/STM32学习/" itemprop="url" rel="index"><span itemprop="name">STM32学习</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Vim入门/" itemprop="url" rel="index"><span itemprop="name">Vim入门</span></a></span>
 
                 
                 
@@ -464,40 +445,181 @@
       
 
       
-        <h4 id="创建库函数工程模板"><a href="#创建库函数工程模板" class="headerlink" title="创建库函数工程模板"></a>创建库函数工程模板</h4><p>参考：<a href="https://blog.csdn.net/m0_37101905/article/details/71056866" target="_blank" rel="noopener">https://blog.csdn.net/m0_37101905/article/details/71056866</a></p>
-<h5 id="获取固件库"><a href="#获取固件库" class="headerlink" title="获取固件库"></a>获取固件库</h5><p>STM32F10x_StdPeriph_Lib_V3.5.0</p>
-<h5 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h5><a id="more"></a>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-17-31.png" alt="Snipaste_2018-11-23_23-17-31"><br>0_Project：        放置工程文件<br>1_StartUp：         放置需要的核心启动文件等<br>2_User            stm32f10x.h头文件及系统配置头文件及主函数文件等<br>3_Libraries_3_5_0：    放置固件库提供的外设文件<br>4_Driver：         放置用户自己的驱动文件<br>5_Readme：         放置工程版本信息等</p>
-<h5 id="Keil新建工程项目"><a href="#Keil新建工程项目" class="headerlink" title="Keil新建工程项目"></a>Keil新建工程项目</h5><p> 打开Keil5，点击新建工程,并将其保存到0_Project中</p>
-<p>选择芯片类型，这里我们选择stm32f103ZE系列</p>
-<p>忽略掉之后的自动配置设置</p>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-24_09-19-39.png" alt="Snipaste_2018-11-24_09-19-39"></p>
-<p>新建工程项目成功，得到一个什么都没有的空工程</p>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-24_09-19-54.png" alt="Snipaste_2018-11-24_09-19-54"></p>
-<h5 id="文件搬迁"><a href="#文件搬迁" class="headerlink" title="文件搬迁"></a>文件搬迁</h5><p><strong>启动文件搬迁（1.StarUp）</strong></p>
-<p>定位到STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\CoreSupport下面，将文件core_cm3.c和文件core_cm3.h复制到1.StarUp下面去 。</p>
-<p>定位到STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm 下面将里面startup_stm32f10x_md.s 文件复制到1.StarUp下面。(备注：因为我选择的芯片为stm32f103c8t6,为中等容量的芯片，故选择该启动文件，具体的芯片容量大小，还需根据具体的芯片手册参考选择)</p>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-19-12.png" alt="Snipaste_2018-11-23_23-19-12"></p>
-<p><strong>stm32f10x.h头文件及系统配置头文件等搬迁（2_User）</strong><br>1.定位到STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x 下面，将里面的三个文件stm32f10x.h，system_stm32f10x.c，system_stm32f10x.h，复制到我的2_User目录之下。<br>2.然后将STM32F10x_StdPeriph_Lib_V3.5.0\Project\STM32F10x_StdPeriph_Template下面的4个文件main.c，stm32f10x_conf.h，stm32f10x_it.c， stm32f10x_it.h复制到2_User目录下面。</p>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-21-30.png" alt="Snipaste_2018-11-23_23-21-30"></p>
-<p><strong>固件库外设文件搬迁（3_Libraries_3_5_0）</strong><br>打开官方固件库包，定位到我们之前准备好的固件库包的目录:STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\STM32F10x_StdPeriph_Driver 下面，将目录下面的src,inc 文件夹 copy 到我们刚才建立的3_Libraries_3_5_0 文件夹下面。<br><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-22-04.png" alt="Snipaste_2018-11-23_23-22-04"><br><strong>自定义的驱动文件搬迁（4.Driver)</strong><br>用来添加工程中自定义的驱动文件，暂时不用添加。</p>
-<h5 id="将搬迁的文件与工程联立起来"><a href="#将搬迁的文件与工程联立起来" class="headerlink" title="将搬迁的文件与工程联立起来"></a>将搬迁的文件与工程联立起来</h5><ol>
-<li>在USER组中添加main.c,stm32f10x_it.c,system_stm32f10x.c等文件。</li>
-<li>Libraries中添加我们项目工程需要的外设库文件，从2_Libraries_3.5.0-&gt;src文件夹中添加，这里我们先添加一个misc，stm32f10x_gpio，stm32f10x_rcc。stm32f10x_rcc等三个文件（其余文件根据项目需要添加）。</li>
-<li>在StartUp组中将core_cm3.c,startup_stm32f10x_md.s添加进去</li>
-<li>DIRVE组用来添加工程中自定义的驱动文件，暂时不用添加。</li>
-</ol>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-27-44.png" alt="Snipaste_2018-11-23_23-27-44"></p>
-<h5 id="魔术棒配置"><a href="#魔术棒配置" class="headerlink" title="魔术棒配置"></a>魔术棒配置</h5><p>target勾选Use MicroLIB  (Printf函数)</p>
-<p>output勾选Creat HEX File（便于时生成Hex文件）</p>
-<p>C/C++:添加宏：USE_STDPERIPH_DRIVER,STM32F10X_HD（后面宏根据mcu大小添加）</p>
-<p>C/C++:添加头文件路径</p>
-<p>Debug：use：ST-Link Debugger</p>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-32-33.png" alt="Snipaste_2018-11-23_23-32-33"></p>
-<p>【Utilities】/【setting】选择128k Device Size。</p>
-<p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-35-01.png" alt="Snipaste_2018-11-23_23-35-01"></p>
-<h5 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h5><p><img src="http://pih78q7ac.bkt.clouddn.com/Snipaste_2018-11-23_23-36-55.png" alt="Snipaste_2018-11-23_23-36-55"></p>
-<p>OK</p>
+        <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>今天学习中使用到vim文本编辑器，忽然发现不太会使用了。心里一百句mmb，一段时间未用就快忘记了。所以也看出笔记的重要性。因此重新预习下vim并记录下来，以备以后查看。</p>
+<h4 id="安装Vim"><a href="#安装Vim" class="headerlink" title="安装Vim"></a>安装Vim</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令行输入：sudo apt-get install vim</span><br></pre></td></tr></table></figure>
+<h4 id="Vim的几种模式"><a href="#Vim的几种模式" class="headerlink" title="Vim的几种模式"></a>Vim的几种模式</h4><h5 id="六种模式介绍"><a href="#六种模式介绍" class="headerlink" title="六种模式介绍"></a>六种模式介绍</h5><ul>
+<li>普通模式(Normal mode)</li>
+</ul>
+<blockquote>
+<p>在普通模式中，用的编辑器命令，比如移动光标，删除文本等等。这也是Vim启动后的默认模式。</p>
+</blockquote>
+<ul>
+<li>插入模式(Insert mode)</li>
+</ul>
+<blockquote>
+<p>在这个模式中，大多数按键都会向文本缓冲中插入文本。大多数新用户希望文本编辑器编辑过程中一直保持这个模式。</p>
+<p>在插入模式中，可以按<code>ESC</code>键回到普通模式。</p>
+</blockquote>
+<ul>
+<li>可视模式(Visual mode)</li>
+</ul>
+<blockquote>
+<p>这个模式与普通模式比较相似。但是移动命令会扩大高亮的文本区域。高亮区域可以是字符、行或者是一块文本。当执行一个非移动命令时，命令会被执行到这块高亮的区域上。Vim的”文本对象”也能和移动命令一样用在这个模式中。</p>
+</blockquote>
+<ul>
+<li>选择模式(Select mode)</li>
+</ul>
+<blockquote>
+<p>这个模式和无模式编辑器的行为比较相似（Windows标准文本控件的方式）。这个模式中，可以用鼠标或者光标键高亮选择文本，不过输入任何字符的话，Vim会用这个字符替换选择的高亮文本块，并且自动进入插入模式。</p>
+</blockquote>
+<ul>
+<li>命令行模式(Command line mode)</li>
+</ul>
+<blockquote>
+<p>在命令行模式中可以输入会被解释成并执行的文本。例如执行命令（<code>:</code>键），搜索（<code>/</code>和<code>?</code>键）或者过滤命令（<code>!</code>键）。在命令执行之后，Vim返回到命令行模式之前的模式，通常是普通模式。</p>
+</blockquote>
+<ul>
+<li>Ex模式(Ex mode)</li>
+</ul>
+<blockquote>
+<p>这和命令行模式比较相似，在使用<code>:visual</code>命令离开Ex模式前，可以一次执行多条命令。</p>
+</blockquote>
+<h5 id="三种常用模式使用"><a href="#三种常用模式使用" class="headerlink" title="三种常用模式使用"></a>三种常用模式使用</h5><h6 id="使用vim命令进入vim界面"><a href="#使用vim命令进入vim界面" class="headerlink" title="使用vim命令进入vim界面"></a>使用vim命令进入vim界面</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim Test.c 	<span class="comment">//创建test.c文件</span></span><br></pre></td></tr></table></figure>
+<p>此时编辑器在普通模式下</p>
+<h6 id="进入插入（编辑）模式"><a href="#进入插入（编辑）模式" class="headerlink" title="进入插入（编辑）模式"></a>进入插入（编辑）模式</h6><p>在普通模式下使用使用<code>i</code>进入插入模式。如下所示右下方显示INSERT</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-09_17-16-20.png" alt="Snipaste_2018-12-09_17-16-20"></p>
+<p>以下为插入模式下几种插入方式：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>i</code></td>
+<td>在当前光标处进行编辑</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td>在行首插入</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>在行末插入</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>在光标后插入编辑</td>
+</tr>
+<tr>
+<td><code>o</code></td>
+<td>在当前行后插入一个新行</td>
+</tr>
+<tr>
+<td><code>O</code></td>
+<td>在当前行前插入一个新行</td>
+</tr>
+<tr>
+<td><code>cw</code></td>
+<td>替换从光标所在位置后到一个单词结尾的字符</td>
+</tr>
+</tbody>
+</table>
+<h6 id="进入普通模式"><a href="#进入普通模式" class="headerlink" title="进入普通模式"></a>进入普通模式</h6><p>在插入或命令模式下直接按<code>Esc</code>进入普通模式。如下所示右下方无任何信息</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-09_17-19-45.png" alt="Snipaste_2018-12-09_17-19-45"></p>
+<p>以下为普通模式下几种命令方式：</p>
+<p>进入普通模式，使用下列命令可以进行文本快速删除：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code></td>
+<td>删除游标所在的字符</td>
+</tr>
+<tr>
+<td><code>X</code></td>
+<td>删除游标所在前一个字符</td>
+</tr>
+<tr>
+<td><code>Delete</code></td>
+<td>同<code>x</code></td>
+</tr>
+<tr>
+<td><code>dd</code></td>
+<td>删除整行</td>
+</tr>
+<tr>
+<td><code>dw</code></td>
+<td>删除一个单词（不适用中文）</td>
+</tr>
+<tr>
+<td><code>d$</code>或<code>D</code></td>
+<td>删除至行尾</td>
+</tr>
+<tr>
+<td><code>d^</code></td>
+<td>删除至行首</td>
+</tr>
+<tr>
+<td><code>dG</code></td>
+<td>删除到文档结尾处</td>
+</tr>
+<tr>
+<td><code>d1G</code></td>
+<td>删至文档首部</td>
+</tr>
+</tbody>
+</table>
+<p>除此之外，你还可以在命令之前加上数字，表示一次删除多行，如：</p>
+<p><code>2dd</code>表示一次删除2行</p>
+<h6 id="进入命令模式"><a href="#进入命令模式" class="headerlink" title="进入命令模式"></a>进入命令模式</h6><p>在普通模式输入<code>:</code>进入命令行模式。如下所示右下方显示  ：</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-09_17-30-22.png" alt="Snipaste_2018-12-09_17-30-22"></p>
+<p>以下为命令行模式下几种退出方式：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:q!</code></td>
+<td>强制退出，不保存</td>
+</tr>
+<tr>
+<td><code>:q</code></td>
+<td>退出</td>
+</tr>
+<tr>
+<td><code>:wq</code></td>
+<td>保存并退出</td>
+</tr>
+<tr>
+<td><code>:wq!</code></td>
+<td>强制保存并退出</td>
+</tr>
+<tr>
+<td><code>:w &lt;文件路径&gt;</code></td>
+<td>另存为</td>
+</tr>
+<tr>
+<td><code>:saveas 文件路径</code></td>
+<td>另存为</td>
+</tr>
+<tr>
+<td><code>:x</code></td>
+<td>保存并退出</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -518,7 +640,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Stm32/" rel="tag"><i class="fa fa-tag"></i> Stm32</a>
+            <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
           
         </div>
       
@@ -531,8 +653,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Altium-Designer-17.html" rel="next" title="Altium Designer 17">
-                <i class="fa fa-chevron-left"></i> Altium Designer 17
+              <a href="/MT7688-Duo学习.html" rel="next" title="MT7688环境配置">
+                <i class="fa fa-chevron-left"></i> MT7688环境配置
               </a>
             
           </div>
@@ -540,10 +662,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/虚拟机安装Ubuntu系统.html" rel="prev" title="虚拟机安装Ubuntu系统">
-                虚拟机安装Ubuntu系统 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -718,7 +836,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建库函数工程模板"><span class="nav-number">1.</span> <span class="nav-text">创建库函数工程模板</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#获取固件库"><span class="nav-number">1.1.</span> <span class="nav-text">获取固件库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#创建文件夹"><span class="nav-number">1.2.</span> <span class="nav-text">创建文件夹</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Keil新建工程项目"><span class="nav-number">1.3.</span> <span class="nav-text">Keil新建工程项目</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文件搬迁"><span class="nav-number">1.4.</span> <span class="nav-text">文件搬迁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#将搬迁的文件与工程联立起来"><span class="nav-number">1.5.</span> <span class="nav-text">将搬迁的文件与工程联立起来</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#魔术棒配置"><span class="nav-number">1.6.</span> <span class="nav-text">魔术棒配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编译"><span class="nav-number">1.7.</span> <span class="nav-text">编译</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Vim"><span class="nav-number">2.</span> <span class="nav-text">安装Vim</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Vim的几种模式"><span class="nav-number">3.</span> <span class="nav-text">Vim的几种模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#六种模式介绍"><span class="nav-number">3.1.</span> <span class="nav-text">六种模式介绍</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三种常用模式使用"><span class="nav-number">3.2.</span> <span class="nav-text">三种常用模式使用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#使用vim命令进入vim界面"><span class="nav-number">3.2.1.</span> <span class="nav-text">使用vim命令进入vim界面</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#进入插入（编辑）模式"><span class="nav-number">3.2.2.</span> <span class="nav-text">进入插入（编辑）模式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#进入普通模式"><span class="nav-number">3.2.3.</span> <span class="nav-text">进入普通模式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#进入命令模式"><span class="nav-number">3.2.4.</span> <span class="nav-text">进入命令模式</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
