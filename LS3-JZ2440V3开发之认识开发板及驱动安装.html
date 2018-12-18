@@ -108,14 +108,22 @@
 
 
 
-  <meta name="keywords" content="暂时无">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jeff">
-<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/tags/MT7688/index.html">
+  <meta name="description" content="熟悉开发板步骤接口介绍板载 USB 串口、 JTAG、 usb下载口(dnw)">
+<meta name="keywords" content="S3C244">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LS2_JZ2440V3开发之开发板硬件连接及驱动安装">
+<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/LS3-JZ2440V3开发之认识开发板及驱动安装.html">
 <meta property="og:site_name" content="Jeff">
+<meta property="og:description" content="熟悉开发板步骤接口介绍板载 USB 串口、 JTAG、 usb下载口(dnw)">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-14_19-24-58.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-14_19-50-53.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-14_20-43-03.png">
+<meta property="og:updated_time" content="2018-12-18T18:43:33.303Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jeff">
+<meta name="twitter:title" content="LS2_JZ2440V3开发之开发板硬件连接及驱动安装">
+<meta name="twitter:description" content="熟悉开发板步骤接口介绍板载 USB 串口、 JTAG、 usb下载口(dnw)">
+<meta name="twitter:image" content="d:/MyBlog/图片/Snipaste_2018-12-14_19-24-58.png">
 
 
 
@@ -124,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/tags/MT7688/">
+  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/LS3-JZ2440V3开发之认识开发板及驱动安装.html">
 
 
 
@@ -134,7 +142,7 @@
   };
 </script>
 
-  <title>标签: MT7688 | Jeff</title>
+  <title>LS2_JZ2440V3开发之开发板硬件连接及驱动安装 | Jeff</title>
   
 
 
@@ -183,7 +191,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
       <a href="https://github.com/SetCalm" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
@@ -270,7 +278,7 @@
         
         
           
-          <li class="menu-item menu-item-tags menu-item-active">
+          <li class="menu-item menu-item-tags">
     <a href="/tags/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
   </li>
@@ -299,40 +307,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -357,108 +331,237 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block tag">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>MT7688<small>标签</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/LS3-JZ2440V3开发之认识开发板及驱动安装.html">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/M0-LinkitSmartMT7688-概述.html" itemprop="url">
-              
-                <span itemprop="name">M0-LinkitSmartMT7688-概述</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">LS2_JZ2440V3开发之开发板硬件连接及驱动安装
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-10T20:03:15+08:00" content="2018-12-10">
-          12-10
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-14 19:09:34" itemprop="dateCreated datePublished" datetime="2018-12-14T19:09:34+08:00">2018-12-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-19 02:43:33" itemprop="dateModified" datetime="2018-12-19T02:43:33+08:00">2018-12-19</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/S3C244入门/" itemprop="url" rel="index"><span itemprop="name">S3C244入门</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/M2-创建第一个示例-D13闪烁.html" itemprop="url">
-              
-                <span itemprop="name">M2_MT7688创建第一个示例_D13闪烁</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-09T23:46:40+08:00" content="2018-12-09">
-          12-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/M1-MT7688Duo程序设计环境配置 - 副本.html" itemprop="url">
-              
-                <span itemprop="name">M1_MT7688程序设计环境配置</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-08T00:00:00+08:00" content="2018-12-08">
-          12-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+        <h2 id="熟悉开发板步骤"><a href="#熟悉开发板步骤" class="headerlink" title="熟悉开发板步骤"></a>熟悉开发板步骤</h2><h3 id="接口介绍"><a href="#接口介绍" class="headerlink" title="接口介绍"></a>接口介绍</h3><p>板载 USB 串口、 JTAG、 usb下载口(dnw) </p>
+<a id="more"></a>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-14_19-24-58.png" alt="Snipaste_2018-12-14_19-24-58"></p>
+<p>​            图 4.1 接口介绍<br>①为板载 USB串口；②为 USB下载口，又名 dnw；③是 JTAG 口。 </p>
+<p>三接口与PC模型</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-14_19-50-53.png" alt="Snipaste_2018-12-14_19-50-53"></p>
+<ul>
+<li><p><strong>烧写：</strong></p>
+<p>PC 使用eop通过JTAG烧写口实现烧写。(可靠但速度很慢，大文件使用USB 烧录)</p>
+</li>
+<li><p><strong>调式信息</strong></p>
+<p>一般开发板使用串口打印实现调式。PC通过串口把命令发给开发板，而开发板通过串口把结果发给PC。</p>
+</li>
+<li><p><strong>USB Device</strong></p>
+<p>烧写大文件（kernel，rootfs）使用USB设备，前提是板子运行有支持USB 下载程序的u-boot。</p>
+</li>
+</ul>
+<h2 id="裸机开发步骤"><a href="#裸机开发步骤" class="headerlink" title="裸机开发步骤"></a>裸机开发步骤</h2><h3 id="不同系统下应用程序开发比较"><a href="#不同系统下应用程序开发比较" class="headerlink" title="不同系统下应用程序开发比较"></a>不同系统下应用程序开发比较</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-14_20-43-03.png" alt="Snipaste_2018-12-14_20-43-03"></p>
+<p><strong>Ubuntu</strong></p>
+<p>名词解释：gcc</p>
+<ul>
+<li>gcc是linux系统下主要的编译软件，</li>
+<li>gcc的全称是GNU编译器套件（GNU Compiler Collection），</li>
+<li>除了可以编译c语言开发的程序外，还可以开发C++、Java等多个语言的程序。</li>
+<li>GCC的初衷是为GNU操作系统专门编写的一款编译器。</li>
+</ul>
+<p><strong>使用gcc的原因：</strong>功能强大、稳定、开源免费。</p>
+<p><strong>gcc版本查看：</strong>gcc  -v  </p>
+<p><strong>ARM裸机开发</strong></p>
+<p>交叉编译模式：<br>​    通常编译嵌入式程序的平台称为宿主机（如：PC的ubuntu系统，CPU架构为X86架构），运行嵌入式程序的平台成为目标机（如：某款ARM开发板，CPU架构为ARM架构）。在X86平台编辑和通过编译器arm-linux-gcc编译的ARM架构的程序，两者属于不同的架构平台，从而属于交叉编译模式。然后将程序烧写到ARM开发板中（下载方式有：JTAG、USB、SD卡、网络等多种方式），然后在开发板上运行该程序。</p>
+<h3 id="工具介绍"><a href="#工具介绍" class="headerlink" title="工具介绍"></a>工具介绍</h3><h4 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h4><p>推荐使用windows平台的source insight和notepad。<br>source insight在查看代码、编辑代码等功能时非常好用。</p>
+<h4 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h4><p>推荐使用arm-linux-gcc<br>arm-linux-gcc是基于linux平台的arm编译器。它是开源免费的编译器。<br>arm-linux-gcc功能强大、稳定、支持的arm芯片众多、更新速度快。</p>
+<h4 id="入门误区：使用ads、MDK"><a href="#入门误区：使用ads、MDK" class="headerlink" title="入门误区：使用ads、MDK"></a>入门误区：使用ads、MDK</h4><p>ads（停止更新）、MDK，是windows平台的编译器，功能较弱。<br>1）只适合个人或者小团队的开发，不适合于中型、大型团队的协作开发。<br>2）是收费软件。</p>
+<h3 id="安装source-insight"><a href="#安装source-insight" class="headerlink" title="安装source insight"></a>安装source insight</h3><p>略</p>
+<h3 id="安装notepad"><a href="#安装notepad" class="headerlink" title="安装notepad"></a>安装notepad</h3><p>略</p>
+<h3 id="安装free-hex-edtor"><a href="#安装free-hex-edtor" class="headerlink" title="安装free-hex-edtor"></a>安装free-hex-edtor</h3>
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/S3C244/" rel="tag"><i class="fa fa-tag"></i> S3C244</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/LS1-JZ2440V3开发之环境搭建.html" rel="next" title="LS1_JZ2440V3开发之环境搭建">
+                <i class="fa fa-chevron-left"></i> LS1_JZ2440V3开发之环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/LS4-1.1LED实现.html" rel="prev" title="LS4-1.1LED实现">
+                LS4-1.1LED实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -479,8 +582,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -598,6 +710,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#熟悉开发板步骤"><span class="nav-number">1.</span> <span class="nav-text">熟悉开发板步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口介绍"><span class="nav-number">1.1.</span> <span class="nav-text">接口介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#裸机开发步骤"><span class="nav-number">2.</span> <span class="nav-text">裸机开发步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不同系统下应用程序开发比较"><span class="nav-number">2.1.</span> <span class="nav-text">不同系统下应用程序开发比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工具介绍"><span class="nav-number">2.2.</span> <span class="nav-text">工具介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编辑器"><span class="nav-number">2.2.1.</span> <span class="nav-text">编辑器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编译器"><span class="nav-number">2.2.2.</span> <span class="nav-text">编译器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#入门误区：使用ads、MDK"><span class="nav-number">2.2.3.</span> <span class="nav-text">入门误区：使用ads、MDK</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装source-insight"><span class="nav-number">2.3.</span> <span class="nav-text">安装source insight</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装notepad"><span class="nav-number">2.4.</span> <span class="nav-text">安装notepad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装free-hex-edtor"><span class="nav-number">2.5.</span> <span class="nav-text">安装free-hex-edtor</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -736,6 +864,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
 
   
 
