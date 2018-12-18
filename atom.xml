@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/SetCalm/setcalm.github.io/"/>
-  <updated>2018-12-18T18:54:06.451Z</updated>
+  <updated>2018-12-18T18:59:46.584Z</updated>
   <id>https://github.com/SetCalm/setcalm.github.io/</id>
   
   <author>
@@ -17,22 +17,22 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title>cs</title>
     <link href="https://github.com/SetCalm/setcalm.github.io/cs.html"/>
     <id>https://github.com/SetCalm/setcalm.github.io/cs.html</id>
-    <published>2018-12-18T18:44:36.432Z</published>
-    <updated>2018-12-18T18:54:06.451Z</updated>
+    <published>2022-12-18T18:58:59.000Z</published>
+    <updated>2018-12-18T18:59:46.584Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>title:cs<br>date: 2022-12-07 17:56:10</p><p>由于以前准备用七牛作为图床，发现测试域名只有一月试用期，需要绑定域名。暂时没有好的图床，年后准备搭建个NAS做图床，网站暂时只能看无图的。</p><p>另外暂时文章都没有仔细排版，现在抓紧学习嵌入式ARM开发阶段，提后有时间再排版。</p><p>谢谢！</p>]]></content>
+    <content type="html"><![CDATA[<p>由于以前准备用七牛作为图床，发现测试域名只有一月试用期，需要绑定域名。暂时没有好的图床，年后准备搭建个NAS做图床，网站暂时只能看无图的。</p><p>另外暂时文章都没有仔细排版，现在抓紧学习嵌入式ARM开发阶段，提后有时间再排版。</p><p>谢谢！</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;hr&gt;
-&lt;p&gt;title:cs&lt;br&gt;date: 2022-12-07 17:56:10&lt;/p&gt;
-&lt;p&gt;由于以前准备用七牛作为图床，发现测试域名只有一月试用期，需要绑定域名。暂时没有好的图床，年后准备搭建个NAS做图床，网站暂时只能看无图的。&lt;/p&gt;
-&lt;p&gt;另外暂时文章都没有仔
+        &lt;p&gt;由于以前准备用七牛作为图床，发现测试域名只有一月试用期，需要绑定域名。暂时没有好的图床，年后准备搭建个NAS做图床，网站暂时只能看无图的。&lt;/p&gt;
+&lt;p&gt;另外暂时文章都没有仔细排版，现在抓紧学习嵌入式ARM开发阶段，提后有时间再排版。&lt;/p&gt;
+&lt;p&gt;谢谢！&lt;/p&gt;
+
       
     
     </summary>
