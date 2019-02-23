@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.5.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="linux如何启动 bootload的目的：启动内核   u-boot功能： 关看门狗 初始化时钟 初始化SDRAM 从Flash读出内核 附加功能（开发功能：方便开发） 烧写Flash 网卡 USB 串口   启动内内核  u-boot体验uboot的四重奏  解压缩 打补丁 配置 编译  0.文件源文件：u-boot-1.1.6.tar.bz2 补丁文件：u-boot-1.1.6_jz2440">
+<meta name="keywords" content="暂时无">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LS80-UBOOT">
+<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-25-LS80-UBOOT.html">
+<meta property="og:site_name" content="Jeff">
+<meta property="og:description" content="linux如何启动 bootload的目的：启动内核   u-boot功能： 关看门狗 初始化时钟 初始化SDRAM 从Flash读出内核 附加功能（开发功能：方便开发） 烧写Flash 网卡 USB 串口   启动内内核  u-boot体验uboot的四重奏  解压缩 打补丁 配置 编译  0.文件源文件：u-boot-1.1.6.tar.bz2 补丁文件：u-boot-1.1.6_jz2440">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-25_01-53-36.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-25_04-00-13.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-25_02-27-00.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-25_05-15-26.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-25_05-31-01.png">
+<meta property="og:updated_time" content="2018-12-25T13:57:42.357Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LS80-UBOOT">
+<meta name="twitter:description" content="linux如何启动 bootload的目的：启动内核   u-boot功能： 关看门狗 初始化时钟 初始化SDRAM 从Flash读出内核 附加功能（开发功能：方便开发） 烧写Flash 网卡 USB 串口   启动内内核  u-boot体验uboot的四重奏  解压缩 打补丁 配置 编译  0.文件源文件：u-boot-1.1.6.tar.bz2 补丁文件：u-boot-1.1.6_jz2440">
+<meta name="twitter:image" content="d:/MyBlog/图片/Snipaste_2018-12-25_01-53-36.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Jeff" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-25-LS80-UBOOT.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>LS80-UBOOT | Jeff</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+      <a href="https://github.com/SetCalm" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope="" itemtype="https://github.com/SetCalm">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jeff</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-student">
+    <a href="/student" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>学习</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-life">
+    <a href="/life" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>生活</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-musicbooksfilms">
+    <a href="/MusicBooksFilms" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>影音书</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-collect">
+    <a href="/collect" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>收藏</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-25-LS80-UBOOT.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LS80-UBOOT
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-25 01:50:08 / 修改时间：21:57:42" itemprop="dateCreated datePublished" datetime="2018-12-25T01:50:08+08:00">2018-12-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="linux如何启动"><a href="#linux如何启动" class="headerlink" title="linux如何启动"></a>linux如何启动</h2><p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_01-53-36.png" alt="Snipaste_2018-12-25_01-53-36"></p>
+<p>bootload的目的：启动内核</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_04-00-13.png" alt="Snipaste_2018-12-25_04-00-13"></p>
+<ol>
+<li>u-boot功能：</li>
+<li>关看门狗</li>
+<li>初始化时钟</li>
+<li>初始化SDRAM</li>
+<li>从Flash读出内核</li>
+<li>附加功能（开发功能：方便开发）<ul>
+<li>烧写Flash</li>
+<li>网卡</li>
+<li>USB 串口</li>
+</ul>
+</li>
+<li>启动内内核</li>
+</ol>
+<h2 id="u-boot体验"><a href="#u-boot体验" class="headerlink" title="u-boot体验"></a>u-boot体验</h2><p>uboot的四重奏</p>
+<ol>
+<li>解压缩</li>
+<li>打补丁</li>
+<li>配置</li>
+<li>编译</li>
+</ol>
+<h3 id="0-文件"><a href="#0-文件" class="headerlink" title="0.文件"></a>0.文件</h3><p>源文件：u-boot-1.1.6.tar.bz2</p>
+<p>补丁文件：u-boot-1.1.6_jz2440.patch</p>
+<h3 id="1-解压缩"><a href="#1-解压缩" class="headerlink" title="1.解压缩"></a>1.解压缩</h3><p>解压u-boot-1.1.6.tar.bz2</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>tar -xjf u-boot<span class="number">-1.1</span><span class="number">.6</span>.tar.bz2</span><br><span class="line"><span class="number">2.</span>cd u-boot<span class="number">-1.1</span><span class="number">.6</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-打补丁"><a href="#2-打补丁" class="headerlink" title="2.打补丁"></a>2.打补丁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">patch -p1 &lt; ../u-boot-1.1.6_jz2440.patc</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>patch：打补丁命令</p>
+</li>
+<li><p>-p1:补丁打在哪里的位置：</p>
+<p>打开u-boot-1.1.6_jz2440.patc</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_02-27-00.png" alt="Snipaste_2018-12-25_02-27-00"></p>
+<p>红色为打补丁位置，因为在u-boot-1.1.6位置所以要忽略u-boot-1.1.6。此时使用-p1表示忽略一级忽略。</p>
+<p>例：-p2：忽略u-boot-1.1.6/board/</p>
+</li>
+<li><p>../u-boot-1.1.6_jz2440.patc为指示补丁文件所在目录。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot$ ls<span class="comment">//0.查看源文件，补丁文件</span></span><br><span class="line">u-boot<span class="number">-1.1</span><span class="number">.6</span>_jz2440.patch  u-boot<span class="number">-1.1</span><span class="number">.6</span>.tar.bz2</span><br><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot$ tar -xjf u-boot<span class="number">-1.1</span><span class="number">.6</span>.tar.bz2<span class="comment">//1.解压源文件</span></span><br><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot$ cd u-boot<span class="number">-1.1</span><span class="number">.6</span>/  <span class="comment">//cd 到解压后源文件</span></span><br><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot/u-boot<span class="number">-1.1</span><span class="number">.6</span>$ patch -p1 &lt; ../u-boot<span class="number">-1.1</span><span class="number">.6</span>_jz2440.patch  <span class="comment">//打补丁源文件</span></span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/<span class="number">100</span>ask24x0.c</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/boot_init.c</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/config.mk</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/flash.c</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/lowlevel_init.S</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/Makefile</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/u-boot.lds</span><br><span class="line">patching file board/MAI/bios_emulator/scitech/src/v86bios/lex.l</span><br><span class="line">patching file common/cmd_bootm.c</span><br><span class="line">patching file common/cmd_load.c</span><br><span class="line">patching file common/cmd_menu_bak.c</span><br><span class="line">patching file common/cmd_menu.c</span><br><span class="line">patching file common/cmd_nand.c</span><br><span class="line">patching file common/cmd_nand_legacy.c</span><br><span class="line">patching file common/cmd_suspend.c</span><br><span class="line">patching file common/cmd_usbslave.c</span><br><span class="line">patching file common/env_nand.c</span><br><span class="line">patching file common/main.c</span><br><span class="line">patching file common/Makefile</span><br><span class="line">patching file cpu/arm920t/cpu.c</span><br><span class="line">patching file cpu/arm920t/Makefile</span><br><span class="line">patching file cpu/arm920t/s3c24x0/interrupts.c</span><br><span class="line">patching file cpu/arm920t/s3c24x0/Makefile</span><br><span class="line">patching file cpu/arm920t/s3c24x0/nand_flash.c</span><br><span class="line">patching file cpu/arm920t/s3c24x0/nand_flash_legacy.c</span><br><span class="line">patching file cpu/arm920t/s3c24x0/speed.c</span><br><span class="line">patching file cpu/arm920t/start.S</span><br><span class="line">patching file cpu/arm920t/suspend.S</span><br><span class="line">patching file doc/README.SBC8560</span><br><span class="line">patching file drivers/cfi_flash.c</span><br><span class="line">patching file drivers/dm9000x.c</span><br><span class="line">patching file drivers/jedec_flash.c</span><br><span class="line">patching file drivers/Makefile</span><br><span class="line">patching file drivers/nand/nand_base.c</span><br><span class="line">patching file drivers/nand/nand_ids.c</span><br><span class="line">patching file drivers/nand/nand_util.c</span><br><span class="line">patching file drivers/nand_legacy/nand_legacy.c</span><br><span class="line">patching file drivers/usb/<span class="number">2440u</span>sb.h</span><br><span class="line">patching file drivers/usb/Makefile</span><br><span class="line">patching file drivers/usb/mrgtmp0</span><br><span class="line">patching file drivers/usb/usb.h</span><br><span class="line">patching file drivers/usb/usbin.c</span><br><span class="line">patching file drivers/usb/usbin.h</span><br><span class="line">patching file drivers/usb/usbinit.c</span><br><span class="line">patching file drivers/usb/usbinit.h</span><br><span class="line">patching file drivers/usb/usblib.c</span><br><span class="line">patching file drivers/usb/usblib.h</span><br><span class="line">patching file drivers/usb/usbmain.c</span><br><span class="line">patching file drivers/usb/usbmain.h</span><br><span class="line">patching file drivers/usb/usbout.c</span><br><span class="line">patching file drivers/usb/usbout.h</span><br><span class="line">patching file drivers/usb/usbsetup.c</span><br><span class="line">patching file drivers/usb/usbsetup.h</span><br><span class="line">patching file include/<span class="keyword">asm</span>-arm/mach-types.h</span><br><span class="line">patching file include/<span class="keyword">asm</span>-arm/types.h</span><br><span class="line">patching file include/<span class="keyword">asm</span>-arm/u-boot-arm.h</span><br><span class="line">patching file include/configs/<span class="number">100</span>ask24x0.h</span><br><span class="line">patching file include/configs/SBC8560.h</span><br><span class="line">patching file include/def.h</span><br><span class="line">patching file include/flash.h</span><br><span class="line">patching file include/nand.h</span><br><span class="line">patching file include/s3c2410.h</span><br><span class="line">patching file include/s3c24x0.h</span><br><span class="line">patching file include/usb.h</span><br><span class="line">patching file lib_arm/armlinux.c</span><br><span class="line">patching file lib_arm/board.c</span><br><span class="line">patching file Makefile</span><br><span class="line">patching file net/net.c</span><br><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot/u-boot<span class="number">-1.1</span><span class="number">.6</span>$</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a>3.配置</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make <span class="number">100</span>ask24x0_config</span><br></pre></td></tr></table></figure>
+<h3 id="4-编译"><a href="#4-编译" class="headerlink" title="4.编译"></a>4.编译</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>按上面执行即可获得u-boot.bin文件</p>
+<h3 id="设置u-boot环境变量"><a href="#设置u-boot环境变量" class="headerlink" title="设置u-boot环境变量"></a>设置u-boot环境变量</h3><p>如下图4步走：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">##### <span class="number">100</span>ask Bootloader <span class="keyword">for</span> OpenJTAG #####</span><br><span class="line">[n] Download u-boot to Nand Flash</span><br><span class="line">[o] Download u-boot to Nor Flash</span><br><span class="line">[c] Re-scan Nor Flash</span><br><span class="line">[u] Copy bootloader from nand to nor</span><br><span class="line">[v] Copy bootloader from nor to nand</span><br><span class="line">[k] Download Linux kernel uImage</span><br><span class="line">[j] Download root_jffs2 image</span><br><span class="line">[y] Download root_yaffs image</span><br><span class="line">[d] Download to SDRAM &amp; Run</span><br><span class="line">[z] Download zImage into RAM</span><br><span class="line">[g] Boot linux from RAM</span><br><span class="line">[f] Format the Nand Flash</span><br><span class="line">[s] Set the boot parameters</span><br><span class="line">[b] Boot the system</span><br><span class="line">[r] Reboot u-boot</span><br><span class="line">[q] Quit from menu</span><br><span class="line">Enter your selection: q <span class="comment">//1.退出</span></span><br><span class="line">OpenJTAG&gt; print  <span class="comment">//2.打印Uboot环境</span></span><br><span class="line">bootargs=noinitrd root=/dev/mtdblock3 init=/linuxrc console=ttySAC0,<span class="number">115200</span></span><br><span class="line">bootcmd=nand read.jffs2 <span class="number">0x30007FC0</span> kernel; bootm <span class="number">0x30007FC0</span></span><br><span class="line">baudrate=<span class="number">115200</span></span><br><span class="line">ethaddr=<span class="number">08</span>:<span class="number">00</span>:<span class="number">3</span>e:<span class="number">26</span>:<span class="number">0</span>a:<span class="number">5b</span></span><br><span class="line">ipaddr=<span class="number">192.168</span><span class="number">.1</span><span class="number">.17</span></span><br><span class="line">serverip=<span class="number">192.168</span><span class="number">.1</span><span class="number">.11</span></span><br><span class="line">netmask=<span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">mtdids=nand0=nandflash0</span><br><span class="line">mtdparts=mtdparts=nandflash0:<span class="number">256</span>k@<span class="number">0</span>(bootloader),<span class="number">128</span>k(params),<span class="number">2</span>m(kernel),-(root)</span><br><span class="line">bootdelay=<span class="number">5</span></span><br><span class="line"><span class="built_in">stdin</span>=serial</span><br><span class="line"><span class="built_in">stdout</span>=serial</span><br><span class="line"><span class="built_in">stderr</span>=serial</span><br><span class="line">partition=nand0,<span class="number">0</span></span><br><span class="line">mtddevnum=<span class="number">0</span></span><br><span class="line">mtddevname=bootloader</span><br><span class="line"></span><br><span class="line">Environment size: <span class="number">450</span>/<span class="number">131068</span> bytes</span><br><span class="line">OpenJTAG&gt; <span class="built_in">set</span> bootdelay <span class="number">10</span> <span class="comment">//3.重新配置启动计数时间</span></span><br><span class="line">OpenJTAG&gt; save <span class="comment">//4，保存</span></span><br><span class="line">Saving Environment to NAND...</span><br><span class="line">Erasing Nand...Writing to Nand... done</span><br><span class="line">OpenJTAG&gt;</span><br><span class="line">penJTAG&gt; reset<span class="comment">//5.复位重启</span></span><br></pre></td></tr></table></figure>
+<h3 id="分析make-100ask24x0-config"><a href="#分析make-100ask24x0-config" class="headerlink" title="分析make 100ask24x0_config"></a>分析make 100ask24x0_config</h3><p>打开Makefile找到</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">100</span>ask24x0_config	:	unconfig</span><br><span class="line">	@$(MKCONFIG) $(@:_config=) arm arm920t <span class="number">100</span>ask24x0 <span class="literal">NULL</span> s3c24x0</span><br></pre></td></tr></table></figure>
+<p>执行：make 100ask24x0_config</p>
+<p>等于执行：@$(MKCONFIG) $(@:_config=) arm arm920t 100ask24x0 NULL s3c24x0脚本语句。</p>
+<p>分析：@$(MKCONFIG) $(@:_config=) arm arm920t 100ask24x0 NULL s3c24x0</p>
+<ol>
+<li><p>MKCONFIG    := $(SRCTREE)/mkconfig //源文件所在的目录下的mkconfig</p>
+</li>
+<li><p>$(@:_config=)  100ask24x0_config</p>
+<p>$(@   $:当前目标即100ask24x0_config</p>
+<p>:_config= 表示替换空</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_05-15-26.png" alt="Snipaste_2018-12-25_05-15-26"></p>
+</li>
+</ol>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_05-31-01.png" alt="Snipaste_2018-12-25_05-31-01"></p>
+<p>向mkconfig传递$1~$6参数</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog（重要保留）-2018-12-21-LS7-4-UART.html" rel="next" title="2018-12-21-LS7-4-UART">
+                <i class="fa fa-chevron-left"></i> 2018-12-21-LS7-4-UART
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog（重要保留）-2018-12-25-字符设备驱动程序之概述.html" rel="prev" title="字符设备驱动程序之概述">
+                字符设备驱动程序之概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jeff Wu">
+            
+              <p class="site-author-name" itemprop="name">Jeff Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/SetCalm" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/calm-16-25/activities" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux如何启动"><span class="nav-number">1.</span> <span class="nav-text">linux如何启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u-boot体验"><span class="nav-number">2.</span> <span class="nav-text">u-boot体验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0-文件"><span class="nav-number">2.1.</span> <span class="nav-text">0.文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-解压缩"><span class="nav-number">2.2.</span> <span class="nav-text">1.解压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-打补丁"><span class="nav-number">2.3.</span> <span class="nav-text">2.打补丁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-配置"><span class="nav-number">2.4.</span> <span class="nav-text">3.配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-编译"><span class="nav-number">2.5.</span> <span class="nav-text">4.编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置u-boot环境变量"><span class="nav-number">2.6.</span> <span class="nav-text">设置u-boot环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析make-100ask24x0-config"><span class="nav-number">2.7.</span> <span class="nav-text">分析make 100ask24x0_config</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright"> &copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeff Wu</span>
+
+  
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.5.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

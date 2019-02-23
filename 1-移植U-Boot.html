@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.5.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="移植 U-BootBootloader 简介####  Bootload是什么Bootloader是在操作系统运行之前执行的一段小程序。通过这段小程序，我们可以初始化硬件设备（关闭WATCHDOG、改变系统时钟、初始化存储控制器）、建立内存空间的映射表，将更多的代码复制到内存中等，从而建立适当的系统软硬件环境，为最终调用操作系统内核做好准备。 它能将操作系统内核复制到内存中运行，我们将这段程序称为">
+<meta name="keywords" content="S3C244">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.移植U-Boot">
+<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/1-移植U-Boot.html">
+<meta property="og:site_name" content="Jeff">
+<meta property="og:description" content="移植 U-BootBootloader 简介####  Bootload是什么Bootloader是在操作系统运行之前执行的一段小程序。通过这段小程序，我们可以初始化硬件设备（关闭WATCHDOG、改变系统时钟、初始化存储控制器）、建立内存空间的映射表，将更多的代码复制到内存中等，从而建立适当的系统软硬件环境，为最终调用操作系统内核做好准备。 它能将操作系统内核复制到内存中运行，我们将这段程序称为">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-28_23-39-14.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-29_00-42-38.png">
+<meta property="og:updated_time" content="2019-01-03T03:41:44.397Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.移植U-Boot">
+<meta name="twitter:description" content="移植 U-BootBootloader 简介####  Bootload是什么Bootloader是在操作系统运行之前执行的一段小程序。通过这段小程序，我们可以初始化硬件设备（关闭WATCHDOG、改变系统时钟、初始化存储控制器）、建立内存空间的映射表，将更多的代码复制到内存中等，从而建立适当的系统软硬件环境，为最终调用操作系统内核做好准备。 它能将操作系统内核复制到内存中运行，我们将这段程序称为">
+<meta name="twitter:image" content="d:/MyBlog/图片/Snipaste_2018-12-28_23-39-14.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Jeff" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/1-移植U-Boot.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>1.移植U-Boot | Jeff</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+      <a href="https://github.com/SetCalm" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope="" itemtype="https://github.com/SetCalm">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jeff</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-student">
+    <a href="/student" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>学习</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-life">
+    <a href="/life" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>生活</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-musicbooksfilms">
+    <a href="/MusicBooksFilms" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>影音书</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-collect">
+    <a href="/collect" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>收藏</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/1-移植U-Boot.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">1.移植U-Boot
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-28 22:52:31" itemprop="dateCreated datePublished" datetime="2018-12-28T22:52:31+08:00">2018-12-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-03 11:41:44" itemprop="dateModified" datetime="2019-01-03T11:41:44+08:00">2019-01-03</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/第二阶段/" itemprop="url" rel="index"><span itemprop="name">第二阶段</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="移植-U-Boot"><a href="#移植-U-Boot" class="headerlink" title="移植 U-Boot"></a>移植 U-Boot</h2><h3 id="Bootloader-简介"><a href="#Bootloader-简介" class="headerlink" title="Bootloader 简介"></a>Bootloader 简介</h3><p>#### </p>
+<h4 id="Bootload是什么"><a href="#Bootload是什么" class="headerlink" title="Bootload是什么"></a>Bootload是什么</h4><p>Bootloader是在操作系统运行之前执行的一段小程序。通过这段小程序，我们可以初始化硬件设备（关闭WATCHDOG、改变系统时钟、初始化存储控制器）、建立内存空间的映射表，将更多的代码复制到内存中等，从而建立适当的系统软硬件环境，为最终调用操作系统内核做好准备。 <em>它能将操作系统内核复制到内存中运行，我们将这段程序称为 Bootloader。</em></p>
+<p>①Bootloader 就是这么一小段程序，它在系统上电时开始执行，初始化硬件设备、准备好软件环境，最后调用操作系统</p>
+<p>②我们还可以增强 Bootloader 的功能，比如增加网络功能、从 PC 上通过串口或网络下载文件、烧写文件、将 Flash 上压缩的文件解压后再运行等。</p>
+<p>③Bootloader是基于特定硬件平台来实现的。因此，不可能有一个 Bootloader 支持所有的CPU、所有的电路板。即使是支持 CPU 架构比较多的 U-Boot，也不是一拿来就可以使用的，需要进行一些移植</p>
+<h4 id="Bootloader是如何启动"><a href="#Bootloader是如何启动" class="headerlink" title="Bootloader是如何启动"></a>Bootloader是如何启动</h4><p>CPU 上电后，会从某个地址开始执行。比如 MIPS 结构的 CPU 会从 0xBFC00000 取第一条指令，而 ARM 结构的 CPU 则从地址 0x0000000 开始。嵌入式开发板中，需要把存储器件 ROM 或 Flash 等映射到这个地址，Bootloader 就存放在这个地址开始处，这样一上电就可以执行。<strong><em>(即将Bootloader 存放在0x0000000 这个地址开始处。这样一上电就可以执行Bootloader)</em></strong> </p>
+<p>在开发时，通常可以使用各种命令操作 Bootloader，一般通过串口来连接 PC 和开发板，可以在串口上输入各种命令、观察运行结果等。</p>
+<p>Bootloader 可以分为以下两种操作模式（Operation Mode）。<br>​    （1）启动加载（Boot loading）模式。<br>​    上电后，Bootloader 从板子上的某个固态存储设备上将操作系统加载到 RAM 中运行，整个过程并没有用户的介入。产品发布时，Bootloader 工作在这种模式下。<br>​    （2）下载（Downloading）模式。<br>​    在这种模式下，开发人员可以使用各种命令，通过串口连接或网络连接等通信手段从主机（Host）下载文件（比如内核映象、文件系统映象），将它们直接放在内存运行或是烧入Flash 类固态存储设备中。<br>​    板子与主机间传输文件时，可以使用串口的 xmodem/ymodem/zmodem 协议，它们使用简单，只是速度比较慢；还可以使用网络通过 tftp、nfs 协议来传输，这时，主机上要开启 tftp、nfs 服务；还有其他方法，比如 USB 等。</p>
+<h4 id="Bootloader-在linux中的分区"><a href="#Bootloader-在linux中的分区" class="headerlink" title="Bootloader 在linux中的分区"></a>Bootloader 在linux中的分区</h4><p>嵌入式 Linux 系统从软件的角度通常可以分为以下 4 个层次。</p>
+<p>（1）引导加载程序。</p>
+<p>包括固化在固件（firmware）中的 boot 代码（可选）和 Bootloader两大部分。有些 CPU 在运行 Bootloader 之前先运行一段固化的程序（固件，firmware），比如 x86结构的 CPU 就是先运行 BIOS 中的固件，然后才运行硬盘第一个分区（MBR）中的 Bootloader。在大多嵌入式系统中并没有固件，Bootloader 是上电后执行的第一程序。</p>
+<p>（2）Linux 内核。</p>
+<p>特定于嵌入式板子的定制内核以及内核的启动参数。内核的启动参数可以是内核默认的，或是由 Bootloader 传递给它的。</p>
+<p>（3）文件系统。</p>
+<p>包括根文件系统和建立于 Flash 内存设备之上的文件系统。里面包含了 Linux 系统能够运行所必需的应用程序、库等，比如可以给用户提供操作 Linux 的控制界面的 shell 程序、动态连接的程序运行时需要的 glibc 或 uClibc 库等。</p>
+<p>（4）用户应用程序。<br>特定于用户的应用程序，它们也存储在文件系统中。有时在用户应用程序和内核层之间 可能还会包括一个嵌入式图形用户界面。常用的嵌入式 GUI 有：Qtopia 和 MiniGUI 等。 </p>
+<p>嵌入系统的典型分区结构如下</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-28_23-39-14.png" alt="Snipaste_2018-12-28_23-39-14"></p>
+<p><strong>“Boot parameters（参数）”</strong>分区中存放一些可设置的参数，比如 IP 地址、串口波特率、要传递给内核的命令行参数等。</p>
+<p>正常启动过程中，Bootloader 首先运行，然后它将内核复制到内存中（也有些内核可以在固态存储设备上直接运行），并且在内存某个固定的地址设置好要传递给内核的参数，最后运行内核。内核启动之后，它会挂接（mount）根文件系统（“Root filesystem”），启动文件系统中的应用程序。</p>
+<h4 id="Bootload启动步骤"><a href="#Bootload启动步骤" class="headerlink" title="Bootload启动步骤"></a>Bootload启动步骤</h4><p>汇编阶段 </p>
+<ol>
+<li><p>设置为SVC模式，关闭中断,MMU,看门狗</p>
+</li>
+<li><p>基本硬件设备初始化（初始化时钟，串口，flash,内存等）</p>
+</li>
+<li><p>自搬移到内存</p>
+</li>
+<li><p>设置好栈 跳转到C语言阶段 </p>
+<p>C语言阶段</p>
+</li>
+<li><p>大部分硬件初始化</p>
+</li>
+<li><p>搬移内核到内存后，运行内核</p>
+</li>
+</ol>
+<h4 id="常用-Bootloader-介绍"><a href="#常用-Bootloader-介绍" class="headerlink" title="常用 Bootloader 介绍"></a>常用 Bootloader 介绍</h4><p><img src="D:\MyBlog\图片\Snipaste_2018-12-29_00-42-38.png" alt="Snipaste_2018-12-29_00-42-38"></p>
+<p>本次使用的 S3C2410 开发板使用的Bootloader为U-Boot 。<br>​    U-Boot 则支持大多 CPU，可以烧写 EXT2、JFFS2 文件系统映象，支持串口下载、网络下载，并提供了大量的命令。U-Boot的使用更复杂，但是可以用来更方便地调试程序</p>
+<h3 id="U-Boot-分析与移植"><a href="#U-Boot-分析与移植" class="headerlink" title="U-Boot 分析与移植"></a>U-Boot 分析与移植</h3><h4 id="U-Boot-简介"><a href="#U-Boot-简介" class="headerlink" title="U-Boot 简介"></a>U-Boot 简介</h4><p>U-Boot，全称为 Universal Boot Loader，即通用 Bootloader，是遵循 GPL 条款的开放源代码项目。</p>
+<p><strong>U-Boot 有如下特性</strong></p>
+<p>• 开放源码。</p>
+<p>• 支持多种嵌入式操作系统内核，如 Linux、NetBSD、VxWorks、QNX、RTEMS、ARTOS、LynxOS。</p>
+<p>• 支持多个处理器系列，如 PowerPC、ARM、x86、MIPS、XScale。</p>
+<p>• 较高的可靠性和稳定性。</p>
+<p>• 高度灵活的功能设置，适合 U-Boot 调试、操作系统不同引导要求、产品发布等。</p>
+<p>• 丰富的设备驱动源码，如串口、以太网、SDRAM、Flash、LCD、NVRAM、EEPROM、RTC、键盘等。</p>
+<p>• 较为丰富的开发调试文档与强大的网络技术支持。</p>
+<p>• 支持 NFS 挂载、RAMDISK（压缩或非压缩）形式的根文件系统。</p>
+<p>• 支持 NFS 挂载、从 Flash 中引导压缩或非压缩系统内核。</p>
+<p>• 可灵活设置、传递多个关键参数给操作系统，适合系统在不同开发阶段的调试要求与产品发布，尤对 Linux 支持最为强劲。</p>
+<p>• 支持目标板环境变量多种存储方式，如 Flash、NVRAM、EEPROM。</p>
+<p>• CRC32 校验，可校验 Flash 中内核、RAMDISK 镜像文件是否完好。</p>
+<p>• 上电自检功能：SDRAM、Flash 大小自动检测，SDRAM 故障检测，CPU 型号 。                            </p>
+<p>• 上电自特殊功能：XIP 内核引导 。</p>
+<h4 id="U-Boot源码结构"><a href="#U-Boot源码结构" class="headerlink" title="U-Boot源码结构"></a>U-Boot源码结构</h4><p>源码为U-Boot-1.1.6  版本。从 sourceforge 网站下载 U-Boot-1.1.6.tar.bz2后解压即得到全部源码。</p>
+<p>U-Boot-1.1.6 根目录下共有 26 个子目录，可以分为 4 类。</p>
+<p>（1）平台相关的或开发板相关的。<br>​    （2）通用的函数。<br>​    （3）通用的设备驱动程序。<br>​    （4）U-Boot 工具、示例程序、文档 。</p>
+<p>这 26 个子目录的功能与作用如表  </p>
+<p>详细参考：嵌入式Linux应用开发完全手册的15.2.2 U-Boot 源码结构部分</p>
+<h4 id="U-Boot-的配置、编译、连接"><a href="#U-Boot-的配置、编译、连接" class="headerlink" title="U-Boot 的配置、编译、连接"></a>U-Boot 的配置、编译、连接</h4><p>要想了解对于某款开发板，使用哪些文件、哪个文件首先执行、可执行文件占用内存的情况，最好的方法就是阅读它的 Makefile。</p>
+<p>如果要使用开发板 board/&lt;board_name&gt;，就先执行“make &lt;board_name&gt;_config”命令进行配置，然后执行“make all”，就可以生成如下 3个文件。</p>
+<p>• U-Boot.bin：二进制可执行文件，它就是可以直接烧入 ROM、NOR Flash 的文件。<br>​    • U-Boot：ELF 格式的可执行文件。<br>​    • U-Boot.srec：Motorola S-Record 格式的可执行文件。</p>
+<p>例如：S3C2410 的开发板，执行“make smdk2410_config”、“make all”后生成的 U-Boot.bin可以烧入 NOR Flash 中运行</p>
+<h5 id="U-Boot-的配置"><a href="#U-Boot-的配置" class="headerlink" title="U-Boot 的配置"></a>U-Boot 的配置</h5><p>(1). S3C2410 的开发板，执行“make smdk2410_config”</p>
+<p>在顶层 Makefile 中可以看到如下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SRCTREE := $(CURDIR) </span><br><span class="line">……</span><br><span class="line">MKCONFIG := $(SRCTREE)/mkconfig </span><br><span class="line">……</span><br><span class="line">smdk2410_config : unconfig </span><br><span class="line">	  @$(MKCONFIG) $(@:_config=) arm arm920t smdk2410 <span class="literal">NULL</span> s3c24x0</span><br></pre></td></tr></table></figure>
+<p>则其中的 MKCONFIG 就是根目录下的 mkconfig文件。$(@:_config=)的结果就是将“smdk2410_config”中的“_config”去掉，结果为“smdk2410”。</p>
+<p>所以“make smdk2410fi”实际上就是执行如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./mkconfig smdk2410 arm arm920t smdk2410 <span class="literal">NULL</span> s3c24x0</span><br></pre></td></tr></table></figure>
+<p>补充：在 mkconfig 文件开头第 6 行给出了它的用法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">06</span> # Parameters: Target Architecture CPU Board [VENDOR][SOC]</span><br></pre></td></tr></table></figure>
+<p>对于 S3C2410、S3C2440，它们被称为 SoC(System on Chip)，上面除 CPU 外，还集成了包括 UART、USB 控制器、NAND Flash 控制器等设备（称为片内外设）。S3C2410/S3C2440 中的 CPU 为 ARM920T。</p>
+<p><em>详细参考：嵌入式Linux应用开发完全手册的15.2.3 U-Boot 的配置、编译、连接过程部分。</em></p>
+<h5 id="U-Boot-的编译、连接"><a href="#U-Boot-的编译、连接" class="headerlink" title="U-Boot 的编译、连接"></a>U-Boot 的编译、连接</h5><p>配置完后，执行“make all”即可编译</p>
+<p><em>详细参考：嵌入式Linux应用开发完全手册的15.2.3 U-Boot 的配置、编译、连接过程部分。</em></p>
+<h5 id="U-Boot-的使用"><a href="#U-Boot-的使用" class="headerlink" title="U-Boot 的使用"></a>U-Boot 的使用</h5><p>U-Boot 则支持大多 CPU，可以烧写 EXT2、JFFS2 文件系统映象，支持串口下载、网络下载，并提供了大量的命令。U-Boot的使用更复杂，但是可以用来更方便地调试程序</p>
+<p>我们知道u-boot，可以运行可是命令，以及支持串口下载、网络下载等功能以方便开发中调式。但这篇文章中并不介绍u-boot 的用法。后续会补充详细 的u-boot常用命令以及开发中如何使用串口和网络下载功能。以及u-boot的实际使用操作。</p>
+<h2 id="移植linux内核"><a href="#移植linux内核" class="headerlink" title="移植linux内核"></a>移植linux内核</h2><p>这部分我们主要了解熟悉linux内核。知道如何给内核打补丁，配置内核及编译内核等内容。</p>
+<p>准备：</p>
+<p>内核源码：2.6.22.6.tar.bz2</p>
+<p>补丁文件：patch-2.6.22.bz2</p>
+<h3 id="内核源码结构分析及Makefile分析"><a href="#内核源码结构分析及Makefile分析" class="headerlink" title="内核源码结构分析及Makefile分析"></a>内核源码结构分析及Makefile分析</h3><h4 id="内核源码结构分析"><a href="#内核源码结构分析" class="headerlink" title="内核源码结构分析"></a>内核源码结构分析</h4><p>略</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/S3C244/" rel="tag"><i class="fa fa-tag"></i> S3C244</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog（重要保留）-2018-12-26-在Linux下写一个简单的驱动程序.html" rel="next" title="在Linux下写一个简单的驱动程序">
+                <i class="fa fa-chevron-left"></i> 在Linux下写一个简单的驱动程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/linux环境配置.html" rel="prev" title="linux环境配置">
+                linux环境配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jeff Wu">
+            
+              <p class="site-author-name" itemprop="name">Jeff Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/SetCalm" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/calm-16-25/activities" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#移植-U-Boot"><span class="nav-number">1.</span> <span class="nav-text">移植 U-Boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bootloader-简介"><span class="nav-number">1.1.</span> <span class="nav-text">Bootloader 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootload是什么"><span class="nav-number">1.1.1.</span> <span class="nav-text">Bootload是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootloader是如何启动"><span class="nav-number">1.1.2.</span> <span class="nav-text">Bootloader是如何启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootloader-在linux中的分区"><span class="nav-number">1.1.3.</span> <span class="nav-text">Bootloader 在linux中的分区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootload启动步骤"><span class="nav-number">1.1.4.</span> <span class="nav-text">Bootload启动步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用-Bootloader-介绍"><span class="nav-number">1.1.5.</span> <span class="nav-text">常用 Bootloader 介绍</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#U-Boot-分析与移植"><span class="nav-number">1.2.</span> <span class="nav-text">U-Boot 分析与移植</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#U-Boot-简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">U-Boot 简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#U-Boot源码结构"><span class="nav-number">1.2.2.</span> <span class="nav-text">U-Boot源码结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#U-Boot-的配置、编译、连接"><span class="nav-number">1.2.3.</span> <span class="nav-text">U-Boot 的配置、编译、连接</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#U-Boot-的配置"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">U-Boot 的配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#U-Boot-的编译、连接"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">U-Boot 的编译、连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#U-Boot-的使用"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">U-Boot 的使用</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移植linux内核"><span class="nav-number">2.</span> <span class="nav-text">移植linux内核</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内核源码结构分析及Makefile分析"><span class="nav-number">2.1.</span> <span class="nav-text">内核源码结构分析及Makefile分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内核源码结构分析"><span class="nav-number">2.1.1.</span> <span class="nav-text">内核源码结构分析</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright"> &copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeff Wu</span>
+
+  
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.5.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

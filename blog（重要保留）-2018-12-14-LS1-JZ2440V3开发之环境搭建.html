@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.5.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="准备知识嵌入式开发者中一般需要用的软件、工具如下：✓ 虚拟机 Workstation Player                                                                            ✓ Linux系统     Ubuntu 16.04 LTS✓ 远程登录/远程传输/串口三合一软件 MobaXterm✓ FTP 传输工具 FileZ">
+<meta name="keywords" content="S3C244">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LS1_JZ2440V3开发之环境搭建">
+<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-14-LS1-JZ2440V3开发之环境搭建.html">
+<meta property="og:site_name" content="Jeff">
+<meta property="og:description" content="准备知识嵌入式开发者中一般需要用的软件、工具如下：✓ 虚拟机 Workstation Player                                                                            ✓ Linux系统     Ubuntu 16.04 LTS✓ 远程登录/远程传输/串口三合一软件 MobaXterm✓ FTP 传输工具 FileZ">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_13-43-55.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_13-49-29.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-00-30.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-45-15.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-32-40.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-51-03.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-55-01.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-53-43.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-57-44.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_15-20-11.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-16_22-48-43.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_15-38-50.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_15-40-46.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-15_22-12-48.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-15_22-16-34.png">
+<meta property="og:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-14_20-17-22.png">
+<meta property="og:updated_time" content="2018-12-20T06:20:00.470Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LS1_JZ2440V3开发之环境搭建">
+<meta name="twitter:description" content="准备知识嵌入式开发者中一般需要用的软件、工具如下：✓ 虚拟机 Workstation Player                                                                            ✓ Linux系统     Ubuntu 16.04 LTS✓ 远程登录/远程传输/串口三合一软件 MobaXterm✓ FTP 传输工具 FileZ">
+<meta name="twitter:image" content="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_13-43-55.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Jeff" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-14-LS1-JZ2440V3开发之环境搭建.html">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>LS1_JZ2440V3开发之环境搭建 | Jeff</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+      <a href="https://github.com/SetCalm" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope="" itemtype="https://github.com/SetCalm">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jeff</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-student">
+    <a href="/student" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>学习</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-life">
+    <a href="/life" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>生活</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-musicbooksfilms">
+    <a href="/MusicBooksFilms" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>影音书</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-collect">
+    <a href="/collect" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>收藏</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-14-LS1-JZ2440V3开发之环境搭建.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LS1_JZ2440V3开发之环境搭建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-14 19:07:11" itemprop="dateCreated datePublished" datetime="2018-12-14T19:07:11+08:00">2018-12-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-20 14:20:00" itemprop="dateModified" datetime="2018-12-20T14:20:00+08:00">2018-12-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/S3C244入门/" itemprop="url" rel="index"><span itemprop="name">S3C244入门</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h2><p>嵌入式开发者中一般需要用的软件、工具如下：<br>✓ 虚拟机 Workstation Player                                                                            ✓ Linux系统     Ubuntu 16.04 LTS<br>✓ 远程登录/远程传输/串口三合一软件 MobaXterm<br>✓ FTP 传输工具 FileZilla<br>✓ TFTP 服务器软件 tftpd.exe</p>
+<a id="more"></a>
+<p>(1) 为什么要使用虚拟机?                                                                 </p>
+<p>后续开发都是在 Windows 下编辑代码,在 Linux 下编译代码。要么安装双系统，要么使用虚拟机。我们推荐后者。</p>
+<p>（其实更希望搭建NAS装个Ubuntu，然后在哪里都能开发，以免换电脑啥的得重新搭建环境（环境搭建很麻烦人）。年后会尝试搭建个NAS服务器，用于资料存储。）</p>
+<p>(2) 在 Windows 操作 Linux 有两种方式：</p>
+<p>一是切换到虚拟机 ubuntu，在虚拟机中操作ubuntu；另一种是远程登录 ubuntu，开发中更多使用后者。 在 Windows 上远程登录 ubuntu并执行各种命令时，使用 ssh 工具； 在 Windows 和 ubuntu 之间传输文件时，通常使用 FTP工具。</p>
+<p>(3) 要观察开发板打印的调试信息时，最方便的方法是使用串口。<br>以上远程登录、 FTP 传输、串口传输都可以使用一个软件实现——MobaXterm(目录在资料光盘-》 工具和驱动\串口和远程登录工具)</p>
+<p>(4) 虽然 MobaXterm 也有 FTP 功能， 但使用另一个 FTP 工具 FileZilla 在Windows 与 ubuntu 之间的传输文件更方便。 </p>
+<h3 id="安装虚拟机-Workstation-Player"><a href="#安装虚拟机-Workstation-Player" class="headerlink" title="安装虚拟机 Workstation Player"></a>安装虚拟机 Workstation Player</h3><p>略（已安装过，以后更新）</p>
+<h3 id="使用虚拟机安装-Ubuntu"><a href="#使用虚拟机安装-Ubuntu" class="headerlink" title="使用虚拟机安装 Ubuntu"></a>使用虚拟机安装 Ubuntu</h3><p>略（已安装过，以后更新）</p>
+<h3 id="Ubuntu配置"><a href="#Ubuntu配置" class="headerlink" title="Ubuntu配置"></a>Ubuntu配置</h3><h4 id="安装完整版本的-VIM"><a href="#安装完整版本的-VIM" class="headerlink" title="安装完整版本的 VIM"></a>安装完整版本的 VIM</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install vim</span><br></pre></td></tr></table></figure>
+<h4 id="VI的个性设置"><a href="#VI的个性设置" class="headerlink" title="VI的个性设置"></a>VI的个性设置</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令：vi`~/.vimrc</span><br></pre></td></tr></table></figure>
+<h4 id="安装-SSH"><a href="#安装-SSH" class="headerlink" title="安装 SSH"></a>安装 SSH</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ssh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SSH的英文全称是Secure SHell。通过使用SSH，你可以把所有传输的数据进行加密，这样”中间人”这种攻击方式就不可能实现了，而且也能够防止DNS和IP欺骗。</li>
+<li>SSH传输的数据是经过压缩的，所以可以加快传输的速度。</li>
+<li>SSH有很多功能，它既可以代替telnet，又可以为ftp、 pop、甚至ppp提供一个安全的”通道”。</li>
+<li>SSH客户端与服务器端通讯时，用户名及口令均进行了加密，有效防止了对口令的窃听。</li>
+</ul>
+<h4 id="启用-root密码"><a href="#启用-root密码" class="headerlink" title="启用 root密码"></a>启用 root密码</h4><p>启用 root 帐号 (也就是 设置一个口令) 使用:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd root</span><br></pre></td></tr></table></figure>
+<p>如何在终端机模式下切换到 root 身份?</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo -s -H</span><br><span class="line">Password: &lt;在这注明您的密码&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="更新ubuntu的源"><a href="#更新ubuntu的源" class="headerlink" title="更新ubuntu的源"></a>更新ubuntu的源</h4><p>参考网站：</p>
+<p>1.如何在/etc/apt/sources.list添加新内容：<a href="https://blog.csdn.net/qq_31811537/article/details/79310567" target="_blank" rel="noopener">https://blog.csdn.net/qq_31811537/article/details/79310567</a></p>
+<p>2.如何在/etc/apt/sources.list添加新内容：<a href="https://blog.csdn.net/xiayaobo/article/details/46970663" target="_blank" rel="noopener">https://blog.csdn.net/xiayaobo/article/details/46970663</a></p>
+<p>如果apt-get安装软件包的时候，速度很慢可以根据ubuntu的版本，百度里面查找更换为国内163的源</p>
+<p><strong>编辑(更新)源命令：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/apt/sources.<span class="built_in">list</span></span><br></pre></td></tr></table></figure>
+<p><strong>通知ubuntu启用新的更新源:</strong> </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<p><strong>更新软件</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<h4 id="ubuntu版本查询"><a href="#ubuntu版本查询" class="headerlink" title="ubuntu版本查询"></a>ubuntu版本查询</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo lsb_release -a</span><br></pre></td></tr></table></figure>
+<h4 id="查询ubuntu是32位还是64位版本"><a href="#查询ubuntu是32位还是64位版本" class="headerlink" title="查询ubuntu是32位还是64位版本"></a>查询ubuntu是32位还是64位版本</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo uname -m</span><br><span class="line"><span class="comment">// 如果显示i686,你安装了32位操作系统</span></span><br><span class="line"><span class="comment">//如果显示 x86_64，你安装了64位操作系统</span></span><br></pre></td></tr></table></figure>
+<h3 id="ubuntu设置静态ip"><a href="#ubuntu设置静态ip" class="headerlink" title="ubuntu设置静态ip"></a>ubuntu设置静态ip</h3><h4 id="windows设置静态ip"><a href="#windows设置静态ip" class="headerlink" title="windows设置静态ip"></a>windows设置静态ip</h4><p>win10怎么把电脑的IP地址设置成固定IP地址：<a href="https://jingyan.baidu.com/album/ac6a9a5e295f842b653eacfa.html?picindex=2" target="_blank" rel="noopener">https://jingyan.baidu.com/album/ac6a9a5e295f842b653eacfa.html?picindex=2</a></p>
+<h4 id="Ubuntu网络设置"><a href="#Ubuntu网络设置" class="headerlink" title="Ubuntu网络设置"></a>Ubuntu网络设置</h4><h5 id="VMware中网络的设置（设置为：桥接模式）"><a href="#VMware中网络的设置（设置为：桥接模式）" class="headerlink" title="VMware中网络的设置（设置为：桥接模式）"></a>VMware中网络的设置（设置为：桥接模式）</h5><p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_13-43-55.png" alt="Snipaste_2018-12-17_13-43-55"></p>
+<h5 id="查看ip网络信息"><a href="#查看ip网络信息" class="headerlink" title="查看ip网络信息"></a>查看ip网络信息</h5><p>用ifconfig命令</p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_13-49-29.png" alt="Snipaste_2018-12-17_13-49-29"></p>
+<h5 id="修改网络配置文件"><a href="#修改网络配置文件" class="headerlink" title="修改网络配置文件"></a>修改网络配置文件</h5><ul>
+<li>打开网络配置文件</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+<p>配置如下信息，然后保存退出</p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-00-30.png" alt="Snipaste_2018-12-17_14-00-30"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"><span class="keyword">auto</span> eth0</span><br><span class="line">iface eth0 inet <span class="keyword">static</span></span><br><span class="line">address <span class="number">192.168</span><span class="number">.31</span><span class="number">.99</span>  <span class="comment">// //设置本机IP地址</span></span><br><span class="line">gateway <span class="number">192.168</span><span class="number">.31</span><span class="number">.1</span>  <span class="comment">//网关</span></span><br><span class="line">netmask <span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span>    <span class="comment">//掩码</span></span><br></pre></td></tr></table></figure>
+<h5 id="重启网络服务"><a href="#重启网络服务" class="headerlink" title="重启网络服务"></a>重启网络服务</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/networking restart</span><br></pre></td></tr></table></figure>
+<h5 id="检查ip是否配置成功"><a href="#检查ip是否配置成功" class="headerlink" title="检查ip是否配置成功"></a>检查ip是否配置成功</h5><p>先用ifconfig检查一下ip</p>
+<p> 用ping命令检查本机与windows系统是否连通：ping 192.168.31.101（windows IP）</p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-45-15.png" alt="Snipaste_2018-12-17_14-45-15"></p>
+<h5 id="ping不通解决方法"><a href="#ping不通解决方法" class="headerlink" title="ping不通解决方法"></a>ping不通解决方法</h5><p>如果出现如下这种情况</p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-32-40.png" alt="Snipaste_2018-12-17_14-32-40"></p>
+<p>参考：Ubuntu虚拟机无法ping通windows，反之可以ping通解决方法：<a href="https://blog.csdn.net/qq_26822029/article/details/80428138" target="_blank" rel="noopener">https://blog.csdn.net/qq_26822029/article/details/80428138</a></p>
+<ul>
+<li>打开“网络和共享中心”</li>
+</ul>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-51-03.png" alt="Snipaste_2018-12-17_14-51-03"></p>
+<ul>
+<li>选择<strong>windiws防火墙</strong>选项</li>
+</ul>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-55-01.png" alt="Snipaste_2018-12-17_14-55-01"></p>
+<ul>
+<li>选择<strong>“高级设置”</strong></li>
+</ul>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-53-43.png" alt="Snipaste_2018-12-17_14-53-43"></p>
+<ul>
+<li>选择“入站规则”，找到名称为“文件和打印机共享（回显请求-ICMPv4-In）”（配置文件为“专用，公用的那个”）勾上。</li>
+</ul>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_14-57-44.png" alt="Snipaste_2018-12-17_14-57-44"></p>
+<h5 id="配置DNS-域名解析-服务器"><a href="#配置DNS-域名解析-服务器" class="headerlink" title="配置DNS(域名解析)服务器"></a>配置DNS(域名解析)服务器</h5><p>打开DNS服务器配置文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/resolvconf/resolv.conf.d/tail</span><br></pre></td></tr></table></figure>
+<p>写入以下信息   </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nameserver <span class="number">192.168</span><span class="number">.31</span> <span class="comment">//和windowsDNS相同</span></span><br></pre></td></tr></table></figure>
+<p>重启本地服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/resolvconf restart</span><br></pre></td></tr></table></figure>
+<h5 id="ping网址"><a href="#ping网址" class="headerlink" title="ping网址"></a>ping网址</h5><p>ping  <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_15-20-11.png" alt="Snipaste_2018-12-17_15-20-11"></p>
+<h3 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h3><h4 id="安装-MobaXterm-（SSH，FTP，Serial）"><a href="#安装-MobaXterm-（SSH，FTP，Serial）" class="headerlink" title="安装 MobaXterm （SSH，FTP，Serial）"></a>安装 MobaXterm （SSH，FTP，Serial）</h4><p>MobaXterm 在资料光盘\工具和驱动\串口和远程登录工具目录，解压文件MobaXterm_Portable_v10.4 即可 。</p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-16_22-48-43.png" alt="Snipaste_2018-12-16_22-48-43"></p>
+<h5 id="新建-SSH连接"><a href="#新建-SSH连接" class="headerlink" title="新建 SSH连接"></a>新建 SSH连接</h5><p>打开 MobaXterm， 点击左上角的 Session（会话控制），在弹出的窗口中选择 SSH，<br>如图 </p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_15-38-50.png" alt="Snipaste_2018-12-17_15-38-50"></p>
+<p>在新窗口中输入账号 和密码 ，回车登陆 ubuntu 。此时界面分为两块，左边的是主机的文件，右边是终端。 勾选左下角的“Follow terminal folder”可以让它们的工作路径保持一致 </p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-17_15-40-46.png" alt="Snipaste_2018-12-17_15-40-46"></p>
+<h5 id="新建FTP连接"><a href="#新建FTP连接" class="headerlink" title="新建FTP连接"></a>新建FTP连接</h5><p>失败(略)</p>
+<h5 id="新建串口连接"><a href="#新建串口连接" class="headerlink" title="新建串口连接"></a>新建串口连接</h5><p>点击session选择serial</p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-15_22-12-48.png" alt="Snipaste_2018-12-15_22-12-48"></p>
+<p>选择COM口（我的为COM12）及波特率和3框中的控制流为None（参考下图设置）</p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-15_22-16-34.png" alt="Snipaste_2018-12-15_22-16-34"></p>
+<p>点击OK,输入<strong>ls</strong>使用串口观察打印信息（打印信息为系统目录结构）</p>
+<p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-14_20-17-22.png" alt="Snipaste_2018-12-14_20-17-22"></p>
+<h4 id="FTP传输工具-FileZill"><a href="#FTP传输工具-FileZill" class="headerlink" title="FTP传输工具 FileZill"></a>FTP传输工具 FileZill</h4><p>略</p>
+<h4 id="TFTP服务器-tftp"><a href="#TFTP服务器-tftp" class="headerlink" title="TFTP服务器 tftp"></a>TFTP服务器 tftp</h4><p>用的软件是 tftpd.exe<br>     开发板与电脑之间用网线直接连接并使用 TFTP 下载 </p>
+<p>略</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/S3C244/" rel="tag"><i class="fa fa-tag"></i> S3C244</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog（重要保留）-2018-12-14-LS0-嵌入式学习路线.html" rel="next" title="LS0_嵌入式学习路线">
+                <i class="fa fa-chevron-left"></i> LS0_嵌入式学习路线
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog（重要保留）-2018-12-14-LS3-JZ2440V3开发之认识开发板及驱动安装.html" rel="prev" title="LS2_JZ2440V3开发之开发板硬件连接及驱动安装">
+                LS2_JZ2440V3开发之开发板硬件连接及驱动安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Jeff Wu">
+            
+              <p class="site-author-name" itemprop="name">Jeff Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/SetCalm" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.zhihu.com/people/calm-16-25/activities" target="_blank" title="知乎"><i class="fa fa-fw fa-globe"></i>知乎</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备知识"><span class="nav-number">1.</span> <span class="nav-text">准备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装虚拟机-Workstation-Player"><span class="nav-number">1.1.</span> <span class="nav-text">安装虚拟机 Workstation Player</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用虚拟机安装-Ubuntu"><span class="nav-number">1.2.</span> <span class="nav-text">使用虚拟机安装 Ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu配置"><span class="nav-number">1.3.</span> <span class="nav-text">Ubuntu配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装完整版本的-VIM"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装完整版本的 VIM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#VI的个性设置"><span class="nav-number">1.3.2.</span> <span class="nav-text">VI的个性设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-SSH"><span class="nav-number">1.3.3.</span> <span class="nav-text">安装 SSH</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用-root密码"><span class="nav-number">1.3.4.</span> <span class="nav-text">启用 root密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新ubuntu的源"><span class="nav-number">1.3.5.</span> <span class="nav-text">更新ubuntu的源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ubuntu版本查询"><span class="nav-number">1.3.6.</span> <span class="nav-text">ubuntu版本查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询ubuntu是32位还是64位版本"><span class="nav-number">1.3.7.</span> <span class="nav-text">查询ubuntu是32位还是64位版本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu设置静态ip"><span class="nav-number">1.4.</span> <span class="nav-text">ubuntu设置静态ip</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#windows设置静态ip"><span class="nav-number">1.4.1.</span> <span class="nav-text">windows设置静态ip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Ubuntu网络设置"><span class="nav-number">1.4.2.</span> <span class="nav-text">Ubuntu网络设置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#VMware中网络的设置（设置为：桥接模式）"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">VMware中网络的设置（设置为：桥接模式）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看ip网络信息"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">查看ip网络信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改网络配置文件"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">修改网络配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重启网络服务"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">重启网络服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#检查ip是否配置成功"><span class="nav-number">1.4.2.5.</span> <span class="nav-text">检查ip是否配置成功</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ping不通解决方法"><span class="nav-number">1.4.2.6.</span> <span class="nav-text">ping不通解决方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置DNS-域名解析-服务器"><span class="nav-number">1.4.2.7.</span> <span class="nav-text">配置DNS(域名解析)服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ping网址"><span class="nav-number">1.4.2.8.</span> <span class="nav-text">ping网址</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件安装"><span class="nav-number">1.5.</span> <span class="nav-text">软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-MobaXterm-（SSH，FTP，Serial）"><span class="nav-number">1.5.1.</span> <span class="nav-text">安装 MobaXterm （SSH，FTP，Serial）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#新建-SSH连接"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">新建 SSH连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#新建FTP连接"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">新建FTP连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#新建串口连接"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">新建串口连接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FTP传输工具-FileZill"><span class="nav-number">1.5.2.</span> <span class="nav-text">FTP传输工具 FileZill</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TFTP服务器-tftp"><span class="nav-number">1.5.3.</span> <span class="nav-text">TFTP服务器 tftp</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright"> &copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeff Wu</span>
+
+  
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.5.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
