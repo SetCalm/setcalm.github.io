@@ -340,6 +340,449 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-25-LS80-UBOOT.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog（重要保留）-2018-12-25-LS80-UBOOT.html" itemprop="url">
+                  LS80-UBOOT
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-25 01:50:08 / 修改时间：21:57:42" itemprop="dateCreated datePublished" datetime="2018-12-25T01:50:08+08:00">2018-12-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="linux如何启动"><a href="#linux如何启动" class="headerlink" title="linux如何启动"></a>linux如何启动</h2><p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_01-53-36.png" alt="Snipaste_2018-12-25_01-53-36"></p>
+<p>bootload的目的：启动内核</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_04-00-13.png" alt="Snipaste_2018-12-25_04-00-13"></p>
+<ol>
+<li>u-boot功能：</li>
+<li>关看门狗</li>
+<li>初始化时钟</li>
+<li>初始化SDRAM</li>
+<li>从Flash读出内核</li>
+<li>附加功能（开发功能：方便开发）<ul>
+<li>烧写Flash</li>
+<li>网卡</li>
+<li>USB 串口</li>
+</ul>
+</li>
+<li>启动内内核</li>
+</ol>
+<h2 id="u-boot体验"><a href="#u-boot体验" class="headerlink" title="u-boot体验"></a>u-boot体验</h2><p>uboot的四重奏</p>
+<ol>
+<li>解压缩</li>
+<li>打补丁</li>
+<li>配置</li>
+<li>编译</li>
+</ol>
+<h3 id="0-文件"><a href="#0-文件" class="headerlink" title="0.文件"></a>0.文件</h3><p>源文件：u-boot-1.1.6.tar.bz2</p>
+<p>补丁文件：u-boot-1.1.6_jz2440.patch</p>
+<h3 id="1-解压缩"><a href="#1-解压缩" class="headerlink" title="1.解压缩"></a>1.解压缩</h3><p>解压u-boot-1.1.6.tar.bz2</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>tar -xjf u-boot<span class="number">-1.1</span><span class="number">.6</span>.tar.bz2</span><br><span class="line"><span class="number">2.</span>cd u-boot<span class="number">-1.1</span><span class="number">.6</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-打补丁"><a href="#2-打补丁" class="headerlink" title="2.打补丁"></a>2.打补丁</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">patch -p1 &lt; ../u-boot-1.1.6_jz2440.patc</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>patch：打补丁命令</p>
+</li>
+<li><p>-p1:补丁打在哪里的位置：</p>
+<p>打开u-boot-1.1.6_jz2440.patc</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_02-27-00.png" alt="Snipaste_2018-12-25_02-27-00"></p>
+<p>红色为打补丁位置，因为在u-boot-1.1.6位置所以要忽略u-boot-1.1.6。此时使用-p1表示忽略一级忽略。</p>
+<p>例：-p2：忽略u-boot-1.1.6/board/</p>
+</li>
+<li><p>../u-boot-1.1.6_jz2440.patc为指示补丁文件所在目录。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot$ ls<span class="comment">//0.查看源文件，补丁文件</span></span><br><span class="line">u-boot<span class="number">-1.1</span><span class="number">.6</span>_jz2440.patch  u-boot<span class="number">-1.1</span><span class="number">.6</span>.tar.bz2</span><br><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot$ tar -xjf u-boot<span class="number">-1.1</span><span class="number">.6</span>.tar.bz2<span class="comment">//1.解压源文件</span></span><br><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot$ cd u-boot<span class="number">-1.1</span><span class="number">.6</span>/  <span class="comment">//cd 到解压后源文件</span></span><br><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot/u-boot<span class="number">-1.1</span><span class="number">.6</span>$ patch -p1 &lt; ../u-boot<span class="number">-1.1</span><span class="number">.6</span>_jz2440.patch  <span class="comment">//打补丁源文件</span></span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/<span class="number">100</span>ask24x0.c</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/boot_init.c</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/config.mk</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/flash.c</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/lowlevel_init.S</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/Makefile</span><br><span class="line">patching file board/<span class="number">100</span>ask24x0/u-boot.lds</span><br><span class="line">patching file board/MAI/bios_emulator/scitech/src/v86bios/lex.l</span><br><span class="line">patching file common/cmd_bootm.c</span><br><span class="line">patching file common/cmd_load.c</span><br><span class="line">patching file common/cmd_menu_bak.c</span><br><span class="line">patching file common/cmd_menu.c</span><br><span class="line">patching file common/cmd_nand.c</span><br><span class="line">patching file common/cmd_nand_legacy.c</span><br><span class="line">patching file common/cmd_suspend.c</span><br><span class="line">patching file common/cmd_usbslave.c</span><br><span class="line">patching file common/env_nand.c</span><br><span class="line">patching file common/main.c</span><br><span class="line">patching file common/Makefile</span><br><span class="line">patching file cpu/arm920t/cpu.c</span><br><span class="line">patching file cpu/arm920t/Makefile</span><br><span class="line">patching file cpu/arm920t/s3c24x0/interrupts.c</span><br><span class="line">patching file cpu/arm920t/s3c24x0/Makefile</span><br><span class="line">patching file cpu/arm920t/s3c24x0/nand_flash.c</span><br><span class="line">patching file cpu/arm920t/s3c24x0/nand_flash_legacy.c</span><br><span class="line">patching file cpu/arm920t/s3c24x0/speed.c</span><br><span class="line">patching file cpu/arm920t/start.S</span><br><span class="line">patching file cpu/arm920t/suspend.S</span><br><span class="line">patching file doc/README.SBC8560</span><br><span class="line">patching file drivers/cfi_flash.c</span><br><span class="line">patching file drivers/dm9000x.c</span><br><span class="line">patching file drivers/jedec_flash.c</span><br><span class="line">patching file drivers/Makefile</span><br><span class="line">patching file drivers/nand/nand_base.c</span><br><span class="line">patching file drivers/nand/nand_ids.c</span><br><span class="line">patching file drivers/nand/nand_util.c</span><br><span class="line">patching file drivers/nand_legacy/nand_legacy.c</span><br><span class="line">patching file drivers/usb/<span class="number">2440u</span>sb.h</span><br><span class="line">patching file drivers/usb/Makefile</span><br><span class="line">patching file drivers/usb/mrgtmp0</span><br><span class="line">patching file drivers/usb/usb.h</span><br><span class="line">patching file drivers/usb/usbin.c</span><br><span class="line">patching file drivers/usb/usbin.h</span><br><span class="line">patching file drivers/usb/usbinit.c</span><br><span class="line">patching file drivers/usb/usbinit.h</span><br><span class="line">patching file drivers/usb/usblib.c</span><br><span class="line">patching file drivers/usb/usblib.h</span><br><span class="line">patching file drivers/usb/usbmain.c</span><br><span class="line">patching file drivers/usb/usbmain.h</span><br><span class="line">patching file drivers/usb/usbout.c</span><br><span class="line">patching file drivers/usb/usbout.h</span><br><span class="line">patching file drivers/usb/usbsetup.c</span><br><span class="line">patching file drivers/usb/usbsetup.h</span><br><span class="line">patching file include/<span class="keyword">asm</span>-arm/mach-types.h</span><br><span class="line">patching file include/<span class="keyword">asm</span>-arm/types.h</span><br><span class="line">patching file include/<span class="keyword">asm</span>-arm/u-boot-arm.h</span><br><span class="line">patching file include/configs/<span class="number">100</span>ask24x0.h</span><br><span class="line">patching file include/configs/SBC8560.h</span><br><span class="line">patching file include/def.h</span><br><span class="line">patching file include/flash.h</span><br><span class="line">patching file include/nand.h</span><br><span class="line">patching file include/s3c2410.h</span><br><span class="line">patching file include/s3c24x0.h</span><br><span class="line">patching file include/usb.h</span><br><span class="line">patching file lib_arm/armlinux.c</span><br><span class="line">patching file lib_arm/board.c</span><br><span class="line">patching file Makefile</span><br><span class="line">patching file net/net.c</span><br><span class="line">jeff@ubuntu:~/<span class="number">1.</span>my_code/boot/u-boot<span class="number">-1.1</span><span class="number">.6</span>$</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a>3.配置</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make <span class="number">100</span>ask24x0_config</span><br></pre></td></tr></table></figure>
+<h3 id="4-编译"><a href="#4-编译" class="headerlink" title="4.编译"></a>4.编译</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>按上面执行即可获得u-boot.bin文件</p>
+<h3 id="设置u-boot环境变量"><a href="#设置u-boot环境变量" class="headerlink" title="设置u-boot环境变量"></a>设置u-boot环境变量</h3><p>如下图4步走：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">##### <span class="number">100</span>ask Bootloader <span class="keyword">for</span> OpenJTAG #####</span><br><span class="line">[n] Download u-boot to Nand Flash</span><br><span class="line">[o] Download u-boot to Nor Flash</span><br><span class="line">[c] Re-scan Nor Flash</span><br><span class="line">[u] Copy bootloader from nand to nor</span><br><span class="line">[v] Copy bootloader from nor to nand</span><br><span class="line">[k] Download Linux kernel uImage</span><br><span class="line">[j] Download root_jffs2 image</span><br><span class="line">[y] Download root_yaffs image</span><br><span class="line">[d] Download to SDRAM &amp; Run</span><br><span class="line">[z] Download zImage into RAM</span><br><span class="line">[g] Boot linux from RAM</span><br><span class="line">[f] Format the Nand Flash</span><br><span class="line">[s] Set the boot parameters</span><br><span class="line">[b] Boot the system</span><br><span class="line">[r] Reboot u-boot</span><br><span class="line">[q] Quit from menu</span><br><span class="line">Enter your selection: q <span class="comment">//1.退出</span></span><br><span class="line">OpenJTAG&gt; print  <span class="comment">//2.打印Uboot环境</span></span><br><span class="line">bootargs=noinitrd root=/dev/mtdblock3 init=/linuxrc console=ttySAC0,<span class="number">115200</span></span><br><span class="line">bootcmd=nand read.jffs2 <span class="number">0x30007FC0</span> kernel; bootm <span class="number">0x30007FC0</span></span><br><span class="line">baudrate=<span class="number">115200</span></span><br><span class="line">ethaddr=<span class="number">08</span>:<span class="number">00</span>:<span class="number">3</span>e:<span class="number">26</span>:<span class="number">0</span>a:<span class="number">5b</span></span><br><span class="line">ipaddr=<span class="number">192.168</span><span class="number">.1</span><span class="number">.17</span></span><br><span class="line">serverip=<span class="number">192.168</span><span class="number">.1</span><span class="number">.11</span></span><br><span class="line">netmask=<span class="number">255.255</span><span class="number">.255</span><span class="number">.0</span></span><br><span class="line">mtdids=nand0=nandflash0</span><br><span class="line">mtdparts=mtdparts=nandflash0:<span class="number">256</span>k@<span class="number">0</span>(bootloader),<span class="number">128</span>k(params),<span class="number">2</span>m(kernel),-(root)</span><br><span class="line">bootdelay=<span class="number">5</span></span><br><span class="line"><span class="built_in">stdin</span>=serial</span><br><span class="line"><span class="built_in">stdout</span>=serial</span><br><span class="line"><span class="built_in">stderr</span>=serial</span><br><span class="line">partition=nand0,<span class="number">0</span></span><br><span class="line">mtddevnum=<span class="number">0</span></span><br><span class="line">mtddevname=bootloader</span><br><span class="line"></span><br><span class="line">Environment size: <span class="number">450</span>/<span class="number">131068</span> bytes</span><br><span class="line">OpenJTAG&gt; <span class="built_in">set</span> bootdelay <span class="number">10</span> <span class="comment">//3.重新配置启动计数时间</span></span><br><span class="line">OpenJTAG&gt; save <span class="comment">//4，保存</span></span><br><span class="line">Saving Environment to NAND...</span><br><span class="line">Erasing Nand...Writing to Nand... done</span><br><span class="line">OpenJTAG&gt;</span><br><span class="line">penJTAG&gt; reset<span class="comment">//5.复位重启</span></span><br></pre></td></tr></table></figure>
+<h3 id="分析make-100ask24x0-config"><a href="#分析make-100ask24x0-config" class="headerlink" title="分析make 100ask24x0_config"></a>分析make 100ask24x0_config</h3><p>打开Makefile找到</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">100</span>ask24x0_config	:	unconfig</span><br><span class="line">	@$(MKCONFIG) $(@:_config=) arm arm920t <span class="number">100</span>ask24x0 <span class="literal">NULL</span> s3c24x0</span><br></pre></td></tr></table></figure>
+<p>执行：make 100ask24x0_config</p>
+<p>等于执行：@$(MKCONFIG) $(@:_config=) arm arm920t 100ask24x0 NULL s3c24x0脚本语句。</p>
+<p>分析：@$(MKCONFIG) $(@:_config=) arm arm920t 100ask24x0 NULL s3c24x0</p>
+<ol>
+<li><p>MKCONFIG    := $(SRCTREE)/mkconfig //源文件所在的目录下的mkconfig</p>
+</li>
+<li><p>$(@:_config=)  100ask24x0_config</p>
+<p>$(@   $:当前目标即100ask24x0_config</p>
+<p>:_config= 表示替换空</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_05-15-26.png" alt="Snipaste_2018-12-25_05-15-26"></p>
+</li>
+</ol>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-25_05-31-01.png" alt="Snipaste_2018-12-25_05-31-01"></p>
+<p>向mkconfig传递$1~$6参数</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-21-LS7-4-UART.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog（重要保留）-2018-12-21-LS7-4-UART.html" itemprop="url">
+                  2018-12-21-LS7-4-UART
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-21 21:11:40" itemprop="dateCreated datePublished" datetime="2018-12-21T21:11:40+08:00">2018-12-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-24 22:30:56" itemprop="dateModified" datetime="2018-12-24T22:30:56+08:00">2018-12-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/S3C244裸机开发/" itemprop="url" rel="index"><span itemprop="name">S3C244裸机开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><h3 id="usart功能："><a href="#usart功能：" class="headerlink" title="usart功能："></a>usart功能：</h3><p>打印调式信息</p>
+<p>外接各种模块：gps，蓝牙，WiFi….</p>
+<p>结构简单，可靠。</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_21-17-33.png" alt="Snipaste_2018-12-21_21-17-33"></p>
+<h3 id="简单协议"><a href="#简单协议" class="headerlink" title="简单协议"></a>简单协议</h3><p>波特率</p>
+<p>数据格式：数据位，停止位，校验位，流量控制。</p>
+<p>如何发送字节</p>
+<p>假如要发送一个字节’A’;</p>
+<p>‘A’ :0x41:0b01000001</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-22-10.png" alt="Snipaste_2018-12-21_22-22-10"></p>
+<p>①双方约定好每一位占据的时间（波特率）</p>
+<p>​    假设每一单位时间ts，（t=1/baud（s））</p>
+<p>②开始时txd为高电平，当开始发送数据时把数据线拉低，计时1t（s）为开始位。</p>
+<p>③写：ARM根据数据’A’驱动TXD的电平</p>
+<p>   读：通过在数据的中间时间段读取电平</p>
+<p>当8位数据发送完毕，再发送一个检验位（奇/偶检验），但随着技术提高现在几乎都为0，不校验。</p>
+<p>④一个字节（8bit）完成后发送一个停止位（高电平，一般设置占据1/1.5/2t（s）时间）。传送完成，此时txd高电平空闲状态，等待开始下个字节发送。</p>
+<h3 id="关于逻辑电平表示"><a href="#关于逻辑电平表示" class="headerlink" title="关于逻辑电平表示"></a>关于逻辑电平表示</h3><p>1.TTL/CMOS表示</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-26-58.png" alt="Snipaste_2018-12-21_22-26-58"></p>
+<p>0~0.7 (y) v表示逻辑“0”，x（2）~5v表示逻辑“1”</p>
+<p>2.RS232表示</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-28-24.png" alt="Snipaste_2018-12-21_22-28-24"></p>
+<p>+3~012v表示逻辑“0”，-3~-12v表示逻辑“1”</p>
+<p>总结：cmos/ttl电平范围（0~5v）小，传输距离近，RS-232电平范围（-12~+12v）大，可以距离远。一般远距离使用RS232。</p>
+<p>cmos/ttl和rs232电平波形相反。</p>
+<h3 id="常见串口接口"><a href="#常见串口接口" class="headerlink" title="常见串口接口"></a>常见串口接口</h3><h4 id="直接引出"><a href="#直接引出" class="headerlink" title="直接引出"></a>直接引出</h4><h4 id="RS232接口、RS485"><a href="#RS232接口、RS485" class="headerlink" title="RS232接口、RS485"></a>RS232接口、RS485</h4><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-44-39.png" alt="Snipaste_2018-12-21_22-44-39"></p>
+<h4 id="usb接口"><a href="#usb接口" class="headerlink" title="usb接口"></a>usb接口</h4><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-44-49.png" alt="Snipaste_2018-12-21_22-44-49"></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>参考：<a href="https://www.cnblogs.com/Ph-one/p/3994797.html" target="_blank" rel="noopener">USB/232/485/TTL/CMOS（串口通信）</a></p>
+<p>1.USB:电脑的USB口信号时USB信号，为差分信号，电压范围：+400mV~-400mV间变化；直流电压5V 驱动电流500MA</p>
+<p>2.232电平：　　逻辑1(MARK)=-3V～-15V　　逻辑0(SPACE)=+3～+15V</p>
+<p>3.485电平：　　它是<a href="http://www.baidu.com/s?wd=%E5%B7%AE%E5%88%86%E4%BF%A1%E5%8F%B7&amp;hl_tag=textlink&amp;tn=SE_hldp01350_v6v6zkg6" target="_blank" rel="noopener">差分信号</a>，两信号线 ＋2V～＋6V表示“0”，　　- 6V～- 2V表示“1”。</p>
+<p>4.TTL电平：　　一般输出高电平是3.5V，输出低电平是0.2V。</p>
+<p>5.CMOS  ：　　门闩值为0.3VCC和0.7VCC，比如对于5V供电器件，分别为1.5V和3.5V（大概）</p>
+<p>对于TTL器件和CMOS器件相连，如果是CMOS器件输出到TTL器件，这个也是可以直接连的，因为CMOS电平的范围是TTL输入电平范围的子集。但如果反过来就不行，因为TTL电平的输出范围要比CMOS电平的范围大，有可能出现不确定的电平状态,引起电路出现不可预知的混乱。</p>
+<h3 id="UART-结构框图"><a href="#UART-结构框图" class="headerlink" title="UART 结构框图"></a>UART 结构框图</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_23-01-04.png" alt="Snipaste_2018-12-21_23-01-04"></p>
+<p>程序是如何把内存的数据发送到串口？</p>
+<p>程序把内存的数据写入FITO(先进先出)存储器内，uart单元会把FIFI的数据写入移位器（Transmit Shifiter），然后移位器（Transmit Shifiter）按照设置好协议逐位发送给串口。</p>
+<p>当内存接收完毕，uart单元产生中断给CPU</p>
+<p>程序是如何接收串口的数据写到串口？</p>
+<p>uart单元会逐位接收串口的数据，然后把接收到的数据写入移位器（Receiver Shifiter）内，然后程序会把FITO(先进先出)存储器内的数据写入内存。</p>
+<p>当内存接收完毕，uart单元产生中断给CPU</p>
+<h2 id="软件编程"><a href="#软件编程" class="headerlink" title="软件编程"></a>软件编程</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><ol>
+<li>设置引脚用于串口</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 设置引脚用于串口 */</span></span><br><span class="line">	<span class="comment">/* GPH2,3用于TxD0, RxD0 */</span></span><br><span class="line">	GPHCON&amp;=~((<span class="number">3</span>&lt;&lt;<span class="number">4</span>)|(<span class="number">3</span>&lt;&lt;<span class="number">6</span>));</span><br><span class="line">	GPHCON&amp;=~((<span class="number">2</span>&lt;&lt;<span class="number">4</span>)|(<span class="number">2</span>&lt;&lt;<span class="number">6</span>));</span><br><span class="line">	<span class="comment">//上拉</span></span><br><span class="line">	GPHUP!=((<span class="number">1</span>&lt;&lt;<span class="number">2</span>)|(<span class="number">1</span>&lt;&lt;<span class="number">3</span>));</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>设置波特率</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_21-11-56.png" alt="Snipaste_2018-12-24_21-11-56"></p>
+</li>
+</ol>
+<p>​    </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 设置波特率 */</span></span><br><span class="line">	<span class="comment">/* UBRDIVn = (int)( UART clock / ( buad rate x 16) ) –1</span></span><br><span class="line"><span class="comment">	 *  UART clock = 50M</span></span><br><span class="line"><span class="comment">	 *  UBRDIVn = (int)( 50000000 / ( 115200 x 16) ) –1 = 26</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	 UCON0 = <span class="number">0x00000005</span>; <span class="comment">/* 设置使用PCLK时钟50MHZ,中断/查询模式 */</span></span><br><span class="line">	UBRDIV0 = <span class="number">26</span>;</span><br></pre></td></tr></table></figure>
+<p>​    3.设置数据格式 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 设置数据格式 */</span></span><br><span class="line"></span><br><span class="line">ULCON0 = <span class="number">0x00000003</span>; <span class="comment">/* 8n1: 8个数据位, 无较验位, 1个停止位 */</span></span><br></pre></td></tr></table></figure>
+<p>uart0_init</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 115200,8n1 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart0_init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">/* 设置引脚用于串口 */</span></span><br><span class="line">	<span class="comment">/* GPH2,3用于TxD0, RxD0 */</span></span><br><span class="line">	GPHCON &amp;= ~((<span class="number">3</span>&lt;&lt;<span class="number">4</span>) | (<span class="number">3</span>&lt;&lt;<span class="number">6</span>));</span><br><span class="line">	GPHCON |= ((<span class="number">2</span>&lt;&lt;<span class="number">4</span>) | (<span class="number">2</span>&lt;&lt;<span class="number">6</span>));</span><br><span class="line"></span><br><span class="line">	GPHUP &amp;= ~((<span class="number">1</span>&lt;&lt;<span class="number">2</span>) | (<span class="number">1</span>&lt;&lt;<span class="number">3</span>));  <span class="comment">/* 使能内部上拉 */</span></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 设置波特率 */</span></span><br><span class="line">	<span class="comment">/* UBRDIVn = (int)( UART clock / ( buad rate x 16) ) –1</span></span><br><span class="line"><span class="comment">	 *  UART clock = 50M</span></span><br><span class="line"><span class="comment">	 *  UBRDIVn = (int)( 50000000 / ( 115200 x 16) ) –1 = 26</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	UCON0 = <span class="number">0x00000005</span>; <span class="comment">/* PCLK,中断/查询模式 */</span></span><br><span class="line">	UBRDIV0 = <span class="number">26</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 设置数据格式 */</span></span><br><span class="line">	ULCON0 = <span class="number">0x00000003</span>; <span class="comment">/* 8n1: 8个数据位, 无较验位, 1个停止位 */</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/*  */</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数实现"><a href="#函数实现" class="headerlink" title="函数实现"></a>函数实现</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_21-46-03.png" alt="Snipaste_2018-12-24_21-46-03"></p>
+<p><strong>输入字节</strong></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_21-46-15.png" alt="Snipaste_2018-12-24_21-46-15"></p>
+<p>由上可知：判断是否有数据：当上面该位为0，UTXH0寄存器里面有数据，等待发送，为1时：数据发送出去，为空，此时写入数据</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* UTRSTAT0 */</span></span><br><span class="line">	<span class="comment">/* UTXH0 */</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (!(UTRSTAT0 &amp; (<span class="number">1</span>&lt;&lt;<span class="number">2</span>)));</span><br><span class="line">	UTXH0 = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)c;</span><br></pre></td></tr></table></figure>
+<p>注意在上c2440_soc.h中添加</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_22-11-30.png" alt="Snipaste_2018-12-24_22-11-30"></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_22-11-12.png" alt="Snipaste_2018-12-24_22-11-12"></p>
+<p>UTXH0地址为0向0000020（L）</p>
+<p>数据格式为byte</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span>     __REG_BYTE(x)				(*(volatile unsigned char *)(x)) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>     UTXH0                    __REG_BYTE(0x50000020)  <span class="comment">//UART 0 transmission hold</span></span></span><br></pre></td></tr></table></figure>
+<p><strong>输出字节：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getchar</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (!(UTRSTAT0 &amp; (<span class="number">1</span>&lt;&lt;<span class="number">0</span>)));</span><br><span class="line">	<span class="keyword">return</span> URXH0;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>输出字符串：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">puts</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">putchar</span>(*s);</span><br><span class="line">		s++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">putchar</span><span class="params">(<span class="keyword">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">/* UTRSTAT0 */</span></span><br><span class="line">	<span class="comment">/* UTXH0 */</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (!(UTRSTAT0 &amp; (<span class="number">1</span>&lt;&lt;<span class="number">2</span>)));</span><br><span class="line">	UTXH0 = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)c;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getchar</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (!(UTRSTAT0 &amp; (<span class="number">1</span>&lt;&lt;<span class="number">0</span>)));</span><br><span class="line">	<span class="keyword">return</span> URXH0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">puts</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (*s)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">putchar</span>(*s);</span><br><span class="line">		s++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-21-2018-12-21-LS7-4-ARM芯片时钟体系.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1720,376 +2163,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-14-LS0-嵌入式学习路线.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/blog（重要保留）-2018-12-14-LS0-嵌入式学习路线.html" itemprop="url">
-                  LS0_嵌入式学习路线
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-14 13:16:10" itemprop="dateCreated datePublished" datetime="2018-12-14T13:16:10+08:00">2018-12-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-20 14:19:43" itemprop="dateModified" datetime="2018-12-20T14:19:43+08:00">2018-12-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/S3C244入门/" itemprop="url" rel="index"><span itemprop="name">S3C244入门</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="程序员的三大方向"><a href="#程序员的三大方向" class="headerlink" title="程序员的三大方向"></a>程序员的三大方向</h2><ol>
-<li>专业领域</li>
-<li>业务领域</li>
-<li>操作系统领域 </li>
-</ol>
-<h3 id="专业领域"><a href="#专业领域" class="headerlink" title="专业领域"></a>专业领域</h3>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/blog（重要保留）-2018-12-14-LS0-嵌入式学习路线.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-08-M1-MT7688Duo程序设计环境配置-副本.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/blog（重要保留）-2018-12-08-M1-MT7688Duo程序设计环境配置-副本.html" itemprop="url">
-                  M1_MT7688程序设计环境配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-12 17:28:27" itemprop="dateCreated datePublished" datetime="2018-12-12T17:28:27+08:00">2018-12-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-20 14:18:27" itemprop="dateModified" datetime="2018-12-20T14:18:27+08:00">2018-12-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/MT7688入门/" itemprop="url" rel="index"><span itemprop="name">MT7688入门</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>注：由于使用的开发板为LinkIt Smart 7688 Duo，因此后续不会有LinkIt Smart 7688。或一笔带过。</p>
-<h3 id="程序设计环境向导"><a href="#程序设计环境向导" class="headerlink" title="程序设计环境向导"></a>程序设计环境向导</h3><p>这一章介绍：</p>
-<ul>
-<li>本平台使用的操作系统</li>
-<li>LinkIt Smart 7688开发平台提供的程序设计环境</li>
-<li>各种程序设计模型以及如何在开发板上使用</li>
-<li>用于与开发板进行Wi-Fi通信的网络环境</li>
-<li>使用C/C++、Python和Node.js创建应用程序的方法</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/blog（重要保留）-2018-12-08-M1-MT7688Duo程序设计环境配置-副本.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2134,7 +2212,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
