@@ -121,7 +121,7 @@
 <meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-02-28_16-34-56.png">
 <meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-02-28_16-49-15.png">
 <meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-02-28_19-16-14.png">
-<meta property="og:updated_time" content="2019-02-28T15:11:01.499Z">
+<meta property="og:updated_time" content="2019-02-28T15:20:34.095Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="unix下输入与输出(I&#x2F;0)">
 <meta name="twitter:description" content="序本章节主要讲解Linux下如何对文件操作，包括两部分： 文件I/O和标准I/O 他们有什么区别，该部分将使用一个专门都一下节去讲解。 第一节：文件I/O和标准I/O的比较来源说明 作者：zqixiao_09  原文地址：https://blog.csdn.net/zqixiao_09/article/details/50444465  什么是文件I/O和标准I/O文件I/O：文件I/O称之为不带">
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="创建时间：2019-02-28 11:31:17 / 修改时间：23:11:01" itemprop="dateCreated datePublished" datetime="2019-02-28T11:31:17+08:00">2019-02-28</time>
+              <time title="创建时间：2019-02-28 11:31:17 / 修改时间：23:20:34" itemprop="dateCreated datePublished" datetime="2019-02-28T11:31:17+08:00">2019-02-28</time>
             
 
             
@@ -506,8 +506,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//fseek函数原型</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fseek</span><span class="params">(FILE *stream, <span class="keyword">long</span> offset, <span class="keyword">int</span> whence)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>第一个参数：是文件指针</p>
 <p>第二个参数：是一个long类型的偏移量（offset），表示从起始点开始移动的距离。</p>
-<p>第三个参数：是用于指定起始点的模式，stdio.h指定了下列模式常量：</p>
-<p>SEEK_SET            文件开始处<br>​    SEEK_CUR            当前位置<br>​    SEEK_END            文件结尾处</p>
+<p>第三个参数：是用于指定起始点的模式，stdio.h指定了下列模式常量：SEEK_SET ：文件开始处， SEEK_CUR ：当前位置<br>，    SEEK_END： 文件结尾处</p>
 <p>看几个调用例子： </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fseek(fp,<span class="number">0L</span>,SEEK_SET); <span class="comment">//找到文件的开始处 </span></span><br><span class="line">fseek(fp,<span class="number">0L</span>,SEEK_END); <span class="comment">//定位到文件结尾处 </span></span><br><span class="line">fseek(fp,<span class="number">2L</span>,SEEK_CUR); <span class="comment">//文件当前位置向前移动2个字节数</span></span><br></pre></td></tr></table></figure>
 <p>而ftell函数用于返回文件的当前位置，返回类型是一个long类型，比如下面的调用：</p>
@@ -520,8 +519,8 @@
 <p>offset:也是偏移量</p>
 <p>whence:同样是指定起始点模式</p>
 <p>唯一的不同是lseek有返回值，如果成功就 返回指针变化前的位置，否则返回-1。whence的取值与fseek相同：SEEK_SET,SEEK_CUR,SEEK_END，但也可以用整数 0,1,2相应代替。</p>
-<h3 id="系统调用与库函数"><a href="#系统调用与库函数" class="headerlink" title="系统调用与库函数"></a>系统调用与库函数</h3><pre><code>上面我们一直在讨论文件I/O与标准I/O的区别，其实可以这样说，文件I/O是系统调用、标准I/O是库函数，看下面这张图：
-</code></pre><p><img src="D:\MyBlog\图片\Snipaste_2019-02-28_12-42-29.png" alt="Snipaste_2019-02-28_12-42-29"></p>
+<h3 id="系统调用与库函数"><a href="#系统调用与库函数" class="headerlink" title="系统调用与库函数"></a>系统调用与库函数</h3><p>上面我们一直在讨论文件I/O与标准I/O的区别，其实可以这样说，文件I/O是系统调用、标准I/O是库函数，看下面这张图：</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-02-28_12-42-29.png" alt="Snipaste_2019-02-28_12-42-29"></p>
 <h4 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h4><p>操作系统负责管理和分配所有的计算机资源。为了更好地服务于应用程序，操作系统提供了一组特殊接口——系统调用。通过这组接口用户程序可以使用操作系统内核提供的各种功能。例如分配内存、创建进程、实现进程之间的通信等。</p>
 <p>   为什么不允许程序直接访问计算机资源？答案是不安全。单片机开发中，由于不需要操作系统，所以开发人员可以编写代码直接访问硬件。而在32位嵌入式系统中通常都要运行操作系统，所以开发人员可以编写代码直接访问硬件。而在32位嵌入式系统中通常都要运行操作系统，程序访问资源的方式都发生了改变。操作系统基本上都支持多任务，即同时可以运行多个程序。如果允许程序直接访问系统资源，肯定会带来很多问题。因此，所有软硬件资源的管理和分配都有操作系统负责。程序要获取资源（如分配内存，读写串口）必须由操作系统来完成，即用户程序向操作系统发出服务请求，操作系统收到请求后执行相关的代码来处理。</p>
 <p>   用户程序向操作系统提出请求的接口就是系统调用。所有的操作系统都会提供系统调用接口，只不过不同的操作系统提供的系统调用接口各不相同。Linux 系统调用接口非常精简，它继承了Unix 系统调用中最基本的和最有用的部分。这些系统调用按照功能大致可分为进程控制、进程间通信、文件系统控制、存储管理、网络管理、套接字控制、用户管理等几类。</p>
