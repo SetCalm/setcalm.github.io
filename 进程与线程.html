@@ -108,15 +108,29 @@
 
 
 
-  <meta name="keywords" content="暂时无">
+  <meta name="description" content="Linux 多任务 编程 本章 主要 内容：  Linux 下 多任务 机制 的 介绍； 任务、 进程、 线程 的 特点 以及 它们 之间 的 关系； ● 多 进程 编程； ● 守护 进程。 第一章：Linux 多任务 编程 本章 主要 内容：  简单的介绍一下什么叫多任务系统？任务、进程、线程分别是什么？它们之间的区别是什么？，从而可以宏观的了解一下这三者。 Linux下多任务简介什么叫多任务系">
+<meta name="keywords" content="暂时无">
 <meta property="og:type" content="article">
 <meta property="og:title" content="进程与线程">
 <meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/进程与线程.html">
 <meta property="og:site_name" content="Jeff">
+<meta property="og:description" content="Linux 多任务 编程 本章 主要 内容：  Linux 下 多任务 机制 的 介绍； 任务、 进程、 线程 的 特点 以及 它们 之间 的 关系； ● 多 进程 编程； ● 守护 进程。 第一章：Linux 多任务 编程 本章 主要 内容：  简单的介绍一下什么叫多任务系统？任务、进程、线程分别是什么？它们之间的区别是什么？，从而可以宏观的了解一下这三者。 Linux下多任务简介什么叫多任务系">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-01T11:08:20.990Z">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-01_19-41-09.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-01_20-03-41.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-01_20-33-26.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-01_20-37-47.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-01_23-43-25.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-02_00-28-17.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-02_00-53-30.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-02_00-56-22.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-02_00-59-51.png">
+<meta property="og:image" content="d:/MyBlog/图片/Snipaste_2019-03-02_01-00-39.png">
+<meta property="og:updated_time" content="2019-03-01T17:57:28.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="进程与线程">
+<meta name="twitter:description" content="Linux 多任务 编程 本章 主要 内容：  Linux 下 多任务 机制 的 介绍； 任务、 进程、 线程 的 特点 以及 它们 之间 的 关系； ● 多 进程 编程； ● 守护 进程。 第一章：Linux 多任务 编程 本章 主要 内容：  简单的介绍一下什么叫多任务系统？任务、进程、线程分别是什么？它们之间的区别是什么？，从而可以宏观的了解一下这三者。 Linux下多任务简介什么叫多任务系">
+<meta name="twitter:image" content="d:/MyBlog/图片/Snipaste_2019-03-01_19-41-09.png">
 
 
 
@@ -386,6 +400,22 @@
             
 
             
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-02 01:57:28" itemprop="dateModified" datetime="2019-03-02T01:57:28+08:00">2019-03-02</time>
+              
+            
           </span>
 
           
@@ -416,7 +446,145 @@
       
 
       
-        
+        <p>Linux 多任务 编程</p>
+<p>本章 主要 内容： </p>
+<p>Linux 下 多任务 机制 的 介绍； 任务、 进程、 线程 的 特点 以及 它们 之间 的 关系； ● 多 进程 编程； ● 守护 进程。</p>
+<h1 id="第一章：Linux-多任务-编程"><a href="#第一章：Linux-多任务-编程" class="headerlink" title="第一章：Linux 多任务 编程"></a>第一章：Linux 多任务 编程</h1><p> 本章 主要 内容： </p>
+<p>简单的介绍一下什么叫多任务系统？任务、进程、线程分别是什么？它们之间的区别是什么？，从而可以宏观的了解一下这三者。</p>
+<h2 id="Linux下多任务简介"><a href="#Linux下多任务简介" class="headerlink" title="Linux下多任务简介"></a>Linux下多任务简介</h2><p><strong>什么叫多任务系统？</strong></p>
+<p>多任务是指用户可以同一时间内运行多个应用程序，每个应用程序被称作一个任务。</p>
+<p>多任务 操作系统 使用 某种 调度 策略 支持 多个 任务 并发 执行。由于 任务 会 频繁 地 切换 执行， 因此 给用户 多个 任务 同时 运行 的 感觉。</p>
+<p><strong>任务定义:</strong></p>
+<p>任务是一个逻辑概念,指由一个软件完成的任务，或者是一系列共同达到某一目的的操作。</p>
+<p><strong>进程定义:</strong></p>
+<p>进程是指一个具有独立功能的程序在某个数据集上的一次动态执行过程，它是系统进行资源分配和调度的最小单元。</p>
+<p><strong>线程定义:</strong></p>
+<p>线程是进程内独立的一条运行路线，是处理器调度的最小单元，也可以成为轻量级进程。</p>
+<h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>任务是一个逻辑概念,指由一个软件完成的任务，或者是一系列共同达到某一目的的操作。通常一个任务是一个程序的一次执行，一个任务包含一个或多个完成独立功能的子任务，这个独立的子任务就是进程或线程。例如，一个杀毒软件的一次运行是一个任务，目的是从各种病毒的侵害中保护计算机系统，这个任务包含多个独立功能的子任务(进程或线程)，包括实时监控功能、定时查杀功能、防火墙功能及用户交互功能等。任务、进程和线程之间的关系如图3.1所示</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-01_19-41-09.png" alt="Snipaste_2019-03-01_19-41-09"></p>
+<p>总结： ①一个操作系统可以执行多个任务（多个应用程序），一个任务指一个程序的一次执行。</p>
+<p>​        ②一个任务包含一个或多个完成独立功能的子任务</p>
+<p>​        ③子任务就是进程（一个）或线程（一个或多个）</p>
+<p>一个任务为一个程序,一个程序由多个进程，每个进程又会有多个线程。而操作系统能运行多个程序（任务）。</p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p><strong>进程的基本概念</strong></p>
+<p>进程是指一个具有独立功能的程序在某个数据集上的一次动态执行过程，它是系统进行资源分配和调度的基本单元。一次任务的运行可以并发激活多个进程，这些进程相互合作来完成该任务的一个最终目标。</p>
+<p>进程具有并发性、动态性、交互性、独立性和异步性等主要特性。</p>
+<p>进程和程序是有本质区别的：①程序是静态的一段代码，是一些保存在非易失性存储器的指令的有序集合，没有任何执行的概念；②而进程是一个动态的概念，它是程序执行的过程，包括动态创建、调度和消亡的整个过程，它是程序执行和资源管理的最小单位。</p>
+<p><strong>Linux下的进程结构</strong></p>
+<p>进程不但包括程序的指令和数据，而且包括程序计数器和处理器的所有寄存器及存储临时数据的进程堆栈，因此，正在执行的进程包括处理器当前的一切活动。</p>
+<p>因为linux是一个多任务多进程的操作系统，所以其他的进程必须等到系统将处理器使用权分配给自己之后才能运行。当正在运行的进程等待其他的系统资源时，linux内核将取得处理器的控制权，并将处理器分配给其他正在等待的进程，他按照内核中的调度算法决定将处理器分配给哪一个进程，也就是说，内核不会让处理器闲着。</p>
+<p>内核将所有进程存放在双向循环链表（进程链表）中，其中链表的头是 init_task 描述符。链表的每一项都是类型为 task_struct，称为进程描述符的结构，该结构包含了一个进程相关的所有信息，定义&lt;include/linux/sched.h&gt;文件中。task_struct内核结构比较大，它能完整的描述一个进程，如进程的状态、进程的基本信息、进程标识符、内存相关信息、父进程相关信息、与进程相关的终端信息、当前工作目录、打开的文件信息、所接收的信号信息等。</p>
+<p>下面详细讲解task_struct结构中最为重要的两个域：state（进程状态）和pid（进程标识符）</p>
+<p>（1）进程状态</p>
+<p>Linux中的进程有以下几种状态。</p>
+<p>● 运行状态（TASK_RUNNING）:进程当前正在运行，或者正在运行队列中等待调度。</p>
+<p>● 可中断的阻塞状态（TASK_INTERRUPTIBLE）：进程处于阻塞(睡眠)状态，正在等待某些事件发生或能够占用某些资源。处在这种状态下的进程可以被信号中断。接收到信号或被显式的唤醒呼叫（如调用 wake_up 系列宏:wake_up、wake_up_interruptible等）唤醒之后，进程将转变为 TASK_RUNNING 状态。</p>
+<p>● 不可中断的阻塞状态（TASK_UNINTERRUPTIBLE）:此进程状态类似于可中断的阻塞状态（TASK_INTERRUPTIBLE），只是它不会处理信号，把信号传递到这种状态下的进程不能改变它的状态。在一些特定的情况下（进程必须等待，直到某些不能被中断的事件发生），这种状态是很有用的。只有在它所等待的事件发生时，进程才被显示的唤醒呼叫唤醒。</p>
+<p>● 可终止的阻塞状态（TASK_KILLABLE）:该状态的运行机制类似于TASK_UNINTERRUPTIBLE，只不过处在该状态下的进程可以响应致命信号。它可以替代有效但可能无法终止的不可中断的阻塞状态（TASK_UNINTERRUPTIBLE）,以及易于唤醒但安全性欠佳的可中断的阻塞状态TASK_INTERRUPTIBLE）。</p>
+<p>● 暂停状态（TASK_STOPPED）:进程的执行被暂停，当进程收到 SIGSTOP、SIGSTP、SIGTTIN、SIGTTOU等信号时，就会进入暂停状态。</p>
+<p>● 跟踪状态（TASK_TRACED）:进程的执行被调试器暂停。当一个进程被另一个监控时（如调试器使用ptrace()系统调用监控测试程序），任何信号都可以把这个进程置于跟踪状态。</p>
+<p>● 僵尸状态（EXIT_ZOMBIE）:进程运行结束，父进程尚未使用 wait 函数族(如调用 waitpid()函数)等系统调用来“收尸”，即等待父进程销毁它。处在该状态下的进程“尸体”已经放弃了几乎所有的内存空间，没有任何可执行代码，也不能被调度，仅仅在进程列表中保留一个位置，记载该进程的推出状态等信息供其他进程收集。</p>
+<p>● 僵尸撤销状态（EXIT_DEAD）:这是最终状态，父进程调用 wait 函数族“收尸”后，进程彻底由系统删除。</p>
+<p>它们之间的转换关系如图2所示：<img src="D:\MyBlog\图片\Snipaste_2019-03-01_20-03-41.png" alt="Snipaste_2019-03-01_20-03-41"></p>
+<p>进程可以使用 set_task_state 和 set_current_state 宏来改变指定进程的状态信息和当前进程的状态</p>
+<p>（2）进程标识符</p>
+<p>Linux内核通过唯一的进程标识符 PID 来标识每个进程(就和文件描述符一样)。PID存放在进程描述符的 pid 字段中，新创建的 PID 通常是前一个进程的 PID 加1，不过PID的值有上限（最大值=PID_MAX_DEFAULT-1，通常为32767），可以查看/proc/sys/kernel/pid_max 来确定该系统的进程数上限。</p>
+<p>当系统启动后，内核通常作为某一个进程的代表。一个指向task_struct的宏current用来记录正在运行的进程。current经常作为进程描述符结构指针的形式出现在内核代码中，例如，current-&gt;pid 表示处理器正在执行的进程的PID。当系统需要查看所有的进程时，则调用for_each_process()宏，这将比系统搜索数组的速度要快的多。</p>
+<p>在Linux中获得当前进程号的（PID）和父进程号（PPID）的系统调用函数分别为 getpid() 和 getppid()。</p>
+<p><strong>进程的创建、执行、终止</strong></p>
+<p>（1）进程的创建和执行</p>
+<p>Linux 中进程的创建很特别，它把上述的步骤分解到两个单独的函数中去执行：fork()函数和exec函数族。</p>
+<ul>
+<li>首先，fork()函数通过复制当前进程创建一个子进程(注意此时资源还没有被复制过来，去了解一下写时复制页技术吧)，子进程于父进程的区别仅仅在于不同的PID、PPID和某些资源及统计量。</li>
+<li>exec函数族负责读取可执行文件并将其载入地址空间开始运行。</li>
+</ul>
+<p>（2）进程的终止</p>
+<p>进程终结也需要很多繁琐的工作，系统必须保证回收进程所占用的资源，并通知父进程。</p>
+<ul>
+<li>Linux首先把终止的进程设置为僵尸状态，这时，进程无法投入运行，它的存在只为父进程提供信息，申请死亡。</li>
+<li>父进程得到信息后，开始调用 wait 函数族，最后终止子进程，子进程占用的所有资源被全部释放。</li>
+</ul>
+<p><strong>进程的内存结构</strong></p>
+<p>Linux操作系统采用虚拟内存管理技术，使得每个进程都有各自互不干涉的进程地址空间。该地址空间是大小为 4GB的线性虚拟空间，用户所看到和接触到的都是该虚拟地址，无法看到实际的物理内存地址。利用这种虚拟地址不但能起到保护操作系统</p>
+<p>效果（用户不能直接访问物理地址），而且，更重要的是，用户程序可以使用比实际物理内存更大的地址空间。</p>
+<p>4GB的进程地址空间会被分成两个部分：用户空间与内核空间。用户地址空间是从0到3GB(0xC000 0000),内核地址空间占据从3GB到4GB。</p>
+<ul>
+<li><p>用户进程通常情况下只能访问用户空间的虚拟地址，不能访问内核空间的虚拟地址。只有用户进程使用系统调用（代表用户进程在内核态执行）时可以访问到内核空间。每当进程切换时，用户空间就跟着变化;而内核空间由内核负责映射，它不会跟着进程改变，是固定的。</p>
+</li>
+<li><p>内核空间地址有自己对应的页表，用户进程各自有不同的页表。每个进程的用户空间都是完全独立、互不相干的。</p>
+</li>
+</ul>
+<p>  <strong>进程的虚拟内存空间如图3所示，其中用户空间包括以下几个功能区域：</strong></p>
+<ul>
+<li><p>只读段: 包含程序代码(.init和.text)和只读数据(.rodata)。</p>
+</li>
+<li><p>数据段: 存放的是全局变量和静态变量。其中可读可写数据段(.data)存放已初始化的全局变量和静态变量，BSS数据段(.bss)存放未初始化的全局变量和静态变量。</p>
+</li>
+<li><p>堆: 由系统自动分配释放，存放函数的参数值、局部变量的值、返回地址等。</p>
+</li>
+<li><p>堆栈: 存放动态分配的数据，一般由程序员动态分配和释放。若程序员不释放，程序结束时可能由操作系统回收。</p>
+</li>
+<li><p>共享库的内存映射区域: 这是Linux动态链接器和其他共享代码库代码的映射区域。</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-01_20-33-26.png" alt="Snipaste_2019-03-01_20-33-26"></p>
+</li>
+</ul>
+<p>由于在Linux系统中每一个进程都会有/proc文件系统下与之对应的一个目录（如将init进程的相关信息在/proc/1 目录下的文件中描述），因此通过 proc 文件系统可以查看某个进程的地址空间的映射情况。例如，运行一个应用程序,如果它的进程号为13703,则输入“ cat /proc/13703/maps”命令，可以查看该进程的内存映射情况。</p>
+<h2 id="进程控制符"><a href="#进程控制符" class="headerlink" title="进程控制符"></a>进程控制符</h2><p>进程控制符（PID），英文全称为Process Identifier。也常被称为进程标识符。顾名思义，它是各进程的身份标识,程序一运行系统就会自动分配给进程一个非 负 整型 表示 的 唯一 进程 ID 。 因为进程 ID标识符总是唯一的， 常将其用作其他标识符的一部分以保证其唯一性。 例如， 应用程序有时就把进程ID作为名字的一部分来创建一个唯一的文件名。</p>
+<p>PID代表了各进程的进程ID,也就是说,PID就是各进程的身份标识。只要运行一程序，系统会自动分配一个标识，不过PID只是暂时唯一的，在进程中止后，这个号码就会被回收，并可能被分配给另一个新进程。</p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>前面已经讲到，进程是系统中程序执行和资源分配的基本单位。每个进程都拥有自己的数据段、代码段和堆栈段，这就造成了进程在进行切换等动作时需要较复杂的上下文切换等动作。为了进一步减少处理机的空闲时间，支持多处理器及减少上下文切换开销，进程在演化中出现了另一个概念—线程。</p>
+<ul>
+<li>线程是进程内独立的一条运行路线，是处理器调度的最小单元，也可以称为轻量级线程。</li>
+<li>线程可以对进程的内存空间和资源分配进行访问，并与同一进程中的其他线程共享。因此，线程的上下文切换的开销比创建进程小得多。</li>
+</ul>
+<p>一个进程可以拥有多个线程，每个线程必须有一个父进程。线程不拥有系统资源，它只具有运行时所必须的一些数据结构，如堆栈/寄存器与线程控制块(TCB)，线程与其父进程的其他进程共享该进程所拥有的全部资源。要注意的是，由于线程共享了进程的资源和地址空间，因此，任何线程对系统资源的操作都会给其他进程带来影响。由此可知，多线程中的同步是一个非常重要的问题。在多线程系统中，进程与线程的关系如图</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-01_20-37-47.png" alt="Snipaste_2019-03-01_20-37-47"></p>
+<h1 id="第二章：进程编程"><a href="#第二章：进程编程" class="headerlink" title="第二章：进程编程"></a>第二章：进程编程</h1><h2 id="函数fork（创建）"><a href="#函数fork（创建）" class="headerlink" title="函数fork（创建）"></a>函数fork（创建）</h2><p>一个现有的进程可以调用fork函数创建一个新进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt; unistd. h&gt;</span></span></span><br><span class="line"><span class="function">pid_ t <span class="title">fork</span><span class="params">( <span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>返回 值： 子 进程 返回 0， 父 进程 返回 的是子进程的PID； 若 出错， 返回 − 1</p>
+<p>由 fork 创建 的 新 进程 被称为 子 进程（ child process）。 fork 函数 被 调用 一次， 但 返回 两次。 两次 返回 的 区 别是 子 进程 的 返回 值 是 0， 而 父 进程 的 返回 值 则是 新建 子 进程 的 进程 ID。</p>
+<p>将 子 进程 ID 返回 给 父 进程 的 理由 是： 因为 一个 进程 的 子 进程 可以 有 多个， 并且 没有 一个 函数 使 一个 进程 可以 获得 其 所有 子 进程 的 进程 ID。 fork 使 子 进程 得到 返回 值 0 的 理由 是： 一个 进程 只会 有一个 父 进程， 所以 子 进程 总是 可以 调用 getppid 以 获得 其父 进程 的 进程 ID（ 进程 ID 0 总是 由 内核 交换 进程 使用， 所以 一个 子 进程 的 进程 ID 不可 能为 0）。(这句话好拗口)</p>
+<p>子 进程 和 父 进程 继续 执行 fork 调用 之后 的 指令。 子 进程 是 父 进程 的 副本。 例如， 子 进程 获得 父 进程 数据 空间、 堆 和 栈 的 副本。 注意， 这是 子 进程 所 拥有 的 副本。 父 进程 和 子 进程 并不 共享 这些 存储 空间 部分。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">6</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"pid=%d\n"</span>,getpid());</span><br><span class="line">	<span class="keyword">pid_t</span> ret;</span><br><span class="line">	ret=fork();</span><br><span class="line">	<span class="keyword">if</span>(ret==<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(<span class="string">"fork error"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(ret==<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">	i++;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"child i=%d,ret=%d,pid=%d\n"</span>,i,ret,getpid());</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		i++;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"parent i=%d,ret=%d,pid=%d\n"</span>,i,ret,getpid());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-01_23-43-25.png" alt="Snipaste_2019-03-01_23-43-25"></p>
+<p>分析：子进程的返回值为ret=0，父进程的返回值ret为子进程的pid。且子进程和父进程都为7,因此可见父，子进程不资源共享，子进程只是简单的对父进程复制。子 进程 获得 父 进程 数据 空间、 堆 和 栈 的 副本。</p>
+<h2 id="函数-vfork（创建）"><a href="#函数-vfork（创建）" class="headerlink" title="函数 vfork（创建）"></a>函数 vfork（创建）</h2><p>函数 的 调用 序列 和 返回 值 与 fork 相同， 但 两者 的 语义 不同。</p>
+<p> vfork 函数 用于 创建 一个 新 进程， 而 该 新 进程 的 目的 是 exec 一个 新 程序（。 vfork 与 fork 一样 都 创建 一个 子 进程， 但是 它 并不 将 父 进程 的 地址 空间 完全 复制 到 子 进程 中， 因为 子 进程 会 立即 调用 exec（ 或 exit）， 于是 也就 不会 引用 该地 址 空间。 不过 在 子 进程 调用 exec 或 exit 之前， 它在 父 进程 的 空间 中 运行。 这种 优化 工作 方式 在 某些 UNIX 系统 的 实现 中 提高 了 效率， 但如 果子 进程 修改 数据（ 除了 用于 存放 vfork 返回 值 的 变量）、 进行 函数 调用、 或者 没有 调用 exec 或 exit 就 返回 都 可能 会 带来 未知 的 结果。</p>
+<p>vfork 和 fork 之间 的 另一个 区别 是： vfork 保证 子 进程 先 运行， 在 它 调用 exec 或 exit 之后 父 进程 才可 能被 调度 运行， 当子 进程 调用 这 两个 函数 中的 任意 一个 时， 父 进程 会 恢复 运行。（ 如果 在 调用 这 两个 函数 之前 子 进程 依赖于 父 进程 的 进一步 动作， 则 会 导致 死锁。）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;	<span class="keyword">int</span> i=<span class="number">6</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"pid=%d\n"</span>,getpid());</span><br><span class="line">	<span class="keyword">pid_t</span> ret;</span><br><span class="line">	ret=vfork();</span><br><span class="line">	<span class="keyword">if</span>(ret==<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(<span class="string">"fork error"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(ret==<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">	i++;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"child i=%d,ret=%d,pid=%d\n"</span>,i,ret,getpid());</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		i++;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"parent i=%d,ret=%d,pid=%d\n"</span>,i,ret,getpid());</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-02_00-28-17.png" alt="Snipaste_2019-03-02_00-28-17"></p>
+<h2 id="execl"><a href="#execl" class="headerlink" title="execl()"></a>execl()</h2><p>提及 用 fork 函数 创建 新的 子 进程 后， 子 进程 往往 要 调用 一种 exec 函数 以 执行 另一个 程序。 当 进程 调用 一种 exec 函数 时， 该 进程 执行 的 程序 完全 替换 为 新 程序， 而 新 程序 则从 其 main 函数 开始 执行。 因为 调用 exec 并不 创建 新 进程， 所以 前后 的 进程 ID 并未 改变。 exec 只是 用 磁盘 上 的 一个 新 程序 替换 了 当前 进程 的 正文 段、 数据 段、 堆 段 和 栈 段。</p>
+<p>略</p>
+<h2 id="函数-exit（退出）"><a href="#函数-exit（退出）" class="headerlink" title="函数 exit（退出）"></a>函数 exit（退出）</h2><p>进程 有 5 种 正常 终止 及 3 种 异常 终止 方式。 5 种 正常 终止 方式 具体 如下。</p>
+<ul>
+<li>（1） 在 main 函数 内 执行 return 语句， 这 等效 于 调用 exit。 </li>
+<li>（2） 调用 exit 函数。  其 操作 包括 调用 各 终止 处理 程序， 然后 关闭 所有 标准 I/ O 流 等。</li>
+<li>（3） 调用_ exit 或_ Exit 函数 </li>
+<li>（4） 进程 的 最后 一个 线程 在 其 启动 例程 中 执行 return 语句。 但是， 该 线程 的 返回 值 不用 作 进程 的 返回 值。 当 最后 一个 线程 从其 启动 例程 返回 时， 该 进程 以 终止 状态 0 返回。</li>
+<li><p>（5） 进程 的 最后 一个 线程 调用 pthread_ exit 函数。 </p>
+<p>3 种 异常 终止 具体 如下。</p>
+<p>（1） 调用 abort。 它 产生 SIGABRT 信号， 这是 下一 种 异常 终止 的 一种 特例。</p>
+<p>（2） 当 进程 接收 到 某些 信号 时。 信号 可由 进程 自身（ 如 调用 abort 函数）、 其他 进程 或 内核 产生。 例如， 若 进程 引用 地址 空间 之外 的 存储 单元、 或者 除以 0， 内核 就 会为 该 进程 产生 相应 的 信号。</p>
+<p>（3） 最后 一个 线程 对“ 取消”（ cancellation） 请求 作出 响应。 默认 情况下，“ 取消” 以 延迟 方式 发生： 一个 线程 要求 取消 另一个 线程， 若干 时间 之后， 目标 线程 终止。</p>
+</li>
+</ul>
+<p><strong>exit() 和_ exit() 函数 说明。</strong></p>
+<p>exit() 和_ exit() 函数 都是 用来 终止 进程 的。 当 程序 执行 到 exit() 或_ exit() 时， 进程 会 无条件 地 停止 剩下 的 所有 操作， 清除 各种 数据 结构， 并 终止 本 进程 的 运行。 但是， 这 两个 函数 还是 有区别 的， 这 两个 函数 的 调用 过程 如图</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-02_00-53-30.png" alt="Snipaste_2019-03-02_00-53-30"></p>
+<p>从 图 3. 5 中 可以 看出，_ exit() 函数 的 作用 是 直接 使 进程 停止 运行， 清除 其 使用 的 内存 空间， 并 清除 其 在内 核 中的 各种 数据 结构； exit() 函数 则在 这些 基础上 做了 一些 包装， 在 执行 退出 之前 加了 若干 道 工序。 exit() 函数 与_ exit() 函数 最大 的 区别 就在于 exit() 函数 在 终止 当前 进程 之前 要 检查 该 进程 打开 了 哪些 文件， 并把 文件 缓冲区 中的 内容 写回 文件， 就是 图中 的“ 清理 I/ O 缓冲” 一项。</p>
+<p><strong>exit() 和_ exit() 函数 语法。</strong></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-02_00-56-22.png" alt="Snipaste_2019-03-02_00-56-22"></p>
+<h2 id="函数-wait-和-waitpid（阻塞）"><a href="#函数-wait-和-waitpid（阻塞）" class="headerlink" title="函数 wait 和 waitpid（阻塞）"></a>函数 wait 和 waitpid（阻塞）</h2><p><strong>wait() 和 waitpid() 函数 说明</strong>。</p>
+<p> wait() 函数 用于 使 父 进程（ 也就是 调用 wait() 的 进程） 阻塞， 直到 一个 子 进程 结束 或者 该 进程 接到 了 一个 指定 的 信号 为止。 如果 该 父 进程 没有 子 进程 或者 他的 子 进程 已经 结束， 则 wait() 会 立即 返回- 1。 </p>
+<p>waitpid() 的 作用 和 wait() 一样， 但它 并不 一定 等待 第一个 终止 的 子 进程。 waitpid() 有若 干 选项， 可 提供 一个 非 阻塞 版本 的 wait() 功能。 实际上 wait() 函数 只是 waitpid() 函数 的 一个 特例， 在 Linux 内部 实现 wait() 函数 时 直接 调用 的 就是 waitpid() 函数。 </p>
+<p> <strong>wait() 和 waitpid() 函数 格式 说明。</strong> </p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-02_00-59-51.png" alt="Snipaste_2019-03-02_00-59-51"></p>
+<p><strong>waitpid() 函数 的 语法 规范。</strong></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2019-03-02_01-00-39.png" alt="Snipaste_2019-03-02_01-00-39"></p>
+<p># </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;fcntl.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/wait.h&gt; </span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">pid_t</span> pid; </span><br><span class="line">	<span class="keyword">int</span> i, fd; </span><br><span class="line">	<span class="keyword">char</span> *buf= <span class="string">"This is a Daemon\n"</span>;</span><br><span class="line">	pid = fork(); <span class="comment">/* 第一步 */</span> </span><br><span class="line">	<span class="keyword">if</span>(pid &lt; <span class="number">0</span>) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">" Error fork\n"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>); <span class="comment">/* 父 进程 推出 */</span> </span><br><span class="line">	&#125;</span><br><span class="line">	setsid(); <span class="comment">/*第 二步*/</span> </span><br><span class="line">	chdir(<span class="string">"/tmp"</span>); <span class="comment">/*第三步*/</span> </span><br><span class="line">	umask(<span class="number">0</span>); <span class="comment">/*第四 步*/</span> </span><br><span class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; getdtablesize(); i++) <span class="comment">/*第五 步*/</span> </span><br><span class="line">	&#123; </span><br><span class="line">		close(i);</span><br><span class="line">	&#125; <span class="comment">/*这时 创建 完 守护 进程， 以下 开始 正式 进入 守护 进程 工作*/</span> </span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123; </span><br><span class="line">		<span class="keyword">if</span>((fd = open(<span class="string">"daemon. log"</span>, O_CREAT|O_WRONLY|O_TRUNC, <span class="number">0600</span>)) &lt; <span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"Open file error\n"</span>); </span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>); </span><br><span class="line">		&#125; </span><br><span class="line">			write(fd,buf,<span class="built_in">strlen</span>(buf));</span><br><span class="line">			close(fd);</span><br><span class="line">			sleep(<span class="number">2</span>); </span><br><span class="line">	&#125;</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="第三章：线程编程"><a href="#第三章：线程编程" class="headerlink" title="第三章：线程编程"></a>第三章：线程编程</h1>
       
     </div>
 
@@ -500,8 +668,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -623,6 +800,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章：Linux-多任务-编程"><span class="nav-number">1.</span> <span class="nav-text">第一章：Linux 多任务 编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux下多任务简介"><span class="nav-number">1.1.</span> <span class="nav-text">Linux下多任务简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务"><span class="nav-number">1.2.</span> <span class="nav-text">任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程"><span class="nav-number">1.3.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程控制符"><span class="nav-number">1.4.</span> <span class="nav-text">进程控制符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程"><span class="nav-number">1.5.</span> <span class="nav-text">线程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章：进程编程"><span class="nav-number">2.</span> <span class="nav-text">第二章：进程编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#函数fork（创建）"><span class="nav-number">2.1.</span> <span class="nav-text">函数fork（创建）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数-vfork（创建）"><span class="nav-number">2.2.</span> <span class="nav-text">函数 vfork（创建）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#execl"><span class="nav-number">2.3.</span> <span class="nav-text">execl()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数-exit（退出）"><span class="nav-number">2.4.</span> <span class="nav-text">函数 exit（退出）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数-wait-和-waitpid（阻塞）"><span class="nav-number">2.5.</span> <span class="nav-text">函数 wait 和 waitpid（阻塞）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三章：线程编程"><span class="nav-number">3.</span> <span class="nav-text">第三章：线程编程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
