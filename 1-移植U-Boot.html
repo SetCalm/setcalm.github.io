@@ -108,20 +108,20 @@
 
 
 
-  <meta name="description" content="移植 U-BootBootloader 简介####  Bootload是什么Bootloader是在操作系统运行之前执行的一段小程序。通过这段小程序，我们可以初始化硬件设备（关闭WATCHDOG、改变系统时钟、初始化存储控制器）、建立内存空间的映射表，将更多的代码复制到内存中等，从而建立适当的系统软硬件环境，为最终调用操作系统内核做好准备。 它能将操作系统内核复制到内存中运行，我们将这段程序称为">
+  <meta name="description" content="移植 U-BootBootloader 简介">
 <meta name="keywords" content="S3C244">
 <meta property="og:type" content="article">
 <meta property="og:title" content="1.移植U-Boot">
 <meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/1-移植U-Boot.html">
 <meta property="og:site_name" content="Jeff">
-<meta property="og:description" content="移植 U-BootBootloader 简介####  Bootload是什么Bootloader是在操作系统运行之前执行的一段小程序。通过这段小程序，我们可以初始化硬件设备（关闭WATCHDOG、改变系统时钟、初始化存储控制器）、建立内存空间的映射表，将更多的代码复制到内存中等，从而建立适当的系统软硬件环境，为最终调用操作系统内核做好准备。 它能将操作系统内核复制到内存中运行，我们将这段程序称为">
+<meta property="og:description" content="移植 U-BootBootloader 简介">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-28_23-39-14.png">
 <meta property="og:image" content="d:/MyBlog/图片/Snipaste_2018-12-29_00-42-38.png">
-<meta property="og:updated_time" content="2019-01-03T03:41:44.397Z">
+<meta property="og:updated_time" content="2019-03-03T17:29:14.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1.移植U-Boot">
-<meta name="twitter:description" content="移植 U-BootBootloader 简介####  Bootload是什么Bootloader是在操作系统运行之前执行的一段小程序。通过这段小程序，我们可以初始化硬件设备（关闭WATCHDOG、改变系统时钟、初始化存储控制器）、建立内存空间的映射表，将更多的代码复制到内存中等，从而建立适当的系统软硬件环境，为最终调用操作系统内核做好准备。 它能将操作系统内核复制到内存中运行，我们将这段程序称为">
+<meta name="twitter:description" content="移植 U-BootBootloader 简介">
 <meta name="twitter:image" content="d:/MyBlog/图片/Snipaste_2018-12-28_23-39-14.png">
 
 
@@ -405,7 +405,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-03 11:41:44" itemprop="dateModified" datetime="2019-01-03T11:41:44+08:00">2019-01-03</time>
+                <time title="修改时间：2019-03-04 01:29:14" itemprop="dateModified" datetime="2019-03-04T01:29:14+08:00">2019-03-04</time>
               
             
           </span>
@@ -456,7 +456,7 @@
       
 
       
-        <h2 id="移植-U-Boot"><a href="#移植-U-Boot" class="headerlink" title="移植 U-Boot"></a>移植 U-Boot</h2><h3 id="Bootloader-简介"><a href="#Bootloader-简介" class="headerlink" title="Bootloader 简介"></a>Bootloader 简介</h3><p>#### </p>
+        <h2 id="移植-U-Boot"><a href="#移植-U-Boot" class="headerlink" title="移植 U-Boot"></a>移植 U-Boot</h2><h3 id="Bootloader-简介"><a href="#Bootloader-简介" class="headerlink" title="Bootloader 简介"></a>Bootloader 简介</h3><a id="more"></a>
 <h4 id="Bootload是什么"><a href="#Bootload是什么" class="headerlink" title="Bootload是什么"></a>Bootload是什么</h4><p>Bootloader是在操作系统运行之前执行的一段小程序。通过这段小程序，我们可以初始化硬件设备（关闭WATCHDOG、改变系统时钟、初始化存储控制器）、建立内存空间的映射表，将更多的代码复制到内存中等，从而建立适当的系统软硬件环境，为最终调用操作系统内核做好准备。 <em>它能将操作系统内核复制到内存中运行，我们将这段程序称为 Bootloader。</em></p>
 <p>①Bootloader 就是这么一小段程序，它在系统上电时开始执行，初始化硬件设备、准备好软件环境，最后调用操作系统</p>
 <p>②我们还可以增强 Bootloader 的功能，比如增加网络功能、从 PC 上通过串口或网络下载文件、烧写文件、将 Flash 上压缩的文件解压后再运行等。</p>
