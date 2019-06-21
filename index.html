@@ -647,6 +647,209 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/软件定时器的实现.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/软件定时器的实现.html" itemprop="url">
+                  软件定时器的实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-21 11:01:34 / 修改时间：12:00:46" itemprop="dateCreated datePublished" datetime="2019-06-21T11:01:34+08:00">2019-06-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>软件定时器的实现</p>
+<p>1.首先推荐一个大神的博客：</p>
+<p><strong>一种嵌入式系统软件定时器的实现：以STM32为例：</strong><a href="https://blog.csdn.net/qq_26904271/article/details/83833168" target="_blank" rel="noopener">https://blog.csdn.net/qq_26904271/article/details/83833168</a></p>
+<p>该博客有详细介绍软件定时器的实现过程及原理。</p>
+<p>2.另一位大神的博客</p>
+<p><strong>高效软件定时器的设计：</strong><a href="https://blog.csdn.net/wbwwf8685/article/details/51859286：" target="_blank" rel="noopener">https://blog.csdn.net/wbwwf8685/article/details/51859286：</a></p>
+<p>该博客介绍了代码如何把软件定时器注册到链表中。</p>
+<p>最后自己写了个最最简单的软件定时器。（最主要的就是简单，任何MCU都能使用。）</p>
+<p>1.首先需要一个定时器提供滴答时钟。用于给软件计时的基准时钟。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SoftwareTimer_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//T8N</span></span><br><span class="line">	<span class="comment">//时钟源周期为1000000/（16000000/2）= 0.125u</span></span><br><span class="line">	<span class="comment">//500us/0.125us =（255-T8N+1） ×16（预分频比） </span></span><br><span class="line">    T8NC = <span class="number">0x03</span>;	<span class="comment">//设置T8N为定时器模式，分频比为1:16</span></span><br><span class="line">    T8N = <span class="number">6</span>;		<span class="comment">//设定时器初值，2ms</span></span><br><span class="line">    T8NPRE = <span class="number">1</span>;		<span class="comment">//使能预分频器</span></span><br><span class="line">    T8NIE = <span class="number">1</span>;		<span class="comment">//使能T8N定时器中断</span></span><br><span class="line">    T8NEN = <span class="number">1</span>;		<span class="comment">//打开T8NEN定时器</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">isr</span><span class="params">(<span class="keyword">void</span>)</span> interrupt</span>&#123;		<span class="comment">//500us定时</span></span><br><span class="line">    <span class="keyword">if</span>(T8NIE&amp;&amp;T8NIF)&#123;<span class="comment">//进入T8N定时器中断</span></span><br><span class="line">        T8NIF = <span class="number">0</span>;     <span class="comment">//清T8N中断标志</span></span><br><span class="line">        T8N = T8N + <span class="number">6</span>;<span class="comment">//重载T8N初值，加上进入中断时间	</span></span><br><span class="line">		cnt_500us++;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//任务定时  (500us*n范围内任务：n&lt;=255,精度500us)</span></span><br><span class="line">		timer11++;</span><br><span class="line">		timer12++;</span><br><span class="line">		timer13++;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(cnt_500us=<span class="number">20</span>)<span class="comment">//10ms</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//任务定时  (1ms*n范围内任务：n&lt;=255,精度1ms)</span></span><br><span class="line">			timer21++;</span><br><span class="line">			timer22++;</span><br><span class="line">			timer23++;			</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    task_umpire();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该部分函数使用了一个基本计数器作为基准时钟，每500us中断一次。创建了6个软定时时钟。其中重点函数为task_umpire();</p>
+<p>2.如何使用创建好的6 个软定时时钟。</p>
+<p>上面6 个基准时钟还是没法用的，首先需要一个函数判断何时到达设置的定时时间，该函数就是：task_umpire();.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CPL_BIT(value,bit) ((value)^=(1&lt;&lt;(bit)))	  <span class="comment">//取反指定位</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SET_BIT(value,bit) ((value)|=(1&lt;&lt;(bit)))		<span class="comment">//置位指定位</span></span></span><br><span class="line"><span class="comment">//#define CLR_BIT(value,bit) ((value)&amp;=~(1&lt;&lt;(bit)))		//清零指定位</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CLR_BIT(value,bit) ((value)&amp;=~(1&lt;&lt;(bit)))		<span class="comment">//清零指定位</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GET_BIT(value,bit)	((value) &amp; (1&lt;&lt;(bit)))		<span class="comment">//读取指定位</span></span></span><br><span class="line"><span class="comment">//任务时间到达判断</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_umpire</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;		</span><br><span class="line">	<span class="keyword">if</span>(timer11==<span class="number">100</span>)	<span class="comment">//500us*100=50ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		</span><br><span class="line">		SET_BIT(task_priority,<span class="number">0</span>);	<span class="comment">//第0位置一，任务一第一优先级。</span></span><br><span class="line">		timer11=<span class="number">0</span>;				<span class="comment">//任务重新定时</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer12==<span class="number">200</span>)	<span class="comment">//500us*200=100ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">1</span>);	</span><br><span class="line">		timer12=<span class="number">0</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer13==<span class="number">250</span>)	<span class="comment">//500us*250=125ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">2</span>);</span><br><span class="line">		timer13=<span class="number">0</span>;		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer21==<span class="number">100</span>)	<span class="comment">//10ms*100=1000ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">3</span>);	</span><br><span class="line">		timer21=<span class="number">0</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer22==<span class="number">200</span>)	<span class="comment">//10ms*200=2000ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">4</span>);		</span><br><span class="line">		timer22=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer23==<span class="number">250</span>)	<span class="comment">//10ms*250=2500ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">5</span>);		</span><br><span class="line">		timer23=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该函数技巧在</p>
+<p>a.定时器的原理：</p>
+<p>以timer11为例：timer11每基本计时器中断一次（500us）计数加一，timer11==100；即定时500*100=50ms</p>
+<p>b.task_priority优先级</p>
+<p>首先task_priority设置为unsigned int形式，它用于保存定时器到达的标志。</p>
+<table>
+<thead>
+<tr>
+<th>task_priority</th>
+<th>7</th>
+<th>6</th>
+<th>5</th>
+<th>4</th>
+<th>3</th>
+<th>2</th>
+<th>1</th>
+<th>0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>timer</td>
+<td></td>
+<td></td>
+<td>time23</td>
+<td>timer22</td>
+<td>timer12</td>
+<td>timer13</td>
+<td>timer12</td>
+<td>timer11</td>
+</tr>
+</tbody>
+</table>
+<p>当timer11时间到达task_priority的0 位 置1，使用到SET_BIT(task_priority,0);</p>
+<p>c;软件计时器给到相应的task_priority位后，把.timer11=0清0 ，重新开始计数。</p>
+<p>3.然后任务主体部分</p>
+<p>既然软件定时器已经完成，那么我们该如何根据定时器时间去执行任务，这里需要void task_processing(void)函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_processing</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">0</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//taske1_functions();</span></span><br><span class="line">		CLR_BIT(task_priority,<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">1</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//taske2_functions();</span></span><br><span class="line">		CLR_BIT(task_priority,<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">2</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//taske3_functions();</span></span><br><span class="line">		CLR_BIT(task_priority,<span class="number">2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">3</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//taske4_functions();</span></span><br><span class="line">		CLR_BIT(task_priority,<span class="number">3</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">4</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//taske5_functions();</span></span><br><span class="line">		CLR_BIT(task_priority,<span class="number">4</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">5</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//taske6_functions();</span></span><br><span class="line">		CLR_BIT(task_priority,<span class="number">5</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>a. 既然task_priority保存有每个计时器的状态，那默我们只需获取task_priority的每位状态即可，这里使用到了GET_BIT(task_priority,0)函数。</p>
+<p>b.注意每次执行完后CLR_BIT(task_priority,0);把该为清0；避免再次进入。</p>
+<p>缺点：该函数只能依照顺序轮询判断是否到达定时时间，执行相应的任务，并无优先级概念。无法做到：当3,5任务到达时，正在执行3任务三时，任务1时间也到达，无法先执行1，而是先执行5 后再执行1。无法做到最重要的任务最先执行。</p>
+<p>4.优化</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_processing</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		task_priority_cnt++;</span><br><span class="line">		<span class="keyword">switch</span>(task_priority_cnt)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">0</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task1_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">0</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;<span class="comment">//每次执行后该位清0；重新开始循环，保证在执行该任务时进入新的高优先级定时任务能优先执行。</span></span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">1</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task2_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">1</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">2</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task3_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">2</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">3</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task4_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">3</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">4</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task5_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">4</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">			<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">5</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task6_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">5</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">			<span class="comment">//task_functions();//其他不重要但执行频繁的函数。</span></span><br><span class="line">			task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如此：实现了任务的优先级，在task_priority bit位前面的永远都是优先执行。</p>
+<p>使用者直接把该函数void task_processing(void)放在main()里面即可。</p>
+<p>每个任务函数只需把task1_functions();函数置换即可。</p>
+<p>最后上完整的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;hic.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CPL_BIT(value,bit) ((value)^=(1&lt;&lt;(bit)))		<span class="comment">//取反指定位</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SET_BIT(value,bit) ((value)|=(1&lt;&lt;(bit)))		<span class="comment">//置位指定位</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CLR_BIT(value,bit) ((value)&amp;=~(1&lt;&lt;(bit)))		<span class="comment">//清零指定位</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GET_BIT(value,bit)	((value) &amp; (1&lt;&lt;(bit)))		<span class="comment">//读取指定位	</span></span></span><br><span class="line"><span class="comment">//计数器及任务管理</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		cnt_500us=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		cnt_1ms=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer11=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer12=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer13=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer21=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer22=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer23=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span>		task_priority=<span class="number">0</span>;	</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		task_priority_cnt=<span class="number">0</span>;</span><br><span class="line"><span class="comment">//函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SoftwareTimer_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_umpire</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_processing</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SoftwareTimer_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">	<span class="comment">//T8N</span></span><br><span class="line">	<span class="comment">//时钟源周期为1000000/（16000000/2）= 0.125u</span></span><br><span class="line">	<span class="comment">//500us/0.125us =（255-T8N+1） ×16（预分频比） </span></span><br><span class="line">    T8NC = <span class="number">0x03</span>;	<span class="comment">//设置T8N为定时器模式，分频比为1:16</span></span><br><span class="line">    T8N = <span class="number">6</span>;		<span class="comment">//设定时器初值，2ms</span></span><br><span class="line">    T8NPRE = <span class="number">1</span>;		<span class="comment">//使能预分频器</span></span><br><span class="line">    T8NIE = <span class="number">1</span>;		<span class="comment">//使能T8N定时器中断</span></span><br><span class="line">    T8NEN = <span class="number">1</span>;		<span class="comment">//打开T8NEN定时器</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">isr</span><span class="params">(<span class="keyword">void</span>)</span> interrupt</span>&#123;		<span class="comment">//500us定时</span></span><br><span class="line">    <span class="keyword">if</span>(T8NIE&amp;&amp;T8NIF)&#123;<span class="comment">//进入T8N定时器中断</span></span><br><span class="line">        T8NIF = <span class="number">0</span>;     <span class="comment">//清T8N中断标志</span></span><br><span class="line">        T8N = T8N + <span class="number">6</span>;<span class="comment">//重载T8N初值，加上进入中断时间		</span></span><br><span class="line">		cnt_500us++;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//任务定时  (500us*n范围内任务：n&lt;=255,精度500us)</span></span><br><span class="line">		timer11++;</span><br><span class="line">		timer12++;</span><br><span class="line">		timer13++;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(cnt_500us==<span class="number">20</span>)<span class="comment">//10ms</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//任务定时  (1ms*n范围内任务：n&lt;=255,精度1ms)</span></span><br><span class="line">			timer21++;</span><br><span class="line">			timer22++;</span><br><span class="line">			timer23++;			</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">	task_umpire();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//任务时间到达判断</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_umpire</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;		</span><br><span class="line">	<span class="keyword">if</span>(timer11==<span class="number">100</span>)	<span class="comment">//500us*100=50ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">0</span>);	<span class="comment">//第0位置一，任务一第一优先级。</span></span><br><span class="line">		timer11=<span class="number">0</span>;				<span class="comment">//任务重新定时</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer12==<span class="number">200</span>)	<span class="comment">//500us*200=100ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">1</span>);	</span><br><span class="line">		timer12=<span class="number">0</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer13==<span class="number">250</span>)	<span class="comment">//500us*250=125ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">2</span>);</span><br><span class="line">		timer13=<span class="number">0</span>;		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer21==<span class="number">100</span>)	<span class="comment">//10ms*100=1000ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">3</span>);	</span><br><span class="line">		timer21=<span class="number">0</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer22==<span class="number">200</span>)	<span class="comment">//10ms*200=2000ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">4</span>);		</span><br><span class="line">		timer22=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer23==<span class="number">250</span>)	<span class="comment">//10ms*250=2500ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">5</span>);		</span><br><span class="line">		timer23=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//任务处理</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_processing</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		task_priority_cnt++;</span><br><span class="line">		<span class="keyword">switch</span>(task_priority_cnt)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">0</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task1_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">0</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;<span class="comment">//每次执行后该位清0；重新开始循环，保证高优先级定时任务能优先执行。</span></span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">1</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task2_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">1</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">2</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task3_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">2</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">3</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task4_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">3</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">4</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task5_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">4</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">			<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">5</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task6_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">5</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">			<span class="comment">//task_functions();//其他优先级不重要但执行频繁的函数。</span></span><br><span class="line">			task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	SoftwareTimer_Init();</span><br><span class="line">	<span class="comment">//添加初始化函数...</span></span><br><span class="line"></span><br><span class="line">	task_processing();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不到200行的代码，实现一个软定时且能够进行优先级判断且没有使用到C语言的高级用法简单易懂，最重要的是该代码任何MCU都能使用。</p>
+<p>注意：每个任务最好不大于该软定时器中使用到的一次中断时间（这里是500us）</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/Linux设备驱动开发详解：基于最新的Linux4-0内核.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1972,141 +2175,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/linux环境配置.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/linux环境配置.html" itemprop="url">
-                  linux环境配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-29 17:01:14" itemprop="dateCreated datePublished" datetime="2018-12-29T17:01:14+08:00">2018-12-29</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2156,7 +2224,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2214,7 +2282,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
