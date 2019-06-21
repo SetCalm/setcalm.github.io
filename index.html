@@ -647,6 +647,765 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/C语言位操作宏定义.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/C语言位操作宏定义.html" itemprop="url">
+                  面试常见问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-21 11:01:34 / 修改时间：12:05:20" itemprop="dateCreated datePublished" datetime="2019-06-21T11:01:34+08:00">2019-06-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>C语言的一些经典的宏定义</p>
+<p>参考：<a href="https://blog.csdn.net/badmer/article/details/52141568?utm_source=blogxgwz3" target="_blank" rel="noopener">https://blog.csdn.net/badmer/article/details/52141568?utm_source=blogxgwz3</a></p>
+<p>#define CPL_BIT(value,bit) ((value)^=(1&lt;&lt;(bit)))        //取反指定位</p>
+<p>#define SET_BIT(value,bit) ((value)|=(1&lt;&lt;(bit)))        //置位指定位</p>
+<p>#define CLR_BIT(value,bit) ((value)&amp;=~(1&lt;&lt;(bit)))     //清零指定位</p>
+<p>#define GET_BIT(value,bit)    ((value) &amp; (1&lt;&lt;(bit)))    //读取指定位    </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/单片机开发之按键的一些心得.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/单片机开发之按键的一些心得.html" itemprop="url">
+                  单片机开发之按键的一些心得
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-21 11:01:34 / 修改时间：12:05:38" itemprop="dateCreated datePublished" datetime="2019-06-21T11:01:34+08:00">2019-06-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>单片机开发之按键的一些心得</p>
+<p>1.本例程实验软定时器计数消抖，避免使用常见的delay();</p>
+<p>2.本例程使用轮询查询电平的方法判断按键。</p>
+<p>该方法优点：可以同时分辨①：抬起状态，②：按下状态，③抬起瞬间，④按下瞬间。如此你就能把按键玩的出神入化。</p>
+<p>下面开始讲解</p>
+<p>首先需要一个软件定时器，该部分使用到一个硬件定时器：参考-软件定时器的实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//该部分看mcu不同实现方法不同</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span>	delay_500us_cnt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SoftwareTimer_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;	</span><br><span class="line">	<span class="comment">//T8N</span></span><br><span class="line">	<span class="comment">//时钟源周期为1000000/（16000000/2）= 0.125u</span></span><br><span class="line">	<span class="comment">//500us/0.125us =（255-T8N+1） ×16（预分频比） </span></span><br><span class="line">    T8NC = <span class="number">0x03</span>;	<span class="comment">//设置T8N为定时器模式，分频比为1:16</span></span><br><span class="line">    T8N = <span class="number">6</span>;		<span class="comment">//设定时器初值，2ms</span></span><br><span class="line">    T8NPRE = <span class="number">1</span>;		<span class="comment">//使能预分频器</span></span><br><span class="line">    T8NIF = <span class="number">0</span>;     <span class="comment">//清T8N中断标志</span></span><br><span class="line">    T8NIE = <span class="number">1</span>;		<span class="comment">//使能T8N定时器中断</span></span><br><span class="line">    T8NEN = <span class="number">1</span>;		<span class="comment">//打开T8NEN定时器</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">isr</span><span class="params">(<span class="keyword">void</span>)</span> interrupt</span>&#123;		<span class="comment">//500us定时</span></span><br><span class="line">    <span class="keyword">if</span>(T8NIE&amp;&amp;T8NIF)&#123;<span class="comment">//进入T8N定时器中断</span></span><br><span class="line">        T8NIF = <span class="number">0</span>;     <span class="comment">//清T8N中断标志</span></span><br><span class="line">        T8N = T8N + <span class="number">6</span>;<span class="comment">//重载T8N初值，加上进入中断时间	</span></span><br><span class="line">        delay_500us_cnt++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面实现了一个计数500us计数变量。下面就开始使用该变量在按键处理去实现定时功能</p>
+<p>按键处理功能实现部分</p>
+<p>a.头文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sbit key_flag_old；		<span class="comment">//用于保存上个状态的电平，赋值时高电平赋值1，低电平赋值0。</span></span><br><span class="line">sbit key_flag_cur；		<span class="comment">//用于保存当前状态的电平</span></span><br><span class="line">sbit key_on；			<span class="comment">//用于记录按下还是没按下</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> keyup_always_cnt=<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Key_Process</span><span class="params">(<span class="keyword">void</span>)</span> <span class="comment">//按键处理</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//按键KEY处理</span></span><br><span class="line">	key_flag_cur = KEY; <span class="comment">//读取当前按键的状态</span></span><br><span class="line">	<span class="keyword">if</span>(key_flag_cur != key_flag_old) <span class="comment">//按键按下或者松开检测，按下时，状态一直为1，松开时为0</span></span><br><span class="line">	&#123;</span><br><span class="line">		key_on = !key_on;<span class="comment">//①按下是key_on=1,②抬起key_on=0;</span></span><br><span class="line">		key_flag_old = key_flag_cur;<span class="comment">//把当前状态给旧的状态，以免重复运行该判断</span></span><br><span class="line">        <span class="keyword">if</span>(!KEY)<span class="comment">//③按下瞬间,这里默认低电平按下</span></span><br><span class="line">		&#123;</span><br><span class="line">              key_press_process();<span class="comment">//按下按键的操作</span></span><br><span class="line">        &#125;</span><br><span class="line">          <span class="keyword">if</span>(KEY)<span class="comment">//④抬起瞬间</span></span><br><span class="line">		&#123;</span><br><span class="line">              key_lift_process();<span class="comment">//抬起按键的操作</span></span><br><span class="line">        &#125;        </span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="keyword">if</span>(key_on) <span class="comment">//按下计数:单次和长按都可判断</span></span><br><span class="line">	&#123;</span><br><span class="line">		key_always_cnt++;</span><br><span class="line">	&#125;</span><br><span class="line">	    </span><br><span class="line">	<span class="keyword">if</span>(key_always_cnt &gt;= <span class="number">6000</span>)<span class="comment">//0.5MS*2000ms=1s;</span></span><br><span class="line">	&#123;</span><br><span class="line">		key_always_process();<span class="comment">//长按按键的操作</span></span><br><span class="line">		key_continuous_cnt=<span class="number">0</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!key_on &amp;&amp; key_always_cnt&gt;<span class="number">0</span>&amp;&amp;key_always_cnt&lt;<span class="number">100</span>) <span class="comment">//按键松开时候进行检测，如果一直按着执行长按，这里也可以写1，可用于消抖</span></span><br><span class="line">	&#123;</span><br><span class="line">		key_once_process();<span class="comment">//单次按键的函数操作</span></span><br><span class="line">		key_always_cnt = <span class="number">0</span>; </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>最后补充：面试时曾有个面试官问过有关按键问题：假如有A~Z按键，要判断按键按下，抬起，长按，点按，且点按，和长判断时间不同。使用面向对象思想封装一个函数实现该功能。</p>
+<p>感觉很好，有机会试下。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/字节长度问题.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/字节长度问题.html" itemprop="url">
+                  字节长度问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-21 11:01:34 / 修改时间：12:05:51" itemprop="dateCreated datePublished" datetime="2019-06-21T11:01:34+08:00">2019-06-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>字节长度问题</p>
+<p>在单片机开发使用中经常要考虑到实际开发中的各种数据类型的长度问题（特别是在那种超小存储空间的单片机中，一不小心就溢出了）</p>
+<p>8位单片机中数据类型：<a href="https://www.jianshu.com/p/feb4277e2a66" target="_blank" rel="noopener">https://www.jianshu.com/p/feb4277e2a66</a></p>
+<p>8 位单片机中各种类型数据结构的长度（简单）</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>占用字节（byte）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char</td>
+<td>1</td>
+</tr>
+<tr>
+<td>int</td>
+<td>2</td>
+</tr>
+<tr>
+<td>long</td>
+<td>4</td>
+</tr>
+<tr>
+<td>double</td>
+<td>4</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>表1：8 位单片机中各种类型数据结构的长度（详细）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">占用字节（byte）</th>
+<th>取值范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">unsigned char</td>
+<td style="text-align:left">1</td>
+<td>0～255</td>
+</tr>
+<tr>
+<td style="text-align:left">signed char</td>
+<td style="text-align:left">1</td>
+<td>-128～+127</td>
+</tr>
+<tr>
+<td style="text-align:left">char</td>
+<td style="text-align:left">1</td>
+<td>0～255</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">unsigned short int</td>
+<td style="text-align:left">2</td>
+<td>0～65535</td>
+</tr>
+<tr>
+<td style="text-align:left">signed short int</td>
+<td style="text-align:left">2</td>
+<td>-32768～+32767</td>
+</tr>
+<tr>
+<td style="text-align:left">short int</td>
+<td style="text-align:left">2</td>
+<td>-32768～+32767</td>
+</tr>
+<tr>
+<td style="text-align:left">unsigned shor</td>
+<td style="text-align:left">2</td>
+<td>0～65535</td>
+</tr>
+<tr>
+<td style="text-align:left">signed short</td>
+<td style="text-align:left">2</td>
+<td>-32768～+32767</td>
+</tr>
+<tr>
+<td style="text-align:left">short</td>
+<td style="text-align:left">2</td>
+<td>-32768～+32767</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">unsigned int</td>
+<td style="text-align:left">2</td>
+<td>0～65535</td>
+</tr>
+<tr>
+<td style="text-align:left">signed int</td>
+<td style="text-align:left">2</td>
+<td>-32768～+32767</td>
+</tr>
+<tr>
+<td style="text-align:left">int</td>
+<td style="text-align:left">2</td>
+<td>-32768～+32767</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">unsigned long int</td>
+<td style="text-align:left">4</td>
+<td>0～4294967295</td>
+</tr>
+<tr>
+<td style="text-align:left">signed long int</td>
+<td style="text-align:left">4</td>
+<td>-2147483648～+2147483647</td>
+</tr>
+<tr>
+<td style="text-align:left">long int</td>
+<td style="text-align:left">4</td>
+<td>-2147483648～+2147483647</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">unsigned long</td>
+<td style="text-align:left">4</td>
+<td>0～4294967295</td>
+</tr>
+<tr>
+<td style="text-align:left">signed long</td>
+<td style="text-align:left">4</td>
+<td>-2147483648～+2147483647</td>
+</tr>
+<tr>
+<td style="text-align:left">long</td>
+<td style="text-align:left">4</td>
+<td>-2147483648～+2147483647</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">float</td>
+<td style="text-align:left">4</td>
+<td>±1.75494E-38～±3.402823E+38</td>
+</tr>
+<tr>
+<td style="text-align:left">double</td>
+<td style="text-align:left">4</td>
+<td>±1.75494E-38～±3.402823E+38</td>
+</tr>
+</tbody>
+</table>
+<p>补充：1byte=8bit</p>
+<p>bit                         1位       0，1<br>sbit                       1位       0，1<br>sfr                        1字节   0-255<br>sfr16                     2字节0～65535</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/软件实现双边沿检测.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/软件实现双边沿检测.html" itemprop="url">
+                  双边缘检测（软件实现方法）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-21 11:01:34 / 修改时间：12:06:02" itemprop="dateCreated datePublished" datetime="2019-06-21T11:01:34+08:00">2019-06-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>双边缘检测（软件实现方法）</p>
+<p>由于某开发需要使用上升沿后下降沿触发，软件都完成了，却发现该MCU只能上升或下降沿触发不能双边缘检测。只能在心里骂几句mmb。但软件还是要写的，不能半途而废。用尽一切办法无能为力，最后网上找到使用软件实现方法。</p>
+<p>本来理想方法是程序初始化为上升沿触发，触发后进入中断然后在中断中判断触发方式（如果是上升沿触发下次改为上升沿触发，反之亦然），但是改变后中断使能为会置0， 在中断中中断使能重新置1，触发方式又会恢复原来。故不行</p>
+<p>总之一切方法后发现无法在运行中改变触发方式，该思路只能作罢。</p>
+<p>后来在网上寻找到解决方法。（软件实现双边缘检测方法）<a href="https://zhidao.baidu.com/question/310934714.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/310934714.html</a></p>
+<p>原理如下：如果是用软件的方式来检测，那道理就简单了。用查询方式：只要将要检测的信号接到某个输入端口的某个位，在程序中反复读取该位的输入，一旦遇到“上次是0此次是1”的情况，就说明检测到了上升沿，遇到“上次是1此次是0”的情况，就说明检测到了下降沿。</p>
+<p>程序实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">**********************************************************/</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;hic.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Delay1ms</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="keyword">int</span> ElectricalLevel_Flag=<span class="number">1</span>; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//*************************************************************************</span></span><br><span class="line"><span class="comment">//                              主程序                                              </span></span><br><span class="line"><span class="comment">//*************************************************************************</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">    OSCP = <span class="number">0x55</span>;</span><br><span class="line">	OSCC = <span class="number">0xC0</span>;			<span class="comment">//切换到高速时钟（2MHz）</span></span><br><span class="line">    <span class="keyword">while</span> (!SW_HS);			<span class="comment">//等待高速时钟切换完成</span></span><br><span class="line"></span><br><span class="line">	ANS0= <span class="number">0x01</span>;				<span class="comment">//注意要设置PA0为数字端口（PA0）</span></span><br><span class="line">	PAT5=<span class="number">0</span>;					<span class="comment">//设置PA5端口为输出口</span></span><br><span class="line">    PAT0 = <span class="number">1</span>;				<span class="comment">//设置PA0(PINT0)端口为输入口</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;     </span><br><span class="line">        <span class="comment">//改if语句为首次检测到高电平时进入语句把PA5拉低1ms，然后拉高，然后下次检测低电平（通过下个if实现）</span></span><br><span class="line">		<span class="keyword">if</span>(PA0==ElectricalLevel_Flag)</span><br><span class="line">		&#123;		</span><br><span class="line">			PA5=<span class="number">0</span>;</span><br><span class="line">			Delay1ms();</span><br><span class="line">			PA5=<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(ElectricalLevel_Flag==<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				ElectricalLevel_Flag=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				ElectricalLevel_Flag=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//*****************************************************************************</span></span><br><span class="line"><span class="comment">//                               延时子程序                                              </span></span><br><span class="line"><span class="comment">//*****************************************************************************</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Delay1ms</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> Dcount;</span><br><span class="line">    Dcount = <span class="number">0x53</span>;  <span class="comment">//若设主频2MHz，指令周期1us</span></span><br><span class="line">    <span class="keyword">while</span>(Dcount--);  <span class="comment">//循环1次12us（含12条指令），计数值计算为1000/12=83(0x53)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终波形如下：</p>
+<p><img src="E:\0.jeff\博客\" alt=")SAAE)W2}8({ZAM0X`VPFT0">SAAE)W2}8({ZAM0X`VPFT0.png)</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/软件定时器的实现.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -797,6 +1556,213 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;hic.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CPL_BIT(value,bit) ((value)^=(1&lt;&lt;(bit)))		<span class="comment">//取反指定位</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SET_BIT(value,bit) ((value)|=(1&lt;&lt;(bit)))		<span class="comment">//置位指定位</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CLR_BIT(value,bit) ((value)&amp;=~(1&lt;&lt;(bit)))		<span class="comment">//清零指定位</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GET_BIT(value,bit)	((value) &amp; (1&lt;&lt;(bit)))		<span class="comment">//读取指定位	</span></span></span><br><span class="line"><span class="comment">//计数器及任务管理</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		cnt_500us=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		cnt_1ms=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer11=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer12=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer13=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer21=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer22=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		timer23=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span>		task_priority=<span class="number">0</span>;	</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>		task_priority_cnt=<span class="number">0</span>;</span><br><span class="line"><span class="comment">//函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SoftwareTimer_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_umpire</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_processing</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SoftwareTimer_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">	<span class="comment">//T8N</span></span><br><span class="line">	<span class="comment">//时钟源周期为1000000/（16000000/2）= 0.125u</span></span><br><span class="line">	<span class="comment">//500us/0.125us =（255-T8N+1） ×16（预分频比） </span></span><br><span class="line">    T8NC = <span class="number">0x03</span>;	<span class="comment">//设置T8N为定时器模式，分频比为1:16</span></span><br><span class="line">    T8N = <span class="number">6</span>;		<span class="comment">//设定时器初值，2ms</span></span><br><span class="line">    T8NPRE = <span class="number">1</span>;		<span class="comment">//使能预分频器</span></span><br><span class="line">    T8NIE = <span class="number">1</span>;		<span class="comment">//使能T8N定时器中断</span></span><br><span class="line">    T8NEN = <span class="number">1</span>;		<span class="comment">//打开T8NEN定时器</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">isr</span><span class="params">(<span class="keyword">void</span>)</span> interrupt</span>&#123;		<span class="comment">//500us定时</span></span><br><span class="line">    <span class="keyword">if</span>(T8NIE&amp;&amp;T8NIF)&#123;<span class="comment">//进入T8N定时器中断</span></span><br><span class="line">        T8NIF = <span class="number">0</span>;     <span class="comment">//清T8N中断标志</span></span><br><span class="line">        T8N = T8N + <span class="number">6</span>;<span class="comment">//重载T8N初值，加上进入中断时间		</span></span><br><span class="line">		cnt_500us++;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//任务定时  (500us*n范围内任务：n&lt;=255,精度500us)</span></span><br><span class="line">		timer11++;</span><br><span class="line">		timer12++;</span><br><span class="line">		timer13++;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(cnt_500us==<span class="number">20</span>)<span class="comment">//10ms</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//任务定时  (1ms*n范围内任务：n&lt;=255,精度1ms)</span></span><br><span class="line">			timer21++;</span><br><span class="line">			timer22++;</span><br><span class="line">			timer23++;			</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">	task_umpire();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//任务时间到达判断</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_umpire</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;		</span><br><span class="line">	<span class="keyword">if</span>(timer11==<span class="number">100</span>)	<span class="comment">//500us*100=50ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">0</span>);	<span class="comment">//第0位置一，任务一第一优先级。</span></span><br><span class="line">		timer11=<span class="number">0</span>;				<span class="comment">//任务重新定时</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer12==<span class="number">200</span>)	<span class="comment">//500us*200=100ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">1</span>);	</span><br><span class="line">		timer12=<span class="number">0</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer13==<span class="number">250</span>)	<span class="comment">//500us*250=125ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">2</span>);</span><br><span class="line">		timer13=<span class="number">0</span>;		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer21==<span class="number">100</span>)	<span class="comment">//10ms*100=1000ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">3</span>);	</span><br><span class="line">		timer21=<span class="number">0</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer22==<span class="number">200</span>)	<span class="comment">//10ms*200=2000ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">4</span>);		</span><br><span class="line">		timer22=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(timer23==<span class="number">250</span>)	<span class="comment">//10ms*250=2500ms,</span></span><br><span class="line">	&#123;</span><br><span class="line">		SET_BIT(task_priority,<span class="number">5</span>);		</span><br><span class="line">		timer23=<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//任务处理</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">task_processing</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		task_priority_cnt++;</span><br><span class="line">		<span class="keyword">switch</span>(task_priority_cnt)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">0</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task1_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">0</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;<span class="comment">//每次执行后该位清0；重新开始循环，保证高优先级定时任务能优先执行。</span></span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">1</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task2_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">1</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">2</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task3_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">2</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">3</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task4_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">3</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">				<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">4</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task5_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">4</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">			<span class="keyword">if</span>(GET_BIT(task_priority,<span class="number">5</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="comment">//task6_functions();</span></span><br><span class="line">					CLR_BIT(task_priority,<span class="number">5</span>);</span><br><span class="line">					task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">			<span class="comment">//task_functions();//其他优先级不重要但执行频繁的函数。</span></span><br><span class="line">			task_priority_cnt=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	SoftwareTimer_Init();</span><br><span class="line">	<span class="comment">//添加初始化函数...</span></span><br><span class="line"></span><br><span class="line">	task_processing();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>不到200行的代码，实现一个软定时且能够进行优先级判断且没有使用到C语言的高级用法简单易懂，最重要的是该代码任何MCU都能使用。</p>
 <p>注意：每个任务最好不大于该软定时器中使用到的一次中断时间（这里是500us）</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/面试常见问题.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/面试常见问题.html" itemprop="url">
+                  面试常见问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 11:01:34" itemprop="dateCreated datePublished" datetime="2019-06-12T11:01:34+08:00">2019-06-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-21 12:05:28" itemprop="dateModified" datetime="2019-06-21T12:05:28+08:00">2019-06-21</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="1-Static与Const的区别"><a href="#1-Static与Const的区别" class="headerlink" title="1.Static与Const的区别"></a>1.<a href="https://www.cnblogs.com/Jinfeng1213/p/8597446.html" target="_blank" rel="noopener">Static与Const的区别</a></h1><h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><p><strong>static作用：“改变生命周期” 或者 “改变作用域”</strong>：程序的局部变量存在于（堆栈）中，全局变量存在于（静态区 ）中，动态申请数据存在于（ 堆）中。</p>
+<p><strong>1. static局部变量:</strong> 将一个变量声明为函数的局部变量，那么这个局部变量在函数执行完成之后不会被释放，而是继续保留在内存中</p>
+<p><strong>静态局部变量有以下特点</strong>：</p>
+<p>该变量在全局数据区分配内存；</p>
+<p>静态局部变量在程序执行到该对象的声明处时被首次初始化，即以后的函数调用不再进行初始化； 　　</p>
+<p>静态局部变量一般在声明处初始化，如果没有显式初始化，会被程序自动初始化为0；</p>
+<p>它始终驻留在全局数据区，直到程序运行结束。但其作用域为局部作用域，当定义它的函数或语句块结束时，其作用域随之结束；</p>
+<p><strong>定义静态函数的好处</strong>：</p>
+<p>静态函数不能被其它文件所用；</p>
+<p>其它文件中可以定义相同名字的函数，不会发生冲突；</p>
+<p><strong>2. static全局变量</strong>: 表示一个变量在当前文件的全局内可访问    </p>
+<p><strong>静态全局变量有以下特点：</strong></p>
+<p>该变量在全局数据区分配内存；</p>
+<p>未经初始化的静态全局变量会被程序自动初始化为0（ 在函数体内声明的自动变量的值是随机的，除非它被显式初始化，而在函数体外被声明的自动变量也会被初始化为0）；</p>
+<p>静态全局变量在声明它的整个文件都是可见的，而在文件之外是不可见的；</p>
+<p>静态变量都在全局数据区分配内存，包括后面将要提到的静态局部变量</p>
+<p><strong>定义静态全局变量好处：</strong></p>
+<p>静态全局变量不能被其它文件所用；</p>
+<p>其它文件中可以定义相同名字的变量，不会发生冲突；　</p>
+<p><strong>全局变量和全局静态变量的区别</strong>
+　　</p>
+<p>全局变量是不显式用static修饰的全局变量，但全局变量默认是动态的，作用域是整个工程，在一个文件内定义的全局变量，在另一个文件中，通过extern 全局变量名的声明，就可以使用全局变量。
+　</p>
+<p>全局静态变量是显式用static修饰的全局变量，作用域是所在的文件，其他的文件即使用extern声明也不能使用。
+　</p>
+<p><strong>3. static 函数 表示一个函数只能在当前文件中被访问</strong></p>
+<p><strong>4. static 类成员变量 表示这个成员为全类所共有</strong></p>
+<p><strong>5.static 类</strong>成员函数 表示这个函数为全类所共有，而且只能访问静态成员变量</p>
+<p>详细解释：<a href="https://www.cnblogs.com/heyonggang/p/3198431.html" target="_blank" rel="noopener">static用法详解</a></p>
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><ol>
+<li>const 常量：定义时就初始化，以后不能更改。</li>
+<li>const 形参：func(const int a){};该形参在函数里不能改变</li>
+<li>const修饰类成员函数：该函数对成员变量只能进行只读操作</li>
+</ol>
+<h3 id="static关键字的作用："><a href="#static关键字的作用：" class="headerlink" title="static关键字的作用："></a>static关键字的作用：</h3><p>（1）函数体内static变量的作用范围为该函数体，该变量的内存只被分配一次，因此其值在下次调用时仍维持上次的值； </p>
+<p>（2）在模块内的static全局变量和函数可以被模块内的函数访问，但不能被模块外其它函数访问； </p>
+<p>（3）在类中的static成员变量属于整个类所拥有，对类的所有对象只有一份拷贝； </p>
+<p>（4）在类中的static成员函数属于整个类所拥有，这个函数不接收this指针，因而只能访问类的static成员变量。</p>
+<h3 id="const关键字的作用："><a href="#const关键字的作用：" class="headerlink" title="const关键字的作用："></a>const关键字的作用：</h3><p>（1）阻止一个变量被改变 </p>
+<p>（2）声明常量指针和指针常量 </p>
+<p>（3）const修饰形参，表明它是一个输入参数，在函数内部不能改变其值； </p>
+<p>（4）对于类的成员函数，若指定其为const类型，则表明其是一个常函数，不能修改类的成员变量；</p>
+<p>（5）对于类的成员函数，有时候必须指定其返回值为const类型，以使得其返回值不为”左值”。</p>
+<h2 id="2-Linux下C程序的存储空间布局"><a href="#2-Linux下C程序的存储空间布局" class="headerlink" title="2.Linux下C程序的存储空间布局"></a><a href="https://www.cnblogs.com/LUO77/p/5853534.html" target="_blank" rel="noopener">2.Linux下C程序的存储空间布局</a></h2><p>一个程序本质上都是由 BSS 段、data段、text段三个组成的。可以看到一个可执行程序在存储（没有调入内存）时分为代码段、数据区和未初始化数据区三部分。</p>
+<ul>
+<li>BSS段(未初始化数据区)：在采用段式内存管理的架构中，BSS段（bss segment）通常是指用来存放程序中未初始化的全局变量的一块内存区域。BSS是英文Block Started by Symbol的简称。BSS段属于静态内存分配。</li>
+<li>数据段：在采用段式内存管理的架构中，数据段（data segment）通常是指用来存放程序中已初始化的全局变量的一块内存区域。数据段属于静态内存分配。</li>
+<li>代码段：在采用段式内存管理的架构中，代码段（text segment）通常是指用来存放程序执行代码的一块内存区域。这部分区域的大小在程序运行前就已经确定，<strong>并且内存区域属于只读</strong>。在代码段中，也有可能包含一些只读的常数变量，例如字符串常量等。</li>
+</ul>
+<p><img src="D:\MyBlog\image\Snipaste_2019-06-12_12-41-57.png" alt="Snipaste_2019-06-12_12-41-57"></p>
+<p>text段和data段在编译时已经分配了空间，而<strong>BSS段并不占用可执行文件的大小，它是由链接器来获取内存的</strong>。<br>    bss段（未进行初始化的数据）的内容并不存放在磁盘上的程序文件中。其原因是内核在程序开始运行前将它们设置为0。需要存放在程序文件中的只有正文段和初始化数据段。<br>    data段（已经初始化的数据）则为数据分配空间，数据保存到目标文件中。</p>
+<p>数据段包含经过初始化的全局变量以及它们的值。BSS段的大小从可执行文件中得到，然后链接器得到这个大小的内存块，紧跟在数据段的后面。当这个内存进入程序的地址空间后全部清零。<strong>包含数据段和BSS段的整个区段此时通常称为数据区。</strong></p>
+<p>  <strong>可执行程序在运行时又会多出两个区域：栈区和堆区。
+</strong>    </p>
+<p><strong>（4）栈区：由编译器自动释放，存放函数的参数值、局部变量等。</strong>每当一个函数被调用时，该函数的返回类型和一些调用的信息被存放到栈中。然后这个被调用的 函数再为他的自动变量和临时变量在栈上分配空间。每调用一个函数一个新的栈就会被使用。栈区是从高地址位向低地址位增长的，是一块连续的内存区域，最大容 量是由系统预先定义好的，申请的栈空间超过这个界限时会提示溢出，用户能从栈中获取的空间较小。</p>
+<p> <strong>（5）堆区：用于动态分配内存，位于BSS和栈中间的地址区域。由程序员申请分配和释放。</strong>堆是从低地址位向高地址位增长，采用链式存储结构。频繁的 malloc/free造成内存空间的不连续，产生碎片。当申请堆空间时库函数是按照一定的算法搜索可用的足够大的空间。因此堆的效率比栈要低的多。</p>
 
           
         
@@ -1501,804 +2467,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/嵌入式Linux网络编程.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/嵌入式Linux网络编程.html" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-04 13:07:52" itemprop="dateCreated datePublished" datetime="2019-03-04T13:07:52+08:00">2019-03-04</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-05 22:25:24" itemprop="dateModified" datetime="2019-03-05T22:25:24+08:00">2019-03-05</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="嵌入式-Linux-网络编程"><a href="#嵌入式-Linux-网络编程" class="headerlink" title="嵌入式 Linux 网络编程"></a>嵌入式 Linux 网络编程</h1><h2 id="第一章：TCP-IP-协议简介"><a href="#第一章：TCP-IP-协议简介" class="headerlink" title="第一章：TCP/IP 协议简介"></a>第一章：TCP/IP 协议简介</h2><h3 id="TCP-IP-协议概述"><a href="#TCP-IP-协议概述" class="headerlink" title="TCP/IP 协议概述"></a>TCP/IP 协议概述</h3><h4 id="OSI-参考模型及-TCP-IP-参考模型"><a href="#OSI-参考模型及-TCP-IP-参考模型" class="headerlink" title="OSI 参考模型及 TCP/IP 参考模型"></a>OSI 参考模型及 TCP/IP 参考模型</h4><p>OSI 协议参考模型是基于国际标准化组织（ISO）的建议发展起来的，从上<br>到下共分为 7 层：应用层、表示层、会话层、传输 层、 网络层、<br>数据链路层及物理层。这个 7 层的协议模型虽然规 定得非常细<br>致和完善，但在实际中却得不到广泛的应用，其重 要的原因之<br>一就在于它过于复杂。但它仍是此后很多协议模型 的基础，这<br>种分层架构的思想在很多领域都得到了广泛的应 用。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/嵌入式Linux网络编程.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/进程与线程.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/进程与线程.html" itemprop="url">
-                  进程与线程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-03-01 19:08:20" itemprop="dateCreated datePublished" datetime="2019-03-01T19:08:20+08:00">2019-03-01</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-05 17:59:13" itemprop="dateModified" datetime="2019-03-05T17:59:13+08:00">2019-03-05</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="第一章：Linux-多任务-编程"><a href="#第一章：Linux-多任务-编程" class="headerlink" title="第一章：Linux 多任务 编程"></a>第一章：Linux 多任务 编程</h1><p> 本章 主要 内容： </p>
-<p>简单的介绍一下什么叫多任务系统？任务、进程、线程分别是什么？它们之间的区别是什么？，从而可以宏观的了解一下这三者。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/进程与线程.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/unix下输入与输出-I-0.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/unix下输入与输出-I-0.html" itemprop="url">
-                  unix下输入与输出(I/0)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-02-28 11:31:17" itemprop="dateCreated datePublished" datetime="2019-02-28T11:31:17+08:00">2019-02-28</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-04 01:26:44" itemprop="dateModified" datetime="2019-03-04T01:26:44+08:00">2019-03-04</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="序"><a href="#序" class="headerlink" title="序"></a>序</h1><p>本章节主要讲解Linux下如何对文件操作，包括两部分：</p>
-<p>文件I/O和标准I/O</p>
-<p>他们有什么区别，该部分将使用一个专门都一下节去讲解。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/unix下输入与输出-I-0.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/数据结构.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/数据结构.html" itemprop="url">
-                  数据结构
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-02-27 12:41:05" itemprop="dateCreated datePublished" datetime="2019-02-27T12:41:05+08:00">2019-02-27</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-04 01:26:52" itemprop="dateModified" datetime="2019-03-04T01:26:52+08:00">2019-03-04</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="第一章：数据结构基数"><a href="#第一章：数据结构基数" class="headerlink" title="第一章：数据结构基数"></a>第一章：数据结构基数</h1><h2 id="第一节：数据与c"><a href="#第一节：数据与c" class="headerlink" title="第一节：数据与c"></a>第一节：数据与c</h2><h2 id="第二节：数组和指针"><a href="#第二节：数组和指针" class="headerlink" title="第二节：数组和指针"></a>第二节：数组和指针</h2><h2 id="第三节：结构体"><a href="#第三节：结构体" class="headerlink" title="第三节：结构体"></a>第三节：结构体</h2><h2 id="第四节：其他结构"><a href="#第四节：其他结构" class="headerlink" title="第四节：其他结构"></a>第四节：其他结构</h2>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/数据结构.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/C指针：基本概念、核心技术及最佳实践.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/C指针：基本概念、核心技术及最佳实践.html" itemprop="url">
-                  C指针：基本概念、核心技术及最佳实践
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-02-21 18:18:47" itemprop="dateCreated datePublished" datetime="2019-02-21T18:18:47+08:00">2019-02-21</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-02-23 16:24:51" itemprop="dateModified" datetime="2019-02-23T16:24:51+08:00">2019-02-23</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>指针的概念是如此让人难以把握。如果你能在脑海中将其“可视化”，将会有助于你直观理解指针的概念。“可视化”是指能在心里表现其存储、生命周期、值等。在深入介绍指针细节前，读者需要先了解内存概念、程序实时内存管理、虚拟内存、执行模型与部分汇编语言知识</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/C指针：基本概念、核心技术及最佳实践.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2343,7 +2516,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">36</span>
+                    <span class="site-state-item-count">41</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2403,7 +2576,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
