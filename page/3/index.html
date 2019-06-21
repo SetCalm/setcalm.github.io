@@ -340,6 +340,1114 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-21-LS7-4-UART.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog（重要保留）-2018-12-21-LS7-4-UART.html" itemprop="url">
+                  2018-12-21-LS7-4-UART
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-21 21:11:40" itemprop="dateCreated datePublished" datetime="2018-12-21T21:11:40+08:00">2018-12-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-24 22:30:56" itemprop="dateModified" datetime="2018-12-24T22:30:56+08:00">2018-12-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/S3C244裸机开发/" itemprop="url" rel="index"><span itemprop="name">S3C244裸机开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h2><h3 id="usart功能："><a href="#usart功能：" class="headerlink" title="usart功能："></a>usart功能：</h3><p>打印调式信息</p>
+<p>外接各种模块：gps，蓝牙，WiFi….</p>
+<p>结构简单，可靠。</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_21-17-33.png" alt="Snipaste_2018-12-21_21-17-33"></p>
+<h3 id="简单协议"><a href="#简单协议" class="headerlink" title="简单协议"></a>简单协议</h3><p>波特率</p>
+<p>数据格式：数据位，停止位，校验位，流量控制。</p>
+<p>如何发送字节</p>
+<p>假如要发送一个字节’A’;</p>
+<p>‘A’ :0x41:0b01000001</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-22-10.png" alt="Snipaste_2018-12-21_22-22-10"></p>
+<p>①双方约定好每一位占据的时间（波特率）</p>
+<p>​    假设每一单位时间ts，（t=1/baud（s））</p>
+<p>②开始时txd为高电平，当开始发送数据时把数据线拉低，计时1t（s）为开始位。</p>
+<p>③写：ARM根据数据’A’驱动TXD的电平</p>
+<p>   读：通过在数据的中间时间段读取电平</p>
+<p>当8位数据发送完毕，再发送一个检验位（奇/偶检验），但随着技术提高现在几乎都为0，不校验。</p>
+<p>④一个字节（8bit）完成后发送一个停止位（高电平，一般设置占据1/1.5/2t（s）时间）。传送完成，此时txd高电平空闲状态，等待开始下个字节发送。</p>
+<h3 id="关于逻辑电平表示"><a href="#关于逻辑电平表示" class="headerlink" title="关于逻辑电平表示"></a>关于逻辑电平表示</h3><p>1.TTL/CMOS表示</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-26-58.png" alt="Snipaste_2018-12-21_22-26-58"></p>
+<p>0~0.7 (y) v表示逻辑“0”，x（2）~5v表示逻辑“1”</p>
+<p>2.RS232表示</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-28-24.png" alt="Snipaste_2018-12-21_22-28-24"></p>
+<p>+3~012v表示逻辑“0”，-3~-12v表示逻辑“1”</p>
+<p>总结：cmos/ttl电平范围（0~5v）小，传输距离近，RS-232电平范围（-12~+12v）大，可以距离远。一般远距离使用RS232。</p>
+<p>cmos/ttl和rs232电平波形相反。</p>
+<h3 id="常见串口接口"><a href="#常见串口接口" class="headerlink" title="常见串口接口"></a>常见串口接口</h3><h4 id="直接引出"><a href="#直接引出" class="headerlink" title="直接引出"></a>直接引出</h4><h4 id="RS232接口、RS485"><a href="#RS232接口、RS485" class="headerlink" title="RS232接口、RS485"></a>RS232接口、RS485</h4><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-44-39.png" alt="Snipaste_2018-12-21_22-44-39"></p>
+<h4 id="usb接口"><a href="#usb接口" class="headerlink" title="usb接口"></a>usb接口</h4><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_22-44-49.png" alt="Snipaste_2018-12-21_22-44-49"></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>参考：<a href="https://www.cnblogs.com/Ph-one/p/3994797.html" target="_blank" rel="noopener">USB/232/485/TTL/CMOS（串口通信）</a></p>
+<p>1.USB:电脑的USB口信号时USB信号，为差分信号，电压范围：+400mV~-400mV间变化；直流电压5V 驱动电流500MA</p>
+<p>2.232电平：　　逻辑1(MARK)=-3V～-15V　　逻辑0(SPACE)=+3～+15V</p>
+<p>3.485电平：　　它是<a href="http://www.baidu.com/s?wd=%E5%B7%AE%E5%88%86%E4%BF%A1%E5%8F%B7&amp;hl_tag=textlink&amp;tn=SE_hldp01350_v6v6zkg6" target="_blank" rel="noopener">差分信号</a>，两信号线 ＋2V～＋6V表示“0”，　　- 6V～- 2V表示“1”。</p>
+<p>4.TTL电平：　　一般输出高电平是3.5V，输出低电平是0.2V。</p>
+<p>5.CMOS  ：　　门闩值为0.3VCC和0.7VCC，比如对于5V供电器件，分别为1.5V和3.5V（大概）</p>
+<p>对于TTL器件和CMOS器件相连，如果是CMOS器件输出到TTL器件，这个也是可以直接连的，因为CMOS电平的范围是TTL输入电平范围的子集。但如果反过来就不行，因为TTL电平的输出范围要比CMOS电平的范围大，有可能出现不确定的电平状态,引起电路出现不可预知的混乱。</p>
+<h3 id="UART-结构框图"><a href="#UART-结构框图" class="headerlink" title="UART 结构框图"></a>UART 结构框图</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_23-01-04.png" alt="Snipaste_2018-12-21_23-01-04"></p>
+<p>程序是如何把内存的数据发送到串口？</p>
+<p>程序把内存的数据写入FITO(先进先出)存储器内，uart单元会把FIFI的数据写入移位器（Transmit Shifiter），然后移位器（Transmit Shifiter）按照设置好协议逐位发送给串口。</p>
+<p>当内存接收完毕，uart单元产生中断给CPU</p>
+<p>程序是如何接收串口的数据写到串口？</p>
+<p>uart单元会逐位接收串口的数据，然后把接收到的数据写入移位器（Receiver Shifiter）内，然后程序会把FITO(先进先出)存储器内的数据写入内存。</p>
+<p>当内存接收完毕，uart单元产生中断给CPU</p>
+<h2 id="软件编程"><a href="#软件编程" class="headerlink" title="软件编程"></a>软件编程</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><ol>
+<li>设置引脚用于串口</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 设置引脚用于串口 */</span></span><br><span class="line">	<span class="comment">/* GPH2,3用于TxD0, RxD0 */</span></span><br><span class="line">	GPHCON&amp;=~((<span class="number">3</span>&lt;&lt;<span class="number">4</span>)|(<span class="number">3</span>&lt;&lt;<span class="number">6</span>));</span><br><span class="line">	GPHCON&amp;=~((<span class="number">2</span>&lt;&lt;<span class="number">4</span>)|(<span class="number">2</span>&lt;&lt;<span class="number">6</span>));</span><br><span class="line">	<span class="comment">//上拉</span></span><br><span class="line">	GPHUP!=((<span class="number">1</span>&lt;&lt;<span class="number">2</span>)|(<span class="number">1</span>&lt;&lt;<span class="number">3</span>));</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>设置波特率</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_21-11-56.png" alt="Snipaste_2018-12-24_21-11-56"></p>
+</li>
+</ol>
+<p>​    </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 设置波特率 */</span></span><br><span class="line">	<span class="comment">/* UBRDIVn = (int)( UART clock / ( buad rate x 16) ) –1</span></span><br><span class="line"><span class="comment">	 *  UART clock = 50M</span></span><br><span class="line"><span class="comment">	 *  UBRDIVn = (int)( 50000000 / ( 115200 x 16) ) –1 = 26</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	 UCON0 = <span class="number">0x00000005</span>; <span class="comment">/* 设置使用PCLK时钟50MHZ,中断/查询模式 */</span></span><br><span class="line">	UBRDIV0 = <span class="number">26</span>;</span><br></pre></td></tr></table></figure>
+<p>​    3.设置数据格式 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 设置数据格式 */</span></span><br><span class="line"></span><br><span class="line">ULCON0 = <span class="number">0x00000003</span>; <span class="comment">/* 8n1: 8个数据位, 无较验位, 1个停止位 */</span></span><br></pre></td></tr></table></figure>
+<p>uart0_init</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 115200,8n1 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">uart0_init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">/* 设置引脚用于串口 */</span></span><br><span class="line">	<span class="comment">/* GPH2,3用于TxD0, RxD0 */</span></span><br><span class="line">	GPHCON &amp;= ~((<span class="number">3</span>&lt;&lt;<span class="number">4</span>) | (<span class="number">3</span>&lt;&lt;<span class="number">6</span>));</span><br><span class="line">	GPHCON |= ((<span class="number">2</span>&lt;&lt;<span class="number">4</span>) | (<span class="number">2</span>&lt;&lt;<span class="number">6</span>));</span><br><span class="line"></span><br><span class="line">	GPHUP &amp;= ~((<span class="number">1</span>&lt;&lt;<span class="number">2</span>) | (<span class="number">1</span>&lt;&lt;<span class="number">3</span>));  <span class="comment">/* 使能内部上拉 */</span></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 设置波特率 */</span></span><br><span class="line">	<span class="comment">/* UBRDIVn = (int)( UART clock / ( buad rate x 16) ) –1</span></span><br><span class="line"><span class="comment">	 *  UART clock = 50M</span></span><br><span class="line"><span class="comment">	 *  UBRDIVn = (int)( 50000000 / ( 115200 x 16) ) –1 = 26</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	UCON0 = <span class="number">0x00000005</span>; <span class="comment">/* PCLK,中断/查询模式 */</span></span><br><span class="line">	UBRDIV0 = <span class="number">26</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 设置数据格式 */</span></span><br><span class="line">	ULCON0 = <span class="number">0x00000003</span>; <span class="comment">/* 8n1: 8个数据位, 无较验位, 1个停止位 */</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/*  */</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数实现"><a href="#函数实现" class="headerlink" title="函数实现"></a>函数实现</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_21-46-03.png" alt="Snipaste_2018-12-24_21-46-03"></p>
+<p><strong>输入字节</strong></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_21-46-15.png" alt="Snipaste_2018-12-24_21-46-15"></p>
+<p>由上可知：判断是否有数据：当上面该位为0，UTXH0寄存器里面有数据，等待发送，为1时：数据发送出去，为空，此时写入数据</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* UTRSTAT0 */</span></span><br><span class="line">	<span class="comment">/* UTXH0 */</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (!(UTRSTAT0 &amp; (<span class="number">1</span>&lt;&lt;<span class="number">2</span>)));</span><br><span class="line">	UTXH0 = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)c;</span><br></pre></td></tr></table></figure>
+<p>注意在上c2440_soc.h中添加</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_22-11-30.png" alt="Snipaste_2018-12-24_22-11-30"></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-24_22-11-12.png" alt="Snipaste_2018-12-24_22-11-12"></p>
+<p>UTXH0地址为0向0000020（L）</p>
+<p>数据格式为byte</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span>     __REG_BYTE(x)				(*(volatile unsigned char *)(x)) </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>     UTXH0                    __REG_BYTE(0x50000020)  <span class="comment">//UART 0 transmission hold</span></span></span><br></pre></td></tr></table></figure>
+<p><strong>输出字节：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getchar</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (!(UTRSTAT0 &amp; (<span class="number">1</span>&lt;&lt;<span class="number">0</span>)));</span><br><span class="line">	<span class="keyword">return</span> URXH0;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>输出字符串：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">puts</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">putchar</span>(*s);</span><br><span class="line">		s++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">putchar</span><span class="params">(<span class="keyword">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">/* UTRSTAT0 */</span></span><br><span class="line">	<span class="comment">/* UTXH0 */</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (!(UTRSTAT0 &amp; (<span class="number">1</span>&lt;&lt;<span class="number">2</span>)));</span><br><span class="line">	UTXH0 = (<span class="keyword">unsigned</span> <span class="keyword">char</span>)c;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getchar</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (!(UTRSTAT0 &amp; (<span class="number">1</span>&lt;&lt;<span class="number">0</span>)));</span><br><span class="line">	<span class="keyword">return</span> URXH0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">puts</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (*s)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">putchar</span>(*s);</span><br><span class="line">		s++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-21-2018-12-21-LS7-4-ARM芯片时钟体系.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog（重要保留）-2018-12-21-2018-12-21-LS7-4-ARM芯片时钟体系.html" itemprop="url">
+                  2018-12-21-LS7-4-ARM芯片时钟体系
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-21 21:10:58" itemprop="dateCreated datePublished" datetime="2018-12-21T21:10:58+08:00">2018-12-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-25 01:48:13" itemprop="dateModified" datetime="2018-12-25T01:48:13+08:00">2018-12-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-21-LS6-3-ARM芯片时钟体系.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog（重要保留）-2018-12-21-LS6-3-ARM芯片时钟体系.html" itemprop="url">
+                  LS6-3.ARM芯片时钟体系
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-21 00:03:42 / 修改时间：21:13:06" itemprop="dateCreated datePublished" datetime="2018-12-21T00:03:42+08:00">2018-12-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/S3C244裸机开发/" itemprop="url" rel="index"><span itemprop="name">S3C244裸机开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="时钟体系架构"><a href="#时钟体系架构" class="headerlink" title="时钟体系架构"></a>时钟体系架构</h2><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_00-10-02.png" alt="Snipaste_2018-12-21_00-10-02"></p>
+<p>cpu：fclk</p>
+<p>AHB:高速总线（HCLK）</p>
+<p>APB:低速总线（PCLK）</p>
+<h3 id="时钟最大范围"><a href="#时钟最大范围" class="headerlink" title="时钟最大范围"></a>时钟最大范围</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_00-14-33.png" alt="Snipaste_2018-12-21_00-14-33"></p>
+<h3 id="时钟源"><a href="#时钟源" class="headerlink" title="时钟源"></a>时钟源</h3><p>可以通过①外部引脚提供和②晶振提供</p>
+<h2 id="JZ2240开发板时钟选择"><a href="#JZ2240开发板时钟选择" class="headerlink" title="JZ2240开发板时钟选择"></a>JZ2240开发板时钟选择</h2><h3 id="jz2240时钟源"><a href="#jz2240时钟源" class="headerlink" title="jz2240时钟源"></a>jz2240时钟源</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_00-22-05.png" alt="Snipaste_2018-12-21_00-22-05"></p>
+<p>时钟源可以由外部引脚提供或者12M晶振提供，通过OM[3:2]选择使用哪个作为时钟源，选择方式如下：</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_00-26-49.png" alt="Snipaste_2018-12-21_00-26-49"></p>
+<h3 id="JZ2240开发板时钟选择-1"><a href="#JZ2240开发板时钟选择-1" class="headerlink" title="JZ2240开发板时钟选择"></a>JZ2240开发板时钟选择</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_00-28-56.png" alt="Snipaste_2018-12-21_00-28-56"></p>
+<p>图中看出OM[3:2]都为00:注时钟源和USB时钟源都为12M晶振。</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_00-18-58.png" alt="Snipaste_2018-12-21_00-18-58"></p>
+<p>三者时钟源由12M晶振提供，通过PLL(锁相环)来倍频得到FCLK：400Mhz</p>
+<h3 id="JZ2240时钟分析"><a href="#JZ2240时钟分析" class="headerlink" title="JZ2240时钟分析"></a>JZ2240时钟分析</h3><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_00-41-25.png" alt="Snipaste_2018-12-21_00-41-25"></p>
+<ul>
+<li><p>由①OM[3,2]选择②MPLL（主时钟源）,③UPLL（USB时钟源）的时钟源，这里OM[3,2]=00，选择MPLL，UPLL时钟为OSC（外部12M晶振）（硬件）。</p>
+</li>
+<li><p>时钟源通过②MPLL锁相环倍频得到⑦FCLK：400Mmz,</p>
+</li>
+<li><p>通过CLKCNTL获的⑤HCLK,⑥PCLK时钟</p>
+<p>FCLK：提供给CPU</p>
+<p>HCLK:AHB(高速总线)</p>
+<p>PCLK:APB(低速总线)</p>
+</li>
+</ul>
+<h2 id="时钟系统总结"><a href="#时钟系统总结" class="headerlink" title="时钟系统总结"></a>时钟系统总结</h2><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_00-53-58.png" alt="Snipaste_2018-12-21_00-53-58"></p>
+<h2 id="软件编程"><a href="#软件编程" class="headerlink" title="软件编程"></a>软件编程</h2><h3 id="时钟设置原理"><a href="#时钟设置原理" class="headerlink" title="时钟设置原理"></a>时钟设置原理</h3><p>通过控制MPLL，HDIV和PDIV</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_01-10-41.png" alt="Snipaste_2018-12-21_01-10-41"></p>
+<ol>
+<li>电源启动，复位引脚维持一段时间等待电源稳定，才输出高电平。（专用复位芯片会使复位脚等待一段时间才会高电平）</li>
+<li>根据OM[3:2]=00,选择FCLK=12Mhz晶振提供时钟，此时CPU未运行。</li>
+<li>等复位脚松开高电平时，cpu开始运行。此时PLL锁存OM[3:2]的值</li>
+<li>设置PLL，此时CPU停止工作，</li>
+<li>PLL开始工作，等待PLL输出稳定频率，CPU 开始运行</li>
+</ol>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_19-53-38.png" alt="Snipaste_2018-12-21_19-53-38"></p>
+<p>我们要设置S3C2440的FCLK=400Mhz，HCLK=100Mhz，PCLK=50Mhz</p>
+<p>1.使  FCLK=400M:通过MPLLCON设置。</p>
+<p>2.使HCLK=100Mhz，PCLK=50Mhz：设置CLKDIV</p>
+<p>HCLK=FCLK/4</p>
+<p>PCLK=FCLK/8=HCLK/2</p>
+<h3 id="如何设置系统设置"><a href="#如何设置系统设置" class="headerlink" title="如何设置系统设置"></a>如何设置系统设置</h3><p>如何通过程序控制MPLL，HDIV和PDIV</p>
+<h4 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h4><p>1.使  FCLK=400M:通过MPLLCON设置</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_20-22-49.png" alt="Snipaste_2018-12-21_20-22-49"></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_20-27-42.png" alt="Snipaste_2018-12-21_20-27-42"></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_20-24-14.png" alt="Snipaste_2018-12-21_20-24-14"></p>
+<p>从图看出要使FCLK=400M:<strong>MPLLCON=(92&lt;&lt;12)|(1&lt;&lt;4)|(1&lt;&lt;0)</strong></p>
+<h4 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h4><p>2.使HCLK=100Mhz，PCLK=50Mhz：设置CLKDIV</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_20-10-08.png" alt="Snipaste_2018-12-21_20-10-08"></p>
+<p>HCLK=FCLK/4:CLKDIVN[2:1]=0b10</p>
+<p>PCLK=FCLK/8=HCLK/2:CLKDIVN[0]=1</p>
+<p>即：CLKDIVN=0b101=0x05  FCLK:HCLK:PCLK=1:4：8</p>
+<h4 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h4><p><img src="D:\MyBlog\图片\Snipaste_2018-12-21_20-46-14.png" alt="Snipaste_2018-12-21_20-46-14"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>该命令是使处理器工作在异步模式下，</p>
+<p>HDIV不等于0 ，需要设置在异步模式，否则CPU工作在HCLK=100时钟。</p>
+<h3 id="开编程"><a href="#开编程" class="headerlink" title="开编程"></a>开编程</h3><p>由于时钟使用到汇编的协处理器指令，所以时钟程序使用汇编来写。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 设置MPLL, FCLK : HCLK : PCLK = 400m : 100m : 50m */</span></span><br><span class="line"><span class="comment">/* LOCKTIME(0x4C000000) = 0xFFFFFFFF */</span></span><br><span class="line">ldr r0, =<span class="number">0x4C000000</span></span><br><span class="line">ldr r1, =<span class="number">0xFFFFFFFF</span></span><br><span class="line">str r1, [r0]</span><br><span class="line"></span><br><span class="line"><span class="comment">/* CLKDIVN(0x4C000014) = 0X5, tFCLK:tHCLK:tPCLK = 1:4:8  */</span></span><br><span class="line">ldr r0, =<span class="number">0x4C000014</span></span><br><span class="line">ldr r1, =<span class="number">0x5</span></span><br><span class="line">str r1, [r0]</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 设置CPU工作于异步模式 */</span></span><br><span class="line">mrc p15,<span class="number">0</span>,r0,c1,c0,<span class="number">0</span></span><br><span class="line">orr r0,r0,#<span class="number">0xc0000000</span>   <span class="comment">//R1_nF:OR:R1_iA</span></span><br><span class="line">mcr p15,<span class="number">0</span>,r0,c1,c0,<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 设置MPLLCON(0x4C000004) = (92&lt;&lt;12)|(1&lt;&lt;4)|(1&lt;&lt;0) </span></span><br><span class="line"><span class="comment"> *  m = MDIV+8 = 92+8=100</span></span><br><span class="line"><span class="comment"> *  p = PDIV+2 = 1+2 = 3</span></span><br><span class="line"><span class="comment"> *  s = SDIV = 1</span></span><br><span class="line"><span class="comment"> *  FCLK = 2*m*Fin/(p*2^s) = 2*100*12/(3*2^1)=400M</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">ldr r0, =<span class="number">0x4C000004</span></span><br><span class="line">ldr r1, =(<span class="number">92</span>&lt;&lt;<span class="number">12</span>)|(<span class="number">1</span>&lt;&lt;<span class="number">4</span>)|(<span class="number">1</span>&lt;&lt;<span class="number">0</span>)</span><br><span class="line">str r1, [r0]</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 一旦设置PLL, 就会锁定lock time直到PLL输出稳定</span></span><br><span class="line"><span class="comment"> * 然后CPU工作于新的频率FCLK</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-20-LS5-2-key之led控制.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog（重要保留）-2018-12-20-LS5-2-key之led控制.html" itemprop="url">
+                  2018-12-20-LS5-2.key之led控制.md
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-20 17:39:31" itemprop="dateCreated datePublished" datetime="2018-12-20T17:39:31+08:00">2018-12-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-21 00:01:30" itemprop="dateModified" datetime="2018-12-21T00:01:30+08:00">2018-12-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/S3C244裸机开发/" itemprop="url" rel="index"><span itemprop="name">S3C244裸机开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>简介：</p>
+<p>通过开发板上的S2,S3,S4控制D10,D11,D12的亮灭</p>
+<ul>
+<li>按下S2，D10亮；松开S2，D10灭。</li>
+<li>按下S3，D11亮；松开S3，D11灭。</li>
+<li>按下S4，D12亮；松开S4，D12灭。</li>
+</ul>
+<p>原理图：</p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-20_18-12-16.png" alt="Snipaste_2018-12-20_18-12-16"></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-20_18-11-19.png" alt="Snipaste_2018-12-20_18-11-19"></p>
+<p><img src="D:\MyBlog\图片\Snipaste_2018-12-20_18-09-17.png" alt="Snipaste_2018-12-20_18-09-17"></p>
+<p>通过原理图看出S2(GPF0)，S3(GPF2)，S4(GPG3)。D10(GPF4)，D11(GPF5)，D12(GPF6).</p>
+<p>当按键松开时为高电平，按下为低电平。</p>
+<p>当D10~D12输出低电平时亮，高电平时，灭</p>
+<p>软件编程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * key控制LED</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"s3c2440_soc.h"</span><span class="comment">//引入头文件，寄存器定义</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val1;</span><br><span class="line">	<span class="keyword">int</span> val2;</span><br><span class="line"><span class="comment">/*配置GPF4/5/6为输出引脚*/</span></span><br><span class="line">	GPFCON &amp;= ~((<span class="number">3</span>&lt;&lt;<span class="number">8</span>)|(<span class="number">3</span>&lt;&lt;<span class="number">10</span>)|(<span class="number">3</span>&lt;&lt;<span class="number">12</span>));</span><br><span class="line">	GPFCON |=  ((<span class="number">1</span>&lt;&lt;<span class="number">8</span>)|(<span class="number">1</span>&lt;&lt;<span class="number">10</span>)|(<span class="number">1</span>&lt;&lt;<span class="number">12</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*配置GPF0/2，GPG3为输入引脚*/</span></span><br><span class="line">	GPFCON &amp;= ~((<span class="number">3</span>&lt;&lt;<span class="number">0</span>)|(<span class="number">3</span>&lt;&lt;<span class="number">4</span>));</span><br><span class="line">	GPGCON &amp;= ~(<span class="number">3</span>&lt;&lt;<span class="number">6</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* 死循环 */</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		val1=GPFDAT;<span class="comment">//保存GPFDAT的值</span></span><br><span class="line">		val2=GPGDAT;<span class="comment">//保存GPGDAT的值</span></span><br><span class="line">		<span class="keyword">if</span>(val1&amp;(<span class="number">1</span>&lt;&lt;<span class="number">0</span>))<span class="comment">//判断val1的4bit是0还是1，是1，松开</span></span><br><span class="line">		&#123;</span><br><span class="line">			GPFDAT|=(<span class="number">1</span>&lt;&lt;<span class="number">4</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			GPFDAT&amp;=~(<span class="number">1</span>&lt;&lt;<span class="number">4</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(val1&amp;(<span class="number">1</span>&lt;&lt;<span class="number">2</span>))<span class="comment">//判断val1的4bit是0还是1，是1，松开</span></span><br><span class="line">		&#123;</span><br><span class="line">			GPFDAT|=(<span class="number">1</span>&lt;&lt;<span class="number">5</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			GPFDAT&amp;=~(<span class="number">1</span>&lt;&lt;<span class="number">5</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(val2&amp;(<span class="number">1</span>&lt;&lt;<span class="number">3</span>))<span class="comment">//判断val1的4bit是0还是1，是1，松开</span></span><br><span class="line">		&#123;</span><br><span class="line">			GPFDAT|=(<span class="number">1</span>&lt;&lt;<span class="number">6</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			GPFDAT&amp;=~(<span class="number">1</span>&lt;&lt;<span class="number">6</span>);</span><br><span class="line">		&#125;</span><br><span class="line">        </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-阿里图床测试.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog（重要保留）-阿里图床测试.html" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-20 04:06:41 / 修改时间：14:21:11" itemprop="dateCreated datePublished" datetime="2018-12-20T04:06:41+08:00">2018-12-20</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="阿里图床测试"><a href="#阿里图床测试" class="headerlink" title="阿里图床测试"></a>阿里图床测试</h1><p><img src="https://setcalm.oss-cn-zhangjiakou.aliyuncs.com/%E5%9B%BE%E5%BA%8A/Snipaste_2018-12-18_23-31-14.png" alt="Snipaste_2018-12-20_03-19-45"></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-18-LS2-开发之系统安装.html">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/blog（重要保留）-2018-12-18-LS2-开发之系统安装.html" itemprop="url">
+                  2018-12-14-LS1-开发之系统安装
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-18 17:51:48" itemprop="dateCreated datePublished" datetime="2018-12-18T17:51:48+08:00">2018-12-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-20 14:20:58" itemprop="dateModified" datetime="2018-12-20T14:20:58+08:00">2018-12-20</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/S3C244入门/" itemprop="url" rel="index"><span itemprop="name">S3C244入门</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="烧录软件安装"><a href="#烧录软件安装" class="headerlink" title="烧录软件安装"></a>烧录软件安装</h2><h3 id="EasyOpenJTAG介绍及安装程序"><a href="#EasyOpenJTAG介绍及安装程序" class="headerlink" title="EasyOpenJTAG介绍及安装程序"></a>EasyOpenJTAG介绍及安装程序</h3><h4 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h4>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/blog（重要保留）-2018-12-18-LS2-开发之系统安装.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-15-LS4-1-1LED实现.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1034,1080 +2142,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-08-M1-MT7688Duo程序设计环境配置-副本.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/blog（重要保留）-2018-12-08-M1-MT7688Duo程序设计环境配置-副本.html" itemprop="url">
-                  M1_MT7688程序设计环境配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-12 17:28:27" itemprop="dateCreated datePublished" datetime="2018-12-12T17:28:27+08:00">2018-12-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-20 14:18:27" itemprop="dateModified" datetime="2018-12-20T14:18:27+08:00">2018-12-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/MT7688入门/" itemprop="url" rel="index"><span itemprop="name">MT7688入门</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>注：由于使用的开发板为LinkIt Smart 7688 Duo，因此后续不会有LinkIt Smart 7688。或一笔带过。</p>
-<h3 id="程序设计环境向导"><a href="#程序设计环境向导" class="headerlink" title="程序设计环境向导"></a>程序设计环境向导</h3><p>这一章介绍：</p>
-<ul>
-<li>本平台使用的操作系统</li>
-<li>LinkIt Smart 7688开发平台提供的程序设计环境</li>
-<li>各种程序设计模型以及如何在开发板上使用</li>
-<li>用于与开发板进行Wi-Fi通信的网络环境</li>
-<li>使用C/C++、Python和Node.js创建应用程序的方法</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/blog（重要保留）-2018-12-08-M1-MT7688Duo程序设计环境配置-副本.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-10-M0-LinkitSmartMT7688-概述.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/blog（重要保留）-2018-12-10-M0-LinkitSmartMT7688-概述.html" itemprop="url">
-                  M0-LinkitSmartMT7688-概述
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-10 20:03:15" itemprop="dateCreated datePublished" datetime="2018-12-10T20:03:15+08:00">2018-12-10</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-20 14:19:27" itemprop="dateModified" datetime="2018-12-20T14:19:27+08:00">2018-12-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/MT7688入门/" itemprop="url" rel="index"><span itemprop="name">MT7688入门</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这篇文章注要介绍开发联发科LinkIt™ Smart 7688 开发平台，LinkIt Smart 7688 Duo开发平台的软件工具一开发使用文档以及LinkIt Smart 7688 Duo硬件和规格的简单介绍</p>
-<h4 id="序"><a href="#序" class="headerlink" title="序"></a>序</h4><p>联发科技创意实验室（MediaTek Labs）推出的 LinkIt™ Smart 7688 开发平台。该联发科技 LinkIt 开发平台系列可提供多种开发环境选项来加速各种先进的Wi-Fi 无线连接设备的开发进程，比如利用云服务的 IP 摄像头、监控设备、智能电器和无线网关。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/blog（重要保留）-2018-12-10-M0-LinkitSmartMT7688-概述.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-09-M2-创建第一个示例-D13闪烁.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/blog（重要保留）-2018-12-09-M2-创建第一个示例-D13闪烁.html" itemprop="url">
-                  M2_MT7688创建第一个示例_D13闪烁
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-09 23:46:40" itemprop="dateCreated datePublished" datetime="2018-12-09T23:46:40+08:00">2018-12-09</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-20 14:18:56" itemprop="dateModified" datetime="2018-12-20T14:18:56+08:00">2018-12-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/MT7688编程/" itemprop="url" rel="index"><span itemprop="name">MT7688编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ul>
-<li><p>今天来创建MT7688的第一个实例：使LinkIt Smart 7688 Duo板上的D13 LED每秒闪烁一次</p>
-</li>
-<li><p>Arduino 在<code>Serial1</code> 端口上侦听使用Python程序从Linux端发出的命令。每次从<code>Serial1</code> 端口上监听到MT7688上的Python程序放松的命令时  ，都会更改电路板上D13 LED的状态。</p>
-</li>
-<li><p>下图是LinkIt Smart 7688 硬件架构 与mpu和mcu通信原理图</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/blog（重要保留）-2018-12-09-M2-创建第一个示例-D13闪烁.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </li></ul></div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-09-L3-vim入门.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/blog（重要保留）-2018-12-09-L3-vim入门.html" itemprop="url">
-                  L3_vim入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-09 16:39:22" itemprop="dateCreated datePublished" datetime="2018-12-09T16:39:22+08:00">2018-12-09</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-20 14:18:42" itemprop="dateModified" datetime="2018-12-20T14:18:42+08:00">2018-12-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Vim入门/" itemprop="url" rel="index"><span itemprop="name">Vim入门</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>今天学习中使用到vim文本编辑器，忽然发现不太会使用了。心里一百句mmb，一段时间未用就快忘记了。所以也看出笔记的重要性。因此重新预习下vim并记录下来，以备以后查看。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/blog（重要保留）-2018-12-09-L3-vim入门.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-07-L2-Ubuntu的简单使用.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/blog（重要保留）-2018-12-07-L2-Ubuntu的简单使用.html" itemprop="url">
-                  L2_Linux(Ubuntu)的简单使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-07 17:56:10" itemprop="dateCreated datePublished" datetime="2018-12-07T17:56:10+08:00">2018-12-07</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-20 14:18:10" itemprop="dateModified" datetime="2018-12-20T14:18:10+08:00">2018-12-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Linux入门/" itemprop="url" rel="index"><span itemprop="name">Linux入门</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="Linux-基础"><a href="#Linux-基础" class="headerlink" title="Linux 基础"></a>Linux 基础</h3><p>启动终端：快捷方式：Ctrl + Alt + T</p>
-<h4 id="Linux目录和文件系统结构"><a href="#Linux目录和文件系统结构" class="headerlink" title="Linux目录和文件系统结构"></a>Linux目录和文件系统结构</h4><p>首先观察下Ubuntu的文件系统。Linux 和 Unix 文件系统被组织成一个有层次的树形结构。文件系统的最上层是 /，称为根目录</p>
-<p>在终端下命令：ls</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/blog（重要保留）-2018-12-07-L2-Ubuntu的简单使用.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-12-07-L1-虚拟机安装Ubuntu系统.html">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jeff Wu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jeff">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/blog（重要保留）-2018-12-07-L1-虚拟机安装Ubuntu系统.html" itemprop="url">
-                  L1_虚拟机安装Ubuntu系统
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-07 15:56:46" itemprop="dateCreated datePublished" datetime="2018-12-07T15:56:46+08:00">2018-12-07</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2018-12-20 14:17:54" itemprop="dateModified" datetime="2018-12-20T14:17:54+08:00">2018-12-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Ubuntu安装教程/" itemprop="url" rel="index"><span itemprop="name">Ubuntu安装教程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Ubuntu 18.0.01 LTS:<a href="https://www.ubuntu.com/download/desktop" target="_blank" rel="noopener">https://www.ubuntu.com/download/desktop</a></p>
-<p>安装指南：<a href="https://tutorials.ubuntu.com/tutorial/tutorial-install-ubuntu-desktop?_ga=2.26529661.1364004595.1544156464-1403747218.1544156464#0" target="_blank" rel="noopener">https://tutorials.ubuntu.com/tutorial/tutorial-install-ubuntu-desktop?_ga=2.26529661.1364004595.1544156464-1403747218.1544156464#0</a></p>
-<p>   U盘启动盘制作：<a href="https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-windows#0（未使用到，因为使用的虚拟机）" target="_blank" rel="noopener">https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-windows#0（未使用到，因为使用的虚拟机）</a></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/blog（重要保留）-2018-12-07-L1-虚拟机安装Ubuntu系统.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-         
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2157,7 +2191,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

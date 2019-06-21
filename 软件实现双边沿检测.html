@@ -108,15 +108,20 @@
 
 
 
-  <meta name="keywords" content="暂时无">
+  <meta name="description" content="双边缘检测（软件实现方法） 由于某开发需要使用上升沿后下降沿触发，软件都完成了，却发现该MCU只能上升或下降沿触发不能双边缘检测。只能在心里骂几句mmb。但软件还是要写的，不能半途而废。用尽一切办法无能为力，最后网上找到使用软件实现方法。 本来理想方法是程序初始化为上升沿触发，触发后进入中断然后在中断中判断触发方式（如果是上升沿触发下次改为上升沿触发，反之亦然），但是改变后中断使能为会置0， 在中">
+<meta name="keywords" content="暂时无">
 <meta property="og:type" content="article">
-<meta property="og:title" content="视频">
-<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-11-14-视频.html">
+<meta property="og:title" content="Jeff">
+<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/软件实现双边沿检测.html">
 <meta property="og:site_name" content="Jeff">
+<meta property="og:description" content="双边缘检测（软件实现方法） 由于某开发需要使用上升沿后下降沿触发，软件都完成了，却发现该MCU只能上升或下降沿触发不能双边缘检测。只能在心里骂几句mmb。但软件还是要写的，不能半途而废。用尽一切办法无能为力，最后网上找到使用软件实现方法。 本来理想方法是程序初始化为上升沿触发，触发后进入中断然后在中断中判断触发方式（如果是上升沿触发下次改为上升沿触发，反之亦然），但是改变后中断使能为会置0， 在中">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-14T13:04:49.716Z">
+<meta property="og:image" content="e:/0.jeff/博客/">
+<meta property="og:updated_time" content="2019-04-17T07:54:51.348Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="视频">
+<meta name="twitter:title" content="Jeff">
+<meta name="twitter:description" content="双边缘检测（软件实现方法） 由于某开发需要使用上升沿后下降沿触发，软件都完成了，却发现该MCU只能上升或下降沿触发不能双边缘检测。只能在心里骂几句mmb。但软件还是要写的，不能半途而废。用尽一切办法无能为力，最后网上找到使用软件实现方法。 本来理想方法是程序初始化为上升沿触发，触发后进入中断然后在中断中判断触发方式（如果是上升沿触发下次改为上升沿触发，反之亦然），但是改变后中断使能为会置0， 在中">
+<meta name="twitter:image" content="e:/0.jeff/博客/">
 
 
 
@@ -125,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-11-14-视频.html">
+  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/软件实现双边沿检测.html">
 
 
 
@@ -135,7 +140,7 @@
   };
 </script>
 
-  <title>视频 | Jeff</title>
+  <title> | Jeff</title>
   
 
 
@@ -340,7 +345,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-11-14-视频.html">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/软件实现双边沿检测.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeff Wu">
@@ -357,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">视频
+          <h1 class="post-title" itemprop="name headline">
               
             
           </h1>
@@ -382,12 +387,24 @@
                 
               
 
-              <time title="创建时间：2018-11-14 21:01:33 / 修改时间：21:04:49" itemprop="dateCreated datePublished" datetime="2018-11-14T21:01:33+08:00">2018-11-14</time>
+              <time title="创建时间：2019-06-21 11:44:45" itemprop="dateCreated datePublished" datetime="2019-06-21T11:44:45+08:00">2019-06-21</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-17 15:54:51" itemprop="dateModified" datetime="2019-04-17T15:54:51+08:00">2019-04-17</time>
               
             
           </span>
@@ -420,7 +437,17 @@
       
 
       
-        <iframe src="//player.bilibili.com/player.html?aid=24897960&cid=42007944&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="500px"> </iframe>
+        <p>双边缘检测（软件实现方法）</p>
+<p>由于某开发需要使用上升沿后下降沿触发，软件都完成了，却发现该MCU只能上升或下降沿触发不能双边缘检测。只能在心里骂几句mmb。但软件还是要写的，不能半途而废。用尽一切办法无能为力，最后网上找到使用软件实现方法。</p>
+<p>本来理想方法是程序初始化为上升沿触发，触发后进入中断然后在中断中判断触发方式（如果是上升沿触发下次改为上升沿触发，反之亦然），但是改变后中断使能为会置0， 在中断中中断使能重新置1，触发方式又会恢复原来。故不行</p>
+<p>总之一切方法后发现无法在运行中改变触发方式，该思路只能作罢。</p>
+<p>后来在网上寻找到解决方法。（软件实现双边缘检测方法）<a href="https://zhidao.baidu.com/question/310934714.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/310934714.html</a></p>
+<p>原理如下：如果是用软件的方式来检测，那道理就简单了。用查询方式：只要将要检测的信号接到某个输入端口的某个位，在程序中反复读取该位的输入，一旦遇到“上次是0此次是1”的情况，就说明检测到了上升沿，遇到“上次是1此次是0”的情况，就说明检测到了下降沿。</p>
+<p>程序实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">**********************************************************/</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;hic.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Delay1ms</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="keyword">int</span> ElectricalLevel_Flag=<span class="number">1</span>; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//*************************************************************************</span></span><br><span class="line"><span class="comment">//                              主程序                                              </span></span><br><span class="line"><span class="comment">//*************************************************************************</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">    OSCP = <span class="number">0x55</span>;</span><br><span class="line">	OSCC = <span class="number">0xC0</span>;			<span class="comment">//切换到高速时钟（2MHz）</span></span><br><span class="line">    <span class="keyword">while</span> (!SW_HS);			<span class="comment">//等待高速时钟切换完成</span></span><br><span class="line"></span><br><span class="line">	ANS0= <span class="number">0x01</span>;				<span class="comment">//注意要设置PA0为数字端口（PA0）</span></span><br><span class="line">	PAT5=<span class="number">0</span>;					<span class="comment">//设置PA5端口为输出口</span></span><br><span class="line">    PAT0 = <span class="number">1</span>;				<span class="comment">//设置PA0(PINT0)端口为输入口</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;     </span><br><span class="line">        <span class="comment">//改if语句为首次检测到高电平时进入语句把PA5拉低1ms，然后拉高，然后下次检测低电平（通过下个if实现）</span></span><br><span class="line">		<span class="keyword">if</span>(PA0==ElectricalLevel_Flag)</span><br><span class="line">		&#123;		</span><br><span class="line">			PA5=<span class="number">0</span>;</span><br><span class="line">			Delay1ms();</span><br><span class="line">			PA5=<span class="number">1</span>;</span><br><span class="line">			<span class="keyword">if</span>(ElectricalLevel_Flag==<span class="number">0</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				ElectricalLevel_Flag=<span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				ElectricalLevel_Flag=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//*****************************************************************************</span></span><br><span class="line"><span class="comment">//                               延时子程序                                              </span></span><br><span class="line"><span class="comment">//*****************************************************************************</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Delay1ms</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> Dcount;</span><br><span class="line">    Dcount = <span class="number">0x53</span>;  <span class="comment">//若设主频2MHz，指令周期1us</span></span><br><span class="line">    <span class="keyword">while</span>(Dcount--);  <span class="comment">//循环1次12us（含12条指令），计数值计算为1000/12=83(0x53)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终波形如下：</p>
+<p><img src="E:\0.jeff\博客\" alt=")SAAE)W2}8({ZAM0X`VPFT0">SAAE)W2}8({ZAM0X`VPFT0.png)</p>
+
       
     </div>
 
@@ -447,8 +474,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog（重要保留）-2018-11-03-GitHub-Hexo搭建博客心得.html" rel="next" title="GitHub+Hexo搭建博客心得">
-                <i class="fa fa-chevron-left"></i> GitHub+Hexo搭建博客心得
+              <a href="/单片机开发之按键的一些心得.html" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
@@ -457,8 +484,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog（重要保留）-2018-11-17-A1-Altium-Designer-17.html" rel="prev" title="A1_Altium Designer 17">
-                A1_Altium Designer 17 <i class="fa fa-chevron-right"></i>
+              <a href="/软件定时器的实现.html" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

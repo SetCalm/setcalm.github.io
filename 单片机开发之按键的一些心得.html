@@ -108,15 +108,18 @@
 
 
 
-  <meta name="keywords" content="暂时无">
+  <meta name="description" content="单片机开发之按键的一些心得 1.本例程实验软定时器计数消抖，避免使用常见的delay(); 2.本例程使用轮询查询电平的方法判断按键。 该方法优点：可以同时分辨①：抬起状态，②：按下状态，③抬起瞬间，④按下瞬间。如此你就能把按键玩的出神入化。 下面开始讲解 首先需要一个软件定时器，该部分使用到一个硬件定时器：参考-软件定时器的实现 1234567891011121314151617181920//">
+<meta name="keywords" content="暂时无">
 <meta property="og:type" content="article">
-<meta property="og:title" content="视频">
-<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-11-14-视频.html">
+<meta property="og:title" content="Jeff">
+<meta property="og:url" content="https://github.com/SetCalm/setcalm.github.io/单片机开发之按键的一些心得.html">
 <meta property="og:site_name" content="Jeff">
+<meta property="og:description" content="单片机开发之按键的一些心得 1.本例程实验软定时器计数消抖，避免使用常见的delay(); 2.本例程使用轮询查询电平的方法判断按键。 该方法优点：可以同时分辨①：抬起状态，②：按下状态，③抬起瞬间，④按下瞬间。如此你就能把按键玩的出神入化。 下面开始讲解 首先需要一个软件定时器，该部分使用到一个硬件定时器：参考-软件定时器的实现 1234567891011121314151617181920//">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-14T13:04:49.716Z">
+<meta property="og:updated_time" content="2019-06-21T03:37:21.415Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="视频">
+<meta name="twitter:title" content="Jeff">
+<meta name="twitter:description" content="单片机开发之按键的一些心得 1.本例程实验软定时器计数消抖，避免使用常见的delay(); 2.本例程使用轮询查询电平的方法判断按键。 该方法优点：可以同时分辨①：抬起状态，②：按下状态，③抬起瞬间，④按下瞬间。如此你就能把按键玩的出神入化。 下面开始讲解 首先需要一个软件定时器，该部分使用到一个硬件定时器：参考-软件定时器的实现 1234567891011121314151617181920//">
 
 
 
@@ -125,7 +128,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-11-14-视频.html">
+  <link rel="canonical" href="https://github.com/SetCalm/setcalm.github.io/单片机开发之按键的一些心得.html">
 
 
 
@@ -135,7 +138,7 @@
   };
 </script>
 
-  <title>视频 | Jeff</title>
+  <title> | Jeff</title>
   
 
 
@@ -340,7 +343,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/blog（重要保留）-2018-11-14-视频.html">
+    <link itemprop="mainEntityOfPage" href="https://github.com/SetCalm/setcalm.github.io/单片机开发之按键的一些心得.html">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeff Wu">
@@ -357,7 +360,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">视频
+          <h1 class="post-title" itemprop="name headline">
               
             
           </h1>
@@ -382,7 +385,7 @@
                 
               
 
-              <time title="创建时间：2018-11-14 21:01:33 / 修改时间：21:04:49" itemprop="dateCreated datePublished" datetime="2018-11-14T21:01:33+08:00">2018-11-14</time>
+              <time title="创建时间：2019-06-21 11:37:48 / 修改时间：11:37:21" itemprop="dateCreated datePublished" datetime="2019-06-21T11:37:48+08:00">2019-06-21</time>
             
 
             
@@ -420,7 +423,20 @@
       
 
       
-        <iframe src="//player.bilibili.com/player.html?aid=24897960&cid=42007944&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="500px"> </iframe>
+        <p>单片机开发之按键的一些心得</p>
+<p>1.本例程实验软定时器计数消抖，避免使用常见的delay();</p>
+<p>2.本例程使用轮询查询电平的方法判断按键。</p>
+<p>该方法优点：可以同时分辨①：抬起状态，②：按下状态，③抬起瞬间，④按下瞬间。如此你就能把按键玩的出神入化。</p>
+<p>下面开始讲解</p>
+<p>首先需要一个软件定时器，该部分使用到一个硬件定时器：参考-软件定时器的实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//该部分看mcu不同实现方法不同</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span>	delay_500us_cnt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SoftwareTimer_Init</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;	</span><br><span class="line">	<span class="comment">//T8N</span></span><br><span class="line">	<span class="comment">//时钟源周期为1000000/（16000000/2）= 0.125u</span></span><br><span class="line">	<span class="comment">//500us/0.125us =（255-T8N+1） ×16（预分频比） </span></span><br><span class="line">    T8NC = <span class="number">0x03</span>;	<span class="comment">//设置T8N为定时器模式，分频比为1:16</span></span><br><span class="line">    T8N = <span class="number">6</span>;		<span class="comment">//设定时器初值，2ms</span></span><br><span class="line">    T8NPRE = <span class="number">1</span>;		<span class="comment">//使能预分频器</span></span><br><span class="line">    T8NIF = <span class="number">0</span>;     <span class="comment">//清T8N中断标志</span></span><br><span class="line">    T8NIE = <span class="number">1</span>;		<span class="comment">//使能T8N定时器中断</span></span><br><span class="line">    T8NEN = <span class="number">1</span>;		<span class="comment">//打开T8NEN定时器</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">isr</span><span class="params">(<span class="keyword">void</span>)</span> interrupt</span>&#123;		<span class="comment">//500us定时</span></span><br><span class="line">    <span class="keyword">if</span>(T8NIE&amp;&amp;T8NIF)&#123;<span class="comment">//进入T8N定时器中断</span></span><br><span class="line">        T8NIF = <span class="number">0</span>;     <span class="comment">//清T8N中断标志</span></span><br><span class="line">        T8N = T8N + <span class="number">6</span>;<span class="comment">//重载T8N初值，加上进入中断时间	</span></span><br><span class="line">        delay_500us_cnt++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面实现了一个计数500us计数变量。下面就开始使用该变量在按键处理去实现定时功能</p>
+<p>按键处理功能实现部分</p>
+<p>a.头文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sbit key_flag_old；		<span class="comment">//用于保存上个状态的电平，赋值时高电平赋值1，低电平赋值0。</span></span><br><span class="line">sbit key_flag_cur；		<span class="comment">//用于保存当前状态的电平</span></span><br><span class="line">sbit key_on；			<span class="comment">//用于记录按下还是没按下</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> keyup_always_cnt=<span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Key_Process</span><span class="params">(<span class="keyword">void</span>)</span> <span class="comment">//按键处理</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//按键KEY处理</span></span><br><span class="line">	key_flag_cur = KEY; <span class="comment">//读取当前按键的状态</span></span><br><span class="line">	<span class="keyword">if</span>(key_flag_cur != key_flag_old) <span class="comment">//按键按下或者松开检测，按下时，状态一直为1，松开时为0</span></span><br><span class="line">	&#123;</span><br><span class="line">		key_on = !key_on;<span class="comment">//①按下是key_on=1,②抬起key_on=0;</span></span><br><span class="line">		key_flag_old = key_flag_cur;<span class="comment">//把当前状态给旧的状态，以免重复运行该判断</span></span><br><span class="line">        <span class="keyword">if</span>(!KEY)<span class="comment">//③按下瞬间,这里默认低电平按下</span></span><br><span class="line">		&#123;</span><br><span class="line">              key_press_process();<span class="comment">//按下按键的操作</span></span><br><span class="line">        &#125;</span><br><span class="line">          <span class="keyword">if</span>(KEY)<span class="comment">//④抬起瞬间</span></span><br><span class="line">		&#123;</span><br><span class="line">              key_lift_process();<span class="comment">//抬起按键的操作</span></span><br><span class="line">        &#125;        </span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="keyword">if</span>(key_on) <span class="comment">//按下计数:单次和长按都可判断</span></span><br><span class="line">	&#123;</span><br><span class="line">		key_always_cnt++;</span><br><span class="line">	&#125;</span><br><span class="line">	    </span><br><span class="line">	<span class="keyword">if</span>(key_always_cnt &gt;= <span class="number">6000</span>)<span class="comment">//0.5MS*2000ms=1s;</span></span><br><span class="line">	&#123;</span><br><span class="line">		key_always_process();<span class="comment">//长按按键的操作</span></span><br><span class="line">		key_continuous_cnt=<span class="number">0</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!key_on &amp;&amp; key_always_cnt&gt;<span class="number">0</span>&amp;&amp;key_always_cnt&lt;<span class="number">100</span>) <span class="comment">//按键松开时候进行检测，如果一直按着执行长按，这里也可以写1，可用于消抖</span></span><br><span class="line">	&#123;</span><br><span class="line">		key_once_process();<span class="comment">//单次按键的函数操作</span></span><br><span class="line">		key_always_cnt = <span class="number">0</span>; </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>最后补充：面试时有个面试官问过有关按键问题：假如有A~Z按键，要判断按键按下，抬起，长按，点按，且点按，和长判断时间不同。使用面向对象思想封装一个函数实现该功能。</p>
+
       
     </div>
 
@@ -447,8 +463,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog（重要保留）-2018-11-03-GitHub-Hexo搭建博客心得.html" rel="next" title="GitHub+Hexo搭建博客心得">
-                <i class="fa fa-chevron-left"></i> GitHub+Hexo搭建博客心得
+              <a href="/C语言位操作宏定义.html" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
@@ -457,8 +473,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog（重要保留）-2018-11-17-A1-Altium-Designer-17.html" rel="prev" title="A1_Altium Designer 17">
-                A1_Altium Designer 17 <i class="fa fa-chevron-right"></i>
+              <a href="/软件实现双边沿检测.html" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
